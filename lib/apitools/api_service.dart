@@ -7,7 +7,7 @@ class APIService {
   static APIService instance = APIService();
 
   Future<List<dynamic>> fetchSchool() async {
-    String uriString =
+    const uriString =
         "https://open.neis.go.kr/hub/schoolInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&pSize=1000";
     log("Fetch Started");
     List<dynamic> list = [];
@@ -43,5 +43,11 @@ class APIService {
 
     list.sort(((a, b) => a["SCHUL_NM"].toString().compareTo(b["SCHUL_NM"])));
     return list;
+  }
+
+  Future<List<dynamic>> fetchClassInfo(String schoolCode) async {
+    final uri = Uri.parse(
+        "https://open.neis.go.kr/hub/classInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&SD_SCHUL_CODE=$schoolCode&AY=${DateTime.now().year}");
+    return [];
   }
 }
