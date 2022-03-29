@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
+import 'package:schoolman/controller/auth_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  Get.put(AuthController());
   runApp(const MyApp());
 }
 
@@ -11,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const GetMaterialApp(
-      home: Launcher(),
+      home: Center(child: CircularProgressIndicator()),
     );
   }
 }

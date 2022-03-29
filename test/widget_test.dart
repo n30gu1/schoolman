@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:schoolman/apitools/api_service.dart';
 
 import 'package:schoolman/main.dart';
 
@@ -27,4 +28,8 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+  test("School info fetch test", (() async {
+    await APIService.instance.fetchSchool();
+  }));
 }

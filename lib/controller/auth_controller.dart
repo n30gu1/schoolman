@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:schoolman/model/user.dart';
 import 'package:schoolman/main.dart';
-import 'package:schoolman/input_user_info.dart';
+import 'package:schoolman/input_school_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer';
 
@@ -31,7 +31,7 @@ class AuthController extends GetxController {
       Get.offAll(() => const Launcher());
     } else {
       log("Infos insufficient");
-      Get.offAll(() => const InputUserInfo());
+      Get.offAll(() => InputSchoolInfo());
     }
   }
 }
