@@ -13,7 +13,7 @@ class InputSchoolInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Select School",
             style: TextStyle(color: Colors.black),
           ),
@@ -44,7 +44,7 @@ class InputSchoolInfo extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Row(children: [
-                          Icon(Icons.search),
+                          const Icon(Icons.search),
                           Flexible(
                               child: CupertinoTextField.borderless(
                             onChanged: (query) => controller.search(query),
@@ -62,10 +62,12 @@ class InputSchoolInfo extends StatelessWidget {
                           title: Text(controller.schoolList[index]["SCHUL_NM"]),
                           trailing: Text(
                             controller.schoolList[index]["ATPT_OFCDC_SC_NM"],
-                            style: TextStyle(fontWeight: FontWeight.w200),
+                            style: const TextStyle(fontWeight: FontWeight.w200),
                           ),
                           onTap: () {
                             Get.to(() => InputUserInfo(
+                                controller.schoolList[index]
+                                    ["ATPT_OFCDC_SC_CODE"],
                                 controller.schoolList[index]["SD_SCHUL_CODE"]));
                           },
                         );

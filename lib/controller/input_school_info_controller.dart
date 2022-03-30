@@ -30,15 +30,11 @@ class InputSchoolInfoController extends GetxController {
     if (query.isEmpty) {
       schoolList.value = schoolListOriginal;
     } else {
-      print(schoolListOriginal);
       for (var element in schoolListOriginal) {
-        print(element["SCHUL_NM"]);
         if (element["SCHUL_NM"].toString().contains(query)) {
           schoolList.add(element);
         }
       }
     }
-
-    print(schoolList);
   }
 }
