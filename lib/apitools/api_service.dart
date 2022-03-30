@@ -53,16 +53,10 @@ class APIService {
     return await http.get(uri).then((response) {
       if (response.statusCode == 200) {
         Map decoded = jsonDecode(response.body);
-        print(decoded);
         if (decoded["classInfo"][0]["head"][1]["RESULT"]["CODE"] ==
             "INFO-000") {
           log("Fetch Done with no error");
           return decoded["classInfo"][1]["row"];
-        } else if (decoded["RESULT"]["CODE"] == "INFO-200") {
-          // TODO: NOT WORKING WHEN RESULT CODE IS INFO-200 - NEED TO BE FIXED
-          // To reproduce: tap (구)울릉중학교
-          log("No data here");
-          return [];
         } else {
           throw decoded["classInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
         }
