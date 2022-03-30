@@ -45,9 +45,24 @@ class APIService {
     return list;
   }
 
-  Future<List<dynamic>> fetchClassInfo(String schoolCode) async {
+  Future<List<dynamic>> fetchClassInfo(
+      String regionCode, String schoolCode) async {
     final uri = Uri.parse(
-        "https://open.neis.go.kr/hub/classInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&SD_SCHUL_CODE=$schoolCode&AY=${DateTime.now().year}");
-    return [];
+        "https://open.neis.go.kr/hub/classInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&ATPT_OFCDC_SC_CODE=$regionCode&SD_SCHUL_CODE=$schoolCode&AY=${DateTime.now().year}");
+
+    return await http.get(uri).then((response) {
+      if (response.statusCode == 200) {
+        Map decoded = jsonDecode(response.body);
+        if (decoded["classInfo"][0]["head"][1]["RESULT"]["CODE"] ==
+            "INFO-000") {
+          log("Fetch Done with no error");
+          return decoded["classInfo"][1]["row"];
+        } else {
+          throw decoded["classInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
+        }
+      } else {
+        throw response.statusCode;
+      }
+    });
   }
 }
