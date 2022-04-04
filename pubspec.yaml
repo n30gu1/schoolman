@@ -93,3 +93,25 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: fonts/100.ttf
+          weight: 100
+        - asset: fonts/200.ttf
+          weight: 200
+        - asset: fonts/300.ttf
+          weight: 300
+        - asset: fonts/400.ttf
+          weight: 400
+        - asset: fonts/500.ttf
+          weight: 500
+        - asset: fonts/600.ttf
+          weight: 600
+        - asset: fonts/700.ttf
+          weight: 700
+        - asset: fonts/800.ttf
+          weight: 800
+        - asset: fonts/900.ttf
+          weight: 900
