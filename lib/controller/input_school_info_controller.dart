@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
@@ -6,7 +6,7 @@ import 'package:schoolman/apitools/api_service.dart';
 class InputSchoolInfoController extends GetxController {
   RxBool isLoading = true.obs;
   RxList schoolList = [].obs;
-  List schoolListOriginal = [];
+  late List _schoolListOriginal;
 
   @override
   void onInit() {
@@ -16,21 +16,19 @@ class InputSchoolInfoController extends GetxController {
 
   void fetchSchools() async {
     isLoading.value = true;
-    try {
-      schoolListOriginal = await APIService.instance.fetchSchool();
-      schoolList.value = schoolListOriginal;
-      isLoading.value = false;
-    } catch (e) {
-      log(e.toString());
-    }
+    _schoolListOriginal =
+        List.unmodifiable(await APIService.instance.fetchSchool());
+    schoolList.value = List.from(_schoolListOriginal);
+    isLoading.value = false;
   }
 
   void search(String query) {
     schoolList.clear();
+    print(_schoolListOriginal);
     if (query.isEmpty) {
-      schoolList.value = schoolListOriginal;
+      schoolList.value = _schoolListOriginal;
     } else {
-      for (var element in schoolListOriginal) {
+      for (var element in _schoolListOriginal) {
         if (element["SCHUL_NM"].toString().contains(query)) {
           schoolList.add(element);
         }
