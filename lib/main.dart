@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
@@ -5,9 +6,12 @@ import 'package:schoolman/controller/auth_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.transparent,
+        statusBarColor: Colors.transparent));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
   Get.put(AuthController());
   runApp(const MyApp());
 }
