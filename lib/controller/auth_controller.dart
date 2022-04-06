@@ -34,4 +34,15 @@ class AuthController extends GetxController {
       Get.offAll(() => InputSchoolInfo());
     }
   }
+
+  submitNewUser(
+      String regionCode, String schoolCode, String grade, String classNum) {
+    User newUser = User(
+        regionCode: regionCode,
+        schoolCode: schoolCode,
+        grade: grade,
+        className: classNum);
+    storage.write(key: "user", value: newUser.toJson());
+    _setInitialScreen(newUser);
+  }
 }

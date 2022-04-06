@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 
+// TODO: Fix Searching Algorithm
+
 class InputSchoolInfoController extends GetxController {
   RxBool isLoading = true.obs;
   RxList schoolList = [].obs;

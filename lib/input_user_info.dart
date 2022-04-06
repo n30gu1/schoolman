@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:schoolman/controller/auth_controller.dart';
 import 'package:schoolman/controller/input_user_info_controller.dart';
 import 'package:get/get.dart';
+
+// TODO: Implement AZListView
 
 class InputUserInfo extends StatelessWidget {
   const InputUserInfo(this.regionCode, this.schoolCode, {Key? key})
@@ -13,24 +17,103 @@ class InputUserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     InputUserInfoController controller =
         Get.put(InputUserInfoController(regionCode, schoolCode));
-    return Scaffold(
-      body: Obx(() {
-        if (controller.isLoading.isTrue) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          // return ListView.builder(
-          //     itemCount: controller.classInfo.length,
-          //     itemBuilder: ((context, index) {
-          //       return ListTile(
-          //         title: Text(controller.classInfo[index]["CLASS_NM"]),
-          //       );
-          //     }));
-          // TODO: IMPLEMENT CLASS INFO SELECTING PICKER
-          return Text("Under Construction");
-        }
-      }),
+    return SizedBox(
+      height: 250,
+      child: Scaffold(
+        body: Obx(() {
+          if (controller.isLoading.isTrue) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CupertinoButton(child: Text("Cancel"), onPressed: () {}),
+                    CupertinoButton(
+                        child: Text(
+                          "Done",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          print("Grade: ${controller.gradeSelected.value}");
+                          print("Class: ${controller.classSelected.value}");
+                          print("RegionCode: ${this.regionCode}");
+                          print("SchoolCode: ${this.schoolCode}");
+                          AuthController.instance.submitNewUser(
+                              this.regionCode,
+                              this.schoolCode,
+                              controller.gradeSelected.value,
+                              controller.classSelected.value);
+                        })
+                  ],
+                ),
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text("학년"),
+                        ),
+                        SizedBox(
+                          height: 100,
+                          child: CupertinoPicker(
+                              itemExtent: 29,
+                              scrollController:
+                                  FixedExtentScrollController(initialItem: 0),
+                              onSelectedItemChanged: (item) {
+                                controller.gradeSelected.value = controller
+                                    .gradeMap["grades"]
+                                    .toList()[item];
+                              },
+                              children: controller.gradeMap["grades"]
+                                  .map<Widget>((item) {
+                                return Text(item.toString());
+                              }).toList()),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text("-", textScaleFactor: 3),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text("반"),
+                        ),
+                        SizedBox(
+                          height: 100,
+                          child: CupertinoPicker(
+                              itemExtent: 29,
+                              scrollController:
+                                  FixedExtentScrollController(initialItem: 0),
+                              onSelectedItemChanged: (item) {
+                                controller.classSelected.value =
+                                    controller.gradeMap["classes"]
+                                        [controller.gradeSelected.value][item];
+                              },
+                              children: controller.gradeMap["classes"]
+                                      [controller.gradeSelected.value]
+                                  .map<Widget>((item) {
+                                return Text(item);
+                              }).toList()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
+              ],
+            );
+          }
+        }),
+      ),
     );
   }
 }

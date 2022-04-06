@@ -65,10 +65,17 @@ class InputSchoolInfo extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.w200),
                           ),
                           onTap: () {
-                            Get.bottomSheet(InputUserInfo(
-                                controller.schoolList[index]
-                                    ["ATPT_OFCDC_SC_CODE"],
-                                controller.schoolList[index]["SD_SCHUL_CODE"]));
+                            Get.bottomSheet(
+                                InputUserInfo(
+                                    controller.schoolList[index]
+                                        ["ATPT_OFCDC_SC_CODE"],
+                                    controller.schoolList[index]
+                                        ["SD_SCHUL_CODE"]),
+                                enterBottomSheetDuration:
+                                    Duration(milliseconds: 150),
+                                exitBottomSheetDuration:
+                                    Duration(milliseconds: 150),
+                                isScrollControlled: true);
                           },
                         );
                       })),
