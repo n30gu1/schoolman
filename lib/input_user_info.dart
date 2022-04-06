@@ -14,14 +14,6 @@ class InputUserInfo extends StatelessWidget {
     InputUserInfoController controller =
         Get.put(InputUserInfoController(regionCode, schoolCode));
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        shadowColor: Colors.transparent,
-        title: const Text(
-          "User Info",
-        ),
-        foregroundColor: Colors.black,
-      ),
       body: Obx(() {
         if (controller.isLoading.isTrue) {
           return const Center(

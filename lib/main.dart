@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(fontFamily: "Pretendard", primaryColor: Colors.black),
+      theme: ThemeData(
+          fontFamily: "Pretendard",
+          primaryColor: Colors.black,
+          focusColor: Colors.black),
       home: const Center(child: CircularProgressIndicator()),
     );
   }

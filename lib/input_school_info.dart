@@ -65,7 +65,7 @@ class InputSchoolInfo extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.w200),
                           ),
                           onTap: () {
-                            Get.to(() => InputUserInfo(
+                            Get.bottomSheet(InputUserInfo(
                                 controller.schoolList[index]
                                     ["ATPT_OFCDC_SC_CODE"],
                                 controller.schoolList[index]["SD_SCHUL_CODE"]));
