@@ -30,6 +30,6 @@ void main() {
   });
 
   test("School info fetch test", (() async {
-    await APIService.instance.fetchSchool();
+    print(await APIService.instance.fetchClassInfo("R10", "8750594"));
   }));
 }

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class APIService {
   static APIService instance = APIService();
 
-  Future<List<dynamic>> fetchSchool() async {
+  Future<List<dynamic>> fetchSchoolList() async {
     const uriString =
         "https://open.neis.go.kr/hub/schoolInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&pSize=1000";
     log("Fetch Started");
@@ -43,6 +43,26 @@ class APIService {
 
     list.sort(((a, b) => a["SCHUL_NM"].toString().compareTo(b["SCHUL_NM"])));
     return list;
+  }
+
+  Future<Map> fetchSchoolInfo(String regionCode, String schoolCode) async {
+    Uri uri = Uri.parse(
+        "https://open.neis.go.kr/hub/schoolInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&ATPT_OFCDC_SC_CODE=$regionCode&SD_SCHUL_CODE=$schoolCode");
+
+    return await http.get(uri).then((response) {
+      if (response.statusCode == 200) {
+        Map decoded = jsonDecode(response.body);
+        if (decoded["schoolInfo"][0]["head"][1]["RESULT"]["CODE"] ==
+            "INFO-000") {
+          log("Fetch Done with no error");
+          return decoded["schoolInfo"][1]["row"][0];
+        } else {
+          throw decoded["schoolInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
+        }
+      } else {
+        throw response.statusCode;
+      }
+    });
   }
 
   Future<List<dynamic>> fetchClassInfo(

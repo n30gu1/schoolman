@@ -17,7 +17,7 @@ class InputSchoolInfoController extends GetxController {
   void fetchSchools() async {
     isLoading.value = true;
     _schoolListOriginal =
-        List.unmodifiable(await APIService.instance.fetchSchool());
+        List.unmodifiable(await APIService.instance.fetchSchoolList());
     schoolList.value = List.from(_schoolListOriginal);
     isLoading.value = false;
   }

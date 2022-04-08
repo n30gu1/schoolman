@@ -36,8 +36,8 @@ class Launcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Hello world")),
+    return Scaffold(
+      body: Center(child: Text(AuthController.instance.user.schoolCode)),
     );
   }
 }
