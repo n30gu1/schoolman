@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:schoolman/model/school.dart';
 
 class APIService {
   static APIService instance = APIService();
@@ -45,7 +46,7 @@ class APIService {
     return list;
   }
 
-  Future<Map> fetchSchoolInfo(String regionCode, String schoolCode) async {
+  Future<School> fetchSchoolInfo(String regionCode, String schoolCode) async {
     Uri uri = Uri.parse(
         "https://open.neis.go.kr/hub/schoolInfo?KEY=0c78f44ac03648f49ce553a199fc0389&Type=json&ATPT_OFCDC_SC_CODE=$regionCode&SD_SCHUL_CODE=$schoolCode");
 
@@ -55,7 +56,8 @@ class APIService {
         if (decoded["schoolInfo"][0]["head"][1]["RESULT"]["CODE"] ==
             "INFO-000") {
           log("Fetch Done with no error");
-          return decoded["schoolInfo"][1]["row"][0];
+          School result = School.fromMap(decoded["schoolInfo"][1]["row"][0]);
+          return result;
         } else {
           throw decoded["schoolInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
         }

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:schoolman/model/user.dart';
-import 'package:schoolman/main.dart';
+import 'package:schoolman/mainpage.dart';
 import 'package:schoolman/input_school_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer';
@@ -28,7 +28,7 @@ class AuthController extends GetxController {
   _setInitialScreen(User? user) {
     if (user != null) {
       log("All infos are filled");
-      Get.offAll(() => const Launcher());
+      Get.offAll(() => MainPage());
     } else {
       log("Infos insufficient");
       Get.offAll(() => InputSchoolInfo());

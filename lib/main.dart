@@ -31,13 +31,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Launcher extends StatelessWidget {
-  const Launcher({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text(AuthController.instance.user.schoolCode)),
-    );
-  }
-}

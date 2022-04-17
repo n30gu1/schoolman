@@ -19,6 +19,7 @@ class InputSchoolInfo extends StatelessWidget {
           ),
           shadowColor: Colors.transparent,
           backgroundColor: Colors.white,
+          centerTitle: false,
         ),
         body: Obx(() {
           if (controller.isLoading.isTrue) {
