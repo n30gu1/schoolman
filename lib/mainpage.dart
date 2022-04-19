@@ -24,7 +24,7 @@ class MainPage extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).viewPadding.top + 68,
+                    height: MediaQuery.of(context).viewPadding.top + 72,
                     color: Colors.white,
                   ),
                   Padding(
@@ -62,7 +62,7 @@ class MainPage extends StatelessWidget {
                     children: [
                       Text(controller.schoolInfo!.value.schoolCode),
                       Container(
-                        width: Get.width - 20,
+                        width: Get.width - 26,
                         height: 1200,
                         color: Colors.white,
                         child: Text("nice"),
