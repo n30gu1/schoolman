@@ -22,7 +22,7 @@ class InputSchoolInfoController extends GetxController {
     try {
       _schoolListOriginal =
           List.unmodifiable(await APIService.instance.fetchSchoolList());
-      schoolList.value = List.from(_schoolListOriginal);
+      schoolList.addAll(_schoolListOriginal);
       _state.value = DoneState();
     } catch (error) {
       _state.value = ErrorState(error.toString());
@@ -30,15 +30,18 @@ class InputSchoolInfoController extends GetxController {
   }
 
   void search(String query) {
-    schoolList.clear();
-    print(_schoolListOriginal);
+    List queryList = [];
+
     if (query.isEmpty) {
-      schoolList.value = _schoolListOriginal;
+      schoolList.clear();
+      schoolList.addAll(_schoolListOriginal);
     } else {
       for (var element in _schoolListOriginal) {
         if (element["SCHUL_NM"].toString().contains(query)) {
-          schoolList.add(element);
+          queryList.add(element);
         }
+        schoolList.clear();
+        schoolList.addAll(queryList);
       }
     }
   }
