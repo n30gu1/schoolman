@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:schoolman/controller/auth_controller.dart';
+import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/controller/mainpage_controller.dart';
+import 'package:schoolman/current_state.dart';
+import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 
 class MainPage extends StatelessWidget {
@@ -14,7 +16,8 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (controller.isLoading.isTrue) {
+        if (GlobalController.instance.state is LoadingState ||
+            controller.state is LoadingState) {
           return Center(child: CircularProgressIndicator());
         } else {
           return Column(
@@ -39,7 +42,8 @@ class MainPage extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 2.0),
-                              child: Text("${DateFormat.yMd().format(DateTime.now())}"),
+                              child: Text(
+                                  "${DateFormat.yMd().format(DateTime.now())}"),
                             ),
                             Text(
                               "Good day",
@@ -49,7 +53,15 @@ class MainPage extends StatelessWidget {
                           ],
                         ),
                         Spacer(),
-                        CustomButton(width: 30, height: 30, onTap: () {})
+                        CustomButton(
+                          width: 40,
+                          height: 40,
+                          onTap: () {
+                            print("onTap");
+                            GlobalController.instance.signOut();
+                          },
+                          child: Icon(Icons.door_back_door),
+                        )
                       ],
                     ),
                   ),
@@ -57,18 +69,42 @@ class MainPage extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(controller.schoolInfo!.value.schoolCode),
-                      Container(
-                        width: Get.width - 26,
-                        height: 1200,
-                        color: Colors.white,
-                        child: Text("nice"),
-                      ),
-                      Container(height: MediaQuery.of(context).viewPadding.bottom + 20,)
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 500,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: (() {
+                                if (controller.state is DoneState) {
+                                  return ListView.builder(
+                                    itemCount: controller
+                                            .timeTable.value?.items.length ??
+                                        0,
+                                    itemBuilder: (context, index) {
+                                      TimeTableItem? item = controller
+                                          .timeTable.value?.items[index];
+                                      return Text(
+                                          "${item?.period}교시: ${item?.subject}");
+                                    },
+                                  );
+                                } else {
+                                  return Text((controller.state as ErrorState).error);
+                                }
+                              })()),
+                        ),
+                        Container(
+                          height:
+                              MediaQuery.of(context).viewPadding.bottom + 20,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

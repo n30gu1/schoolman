@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/controller/input_school_info_controller.dart';
+import 'package:schoolman/current_state.dart';
 import 'package:schoolman/input_user_info.dart';
 
 class InputSchoolInfo extends StatelessWidget {
@@ -22,7 +23,7 @@ class InputSchoolInfo extends StatelessWidget {
           centerTitle: false,
         ),
         body: Obx(() {
-          if (controller.isLoading.isTrue) {
+          if (controller.state is LoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );

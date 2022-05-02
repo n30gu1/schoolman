@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:schoolman/controller/auth_controller.dart';
+import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/controller/input_user_info_controller.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/current_state.dart';
 
 // TODO: Implement AZListView
 
@@ -21,17 +22,19 @@ class InputUserInfo extends StatelessWidget {
       height: 250,
       child: Scaffold(
         body: Obx(() {
-          if (controller.isLoading.isTrue) {
+          if (controller.state is LoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else {
+          } else if (controller.state is DoneState) {
             return Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CupertinoButton(child: Text("Cancel"), onPressed: () {}),
+                    CupertinoButton(child: Text("Cancel"), onPressed: () {
+                      Get.back();
+                    }),
                     CupertinoButton(
                         child: Text(
                           "Done",
@@ -42,7 +45,7 @@ class InputUserInfo extends StatelessWidget {
                           print("Class: ${controller.classSelected.value}");
                           print("RegionCode: ${this.regionCode}");
                           print("SchoolCode: ${this.schoolCode}");
-                          AuthController.instance.submitNewUser(
+                          GlobalController.instance.submitNewUser(
                               this.regionCode,
                               this.schoolCode,
                               controller.gradeSelected.value,
@@ -111,6 +114,10 @@ class InputUserInfo extends StatelessWidget {
                 ]),
               ],
             );
+          } else if (controller.state is ErrorState) {
+            return Center(child: Text((controller.state as ErrorState).error),);
+          } else {
+            return Center(child: Text("What Happened?"),);
           }
         }),
       ),

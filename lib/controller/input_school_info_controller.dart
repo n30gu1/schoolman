@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/current_state.dart';
 
 // TODO: Fix Searching Algorithm
 
 class InputSchoolInfoController extends GetxController {
-  RxBool isLoading = true.obs;
+  Rx<CurrentState> _state = CurrentState().obs;
+  get state => _state.value;
+
   RxList schoolList = [].obs;
   late List _schoolListOriginal;
 
@@ -15,11 +18,15 @@ class InputSchoolInfoController extends GetxController {
   }
 
   void fetchSchools() async {
-    isLoading.value = true;
-    _schoolListOriginal =
-        List.unmodifiable(await APIService.instance.fetchSchoolList());
-    schoolList.value = List.from(_schoolListOriginal);
-    isLoading.value = false;
+    _state.value = LoadingState();
+    try {
+      _schoolListOriginal =
+          List.unmodifiable(await APIService.instance.fetchSchoolList());
+      schoolList.value = List.from(_schoolListOriginal);
+      _state.value = DoneState();
+    } catch (error) {
+      _state.value = ErrorState(error.toString());
+    }
   }
 
   void search(String query) {

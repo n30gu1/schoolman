@@ -2,12 +2,15 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'dart:developer';
 
+import 'package:schoolman/current_state.dart';
+
 class InputUserInfoController extends GetxController {
   late String schoolCode;
   late String regionCode;
   late Map gradeMap;
 
-  RxBool isLoading = true.obs;
+  Rx<CurrentState> _state = CurrentState().obs;
+  get state => _state.value;
 
   RxString gradeSelected = "".obs;
   RxString classSelected = "".obs;
@@ -21,13 +24,14 @@ class InputUserInfoController extends GetxController {
   }
 
   void fetchClassInfo() async {
-    isLoading.value = true;
+    _state.value = LoadingState();
     try {
       gradeMap = await createMap(
           await APIService.instance.fetchClassInfo(regionCode, schoolCode));
-      isLoading.value = false;
+      _state.value = DoneState();
     } catch (e) {
       log(e.toString());
+      _state.value = ErrorState(e.toString());
     }
   }
 

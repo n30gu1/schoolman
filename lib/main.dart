@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:schoolman/controller/auth_controller.dart';
+import 'package:schoolman/controller/global_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,7 @@ void main() {
         statusBarColor: Colors.transparent));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
-  Get.put(AuthController());
+  Get.put(GlobalController());
   runApp(const MyApp());
 }
 
