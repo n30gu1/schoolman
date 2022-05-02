@@ -53,7 +53,9 @@ class GlobalController extends GetxController {
         schoolCode: schoolCode,
         grade: grade,
         className: classNum);
-    await storage.write(key: "user", value: newUser.toJson());
+    storage.write(key: "user", value: newUser.toJson());
+    _user = Rx<User?>(newUser);
+    await fetchSchoolInfo();
     _setInitialScreen();
   }
 
