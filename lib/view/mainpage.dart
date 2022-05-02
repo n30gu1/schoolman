@@ -6,6 +6,7 @@ import 'package:schoolman/controller/mainpage_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/uitools/custom_button.dart';
+import 'package:schoolman/uitools/mainpage_card.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -74,11 +75,8 @@ class MainPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 500,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12)),
+                        MainPageCard(
+                          title: "시간표",
                           child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: (() {
@@ -95,7 +93,8 @@ class MainPage extends StatelessWidget {
                                     },
                                   );
                                 } else {
-                                  return Text((controller.state as ErrorState).error);
+                                  return Text(
+                                      (controller.state as ErrorState).error);
                                 }
                               })()),
                         ),
