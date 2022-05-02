@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/controller/input_school_info_controller.dart';
 import 'package:schoolman/current_state.dart';
-import 'package:schoolman/input_user_info.dart';
+import 'package:schoolman/view/input_user_info.dart';
 
 class InputSchoolInfo extends StatelessWidget {
   InputSchoolInfo({Key? key}) : super(key: key);
