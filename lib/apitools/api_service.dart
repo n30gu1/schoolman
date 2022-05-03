@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/model/user.dart';
@@ -93,8 +94,9 @@ class APIService {
     });
   }
 
-  Future<TimeTable> fetchTimeTable(School school) async {
+  Future<TimeTable> fetchTimeTable() async {
     String today = DateFormat("yyyyMMdd").format(DateTime.now());
+    School school = GlobalController.instance.school!;
     User user = GlobalController.instance.user!;
     String? uriString;
     String? rootTitle;
@@ -105,19 +107,16 @@ class APIService {
       case SchoolType.high:
         uriString =
             "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
-        print(uriString);
         rootTitle = "hisTimetable";
         break;
       case SchoolType.middle:
         uriString =
             "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
-        print(uriString);
         rootTitle = "misTimetable";
         break;
       case SchoolType.elementary:
         uriString =
             "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
-        print(uriString);
         rootTitle = "elsTimetable";
         break;
       case SchoolType.other:
@@ -127,13 +126,39 @@ class APIService {
     Uri uri = Uri.parse(uriString);
     result = await http.get(uri).then((response) {
       Map<String, dynamic> decoded = jsonDecode(response.body);
-      if (decoded["RESULT"] != null) {
-        throw "Today is not a school day.";
-      } else {
+      if (decoded["RESULT"] == null) {
         return TimeTable.fromList(decoded[rootTitle][1]["row"]);
+      } else {
+        throw "Today is not a school day.";
       }
     });
 
     return result!;
+  }
+
+  Future<List<Meal>> fetchMeal(MealType type) async {
+    School school = GlobalController.instance.school!;
+    // SET MMEAL_SC_CODE TO MODIFY MEAL TYPE
+    String? uriString;
+    if (type == MealType.nextDayBreakfast) {
+      String day = DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
+      uriString = "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+    } else {
+      String today = DateFormat("yyyyMMdd").format(DateTime.now());
+      uriString = "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
+    }
+
+    return await http.get(Uri.parse(uriString)).then((response) {
+      Map<String, dynamic> decoded = jsonDecode(response.body);
+      if (decoded["RESULT"] == null) {
+        List<Meal> result = [];
+        for (var item in decoded["mealServiceDietInfo"][1]["row"]) {
+          result.add(Meal.fromMap(item));
+        }
+        return result;
+      } else {
+        throw "There is no meal info";
+      }
+    });
   }
 }

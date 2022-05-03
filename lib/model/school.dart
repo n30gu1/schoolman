@@ -71,9 +71,9 @@ class School {
     FoundationType foundationTypeConverter(String foundationType) {
       switch (foundationType) {
         case "사립":
-          return FoundationType.public;
-        case "공립":
           return FoundationType.private;
+        case "공립":
+          return FoundationType.public;
         default:
           return FoundationType.other;
       }
@@ -122,9 +122,12 @@ enum SchoolType {
 }
 
 enum FoundationType {
-  public,
-  private,
-  other
+  public("Public"),
+  private("Private"),
+  other("Other");
+
+  const FoundationType(this.name);
+  final String name;
 }
 
 enum CoeduIDType {
