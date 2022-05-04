@@ -143,11 +143,14 @@ class APIService {
     // SET MMEAL_SC_CODE TO MODIFY MEAL TYPE
     String? uriString;
     if (type == MealType.nextDayBreakfast) {
-      String day = DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
-      uriString = "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+      String day =
+          DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
+      uriString =
+          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
     } else {
       String today = DateFormat("yyyyMMdd").format(DateTime.now());
-      uriString = "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
+      uriString =
+          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
     }
 
     return await http.get(Uri.parse(uriString)).then((response) {
@@ -167,7 +170,8 @@ class APIService {
   Future<List<Schedule>> fetchSchedule(int itemCount) async {
     School school = GlobalController.instance.school!;
     String today = DateFormat("yyyyMMdd").format(DateTime.now());
-    String uriString = "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&pSize=$itemCount";
+    String uriString =
+        "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&pSize=$itemCount";
     return await http.get(Uri.parse(uriString)).then((response) {
       Map<String, dynamic> decoded = jsonDecode(response.body);
       if (decoded["RESULT"] == null) {

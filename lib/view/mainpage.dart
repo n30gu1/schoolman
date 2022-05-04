@@ -144,14 +144,22 @@ class MainPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
-                                      Text(format.format(controller.schedule.value!.date), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                      Text(
+                                        format.format(
+                                            controller.schedule.value!.date),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
                                       Spacer(),
-                                      Text(controller.schedule.value!.title, style: TextStyle(fontSize: 20))
+                                      Text(controller.schedule.value!.title,
+                                          style: TextStyle(fontSize: 20))
                                     ],
                                   ),
                                 );
                               } else {
-                                return Center(child: Text("No upcoming event."));
+                                return Center(
+                                    child: Text("No upcoming event."));
                               }
                             }()),
                         MainPageCard(

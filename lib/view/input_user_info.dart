@@ -32,9 +32,11 @@ class InputUserInfo extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CupertinoButton(child: Text("Cancel"), onPressed: () {
-                      Get.back();
-                    }),
+                    CupertinoButton(
+                        child: Text("Cancel"),
+                        onPressed: () {
+                          Get.back();
+                        }),
                     CupertinoButton(
                         child: Text(
                           "Done",
@@ -115,9 +117,13 @@ class InputUserInfo extends StatelessWidget {
               ],
             );
           } else if (controller.state is ErrorState) {
-            return Center(child: Text((controller.state as ErrorState).error),);
+            return Center(
+              child: Text((controller.state as ErrorState).error),
+            );
           } else {
-            return Center(child: Text("What Happened?"),);
+            return Center(
+              child: Text("What Happened?"),
+            );
           }
         }),
       ),
