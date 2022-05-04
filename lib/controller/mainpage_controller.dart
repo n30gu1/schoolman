@@ -37,6 +37,8 @@ class MainPageController extends GetxController {
           .fetchMeal(mealType)
           .then((value) => value[0]);
 
+      APIService.instance.fetchSchedule();
+
       _state.value = DoneState();
     } catch (error) {
       _state.value = ErrorState(error.toString());

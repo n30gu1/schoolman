@@ -149,7 +149,7 @@ class MainPage extends StatelessWidget {
                                   Text("${s.schoolCode} - ${s.schoolName}"),
                                   Text("${s.regionCode} - ${s.orgName} - ${s.regionName}"),
                                     Text("Founded at: ${s.foundationDate}"),
-                                    Text("${s.foundationType.name}")
+                                    Text("${s.foundationType.name} School")
                                 ],),
                               );
                         }(),)

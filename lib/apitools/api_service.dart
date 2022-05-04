@@ -161,4 +161,11 @@ class APIService {
       }
     });
   }
+
+  Future<void> fetchSchedule() async {
+    School school = GlobalController.instance.school!;
+    String today = DateFormat("yyyyMMdd").format(DateTime.now());
+    String uriString = "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&";
+    print(uriString);
+  }
 }
