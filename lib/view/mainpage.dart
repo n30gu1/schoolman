@@ -1,3 +1,4 @@
+import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -59,9 +60,9 @@ class MainPage extends StatelessWidget {
                           width: 40,
                           height: 40,
                           onTap: () {
-                            print("onTap");
                             GlobalController.instance.signOut();
                           },
+                          borderRadius: BorderRadius.circular(1000),
                           child: Icon(Icons.door_back_door),
                         )
                       ],
@@ -153,7 +154,23 @@ class MainPage extends StatelessWidget {
                                       ),
                                       Spacer(),
                                       Text(controller.schedule.value!.title,
-                                          style: TextStyle(fontSize: 20))
+                                          style: TextStyle(fontSize: 20)),
+                                      // TODO: FOR TESTING - REMOVE AFTER TEST
+                                      CustomButton(
+                                          width: 120,
+                                          height: 40,
+                                          onTap: () {
+                                            for (int i = 0; i < 5; i++) {
+                                              Add2Calendar.addEvent2Cal(Event(
+                                                  title: controller
+                                                      .schedule.value!.title,
+                                                  startDate: controller
+                                                      .schedule.value!.date.add(Duration(days: i)),
+                                                  endDate: controller
+                                                      .schedule.value!.date.add(Duration(days: i)), allDay: true));
+                                            }
+                                          },
+                                          child: Text("Add to Calendar"))
                                     ],
                                   ),
                                 );
@@ -162,6 +179,7 @@ class MainPage extends StatelessWidget {
                                     child: Text("No upcoming event."));
                               }
                             }()),
+                        // TODO: FOR DEBUGGING - REMOVE AFTER TEST
                         MainPageCard(
                           title: "School Info (FOR DEBUGGING)",
                           child: () {
