@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MainPageCard extends StatelessWidget {
-  double? height;
-  Function()? onTap;
-  String title;
-  Widget child;
+  final double? height;
+  final Function()? onTap;
+  final String title;
+  final Widget child;
+
   MainPageCard({Key? key, this.height, this.onTap, required this.title, required this.child}) : super(key: key);
 
   @override

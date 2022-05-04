@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:schoolman/date_converter.dart';
 
 class School {
   String regionCode;
@@ -50,11 +50,6 @@ class School {
   });
 
   static School fromMap(Map map) {
-    DateFormat format = DateFormat("yyyy/MM/dd");
-    String foundationDate = '${map["FOND_YMD"].substring(0, 4)}/${map["FOND_YMD"].substring(4, 6)}/${map["FOND_YMD"].substring(6, 8)}';
-    String foundationMemorialDate = '${map["FOAS_MEMRD"].substring(0, 4)}/${map["FOAS_MEMRD"].substring(4, 6)}/${map["FOAS_MEMRD"].substring(6, 8)}';
-    String lastModified = '${map["LOAD_DTM"].substring(0, 4)}/${map["LOAD_DTM"].substring(4, 6)}/${map["LOAD_DTM"].substring(6, 8)}';
-
     SchoolType schoolTypeConverter(String schoolType) {
       switch (schoolType) {
         case "고등학교":
@@ -89,6 +84,7 @@ class School {
           return CoeduIDType.coeducation;
       }
     }
+
     return School(regionCode: map["ATPT_OFCDC_SC_CODE"],
         orgName: map["ATPT_OFCDC_SC_NM"],
         schoolCode: map["SD_SCHUL_CODE"],
@@ -108,9 +104,9 @@ class School {
         isBusinessSpecialClassExist: map["INDST_SPECL_CCCCL_EXST_YN"] == "Y" ? true:false,
         highSchoolGeneralBusinessIdentifier: map["HS_GNRL_BUSNS_SC_NM"],
         specialPurposeHighSchoolGroupType: map["SPCLY_PURPS_HS_ORD_NM"],
-        foundationDate: format.parse(foundationDate),
-        foundationMemorialDate: format.parse(foundationMemorialDate),
-        lastModified: format.parse(lastModified));
+        foundationDate: map["FOND_YMD"].toString().convertFromyyyyMMdd(),
+        foundationMemorialDate: map["FOAS_MEMRD"].toString().convertFromyyyyMMdd(),
+        lastModified: map["LOAD_DTM"].toString().convertFromyyyyMMdd());
   }
 }
 

@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:schoolman/date_converter.dart';
 
 class Meal {
   List<String> meal;
@@ -11,7 +11,6 @@ class Meal {
   Meal(this.meal, this.origin, this.calories, this.nutrition, this.mealType, this.date);
 
   static fromMap(Map map) {
-    DateFormat format = DateFormat("yyyy/MM/dd");
     List<String> meal = map["DDISH_NM"].split("<br/>");
     List<String> origin = map["ORPLC_INFO"].split("<br/>");
     double calories = double.parse(map["CAL_INFO"].replaceAll(" Kcal", ""));
@@ -23,7 +22,7 @@ class Meal {
       }
       return result;
     }();
-    DateTime mealDate = format.parse("${map["MLSV_YMD"].substring(0, 4)}/${map["MLSV_YMD"].substring(4, 6)}/${map["MLSV_YMD"].substring(6, 8)}");
+    DateTime mealDate = map["MLSV_YMD"].toString().convertFromyyyyMMdd();
     MealType mealType = () {switch (map["MMEAL_SC_CODE"]) {
       case "1":
         if (mealDate.day == DateTime.now().day) {

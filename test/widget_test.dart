@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/date_converter.dart';
 
 import 'package:schoolman/main.dart';
 
@@ -31,5 +32,9 @@ void main() {
 
   test("School info fetch test", (() async {
     print(await APIService.instance.fetchClassInfo("R10", "8750594"));
+  }));
+
+  test("Date Converter test", (() {
+    print("20220222".convertFromyyyyMMdd());
   }));
 }

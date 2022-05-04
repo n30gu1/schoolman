@@ -75,6 +75,7 @@ class GlobalController extends GetxController {
       _school.value = await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
       _state.value = DoneState();
     } catch (error) {
+      Get.snackbar("An Error Occurred", error.toString());
       _state.value = ErrorState(error.toString());
     }
   }

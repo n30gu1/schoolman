@@ -29,18 +29,12 @@ class MainPage extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery
-                        .of(context)
-                        .viewPadding
-                        .top + 72,
+                    height: MediaQuery.of(context).viewPadding.top + 72,
                     color: Colors.white,
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery
-                            .of(context)
-                            .viewPadding
-                            .top + 8,
+                        top: MediaQuery.of(context).viewPadding.top + 8,
                         left: 16,
                         right: 16),
                     child: Row(
@@ -54,7 +48,7 @@ class MainPage extends StatelessWidget {
                                   "${DateFormat.yMd().format(DateTime.now())}"),
                             ),
                             Text(
-                              "Good day",
+                              "Dashboard",
                               style: TextStyle(
                                   fontSize: 32, fontWeight: FontWeight.bold),
                             ),
@@ -80,7 +74,6 @@ class MainPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
-
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
@@ -90,44 +83,50 @@ class MainPage extends StatelessWidget {
                                 title: "Time Table",
                                 height: 230,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(12.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      for (var item in controller.timeTable
-                                          .value!.items)
-                                        Text("${item.period}교시   ${item
-                                            .subject}")
+                                      for (var item
+                                          in controller.timeTable.value!.items)
+                                        Text(
+                                            "${item.period}교시   ${item.subject}")
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                            Container(width: 16,),
+                            Container(
+                              width: 16,
+                            ),
                             Expanded(
                               child: MainPageCard(
                                 title: () {
-                                  switch (controller.meal.value!.mealType) {
-                                    case MealType.breakfast:
-                                      return "breakfast";
-                                    case MealType.lunch:
-                                      return "lunch";
-                                    case MealType.dinner:
-                                      return "dinner";
-                                    case MealType.nextDayBreakfast:
-                                      return "tomorrow breakfast";
+                                  try {
+                                    switch (controller.meal.value!.mealType) {
+                                      case MealType.breakfast:
+                                        return "Breakfast";
+                                      case MealType.lunch:
+                                        return "Lunch";
+                                      case MealType.dinner:
+                                        return "Dinner";
+                                      case MealType.nextDayBreakfast:
+                                        return "Breakfast (+1)";
+                                    }
+                                  } catch (e) {
+                                    return "Meal";
                                   }
                                 }(),
                                 height: 230,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsets.all(12.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      for (var item in controller.meal.value!
-                                          .meal)
+                                      for (var item
+                                          in controller.meal.value?.meal ?? [])
                                         Text("${item}")
                                     ],
                                   ),
@@ -136,23 +135,44 @@ class MainPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        MainPageCard(title: "Upcoming Schedule", child: Column(
-                          children: [Text("Nope.")],)),
                         MainPageCard(
-                            title: "School Info (FOR DEBUGGING)", child: () {
-                              School s = GlobalController.instance.school!;
-                              return Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                            title: "Upcoming Schedule",
+                            child: () {
+                              DateFormat format = DateFormat("M. d.");
+                              if (controller.schedule.value != null) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Row(
+                                    children: [
+                                      Text(format.format(controller.schedule.value!.date), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                      Spacer(),
+                                      Text(controller.schedule.value!.title, style: TextStyle(fontSize: 20))
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Center(child: Text("No upcoming event."));
+                              }
+                            }()),
+                        MainPageCard(
+                          title: "School Info (FOR DEBUGGING)",
+                          child: () {
+                            School s = GlobalController.instance.school!;
+                            return Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Text("${s.schoolCode} - ${s.schoolName}"),
-                                  Text("${s.regionCode} - ${s.orgName} - ${s.regionName}"),
-                                    Text("Founded at: ${s.foundationDate}"),
-                                    Text("${s.foundationType.name} School")
-                                ],),
-                              );
-                        }(),)
+                                  Text(
+                                      "${s.regionCode} - ${s.orgName} - ${s.regionName}"),
+                                  Text("Founded at: ${s.foundationDate}"),
+                                  Text("${s.foundationType.name} School")
+                                ],
+                              ),
+                            );
+                          }(),
+                        )
                       ],
                     ),
                   ),

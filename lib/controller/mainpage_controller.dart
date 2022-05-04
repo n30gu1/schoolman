@@ -2,11 +2,13 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
+import 'package:schoolman/model/schedule.dart';
 import 'package:schoolman/model/timetable.dart';
 
 class MainPageController extends GetxController {
   Rx<TimeTable?> timeTable = Rx(null);
   Rx<Meal?> meal = Rx(null);
+  Rx<Schedule?> schedule = Rx(null);
   Rx<CurrentState> _state = CurrentState().obs;
 
   get state => _state.value;
@@ -37,7 +39,7 @@ class MainPageController extends GetxController {
           .fetchMeal(mealType)
           .then((value) => value[0]);
 
-      APIService.instance.fetchSchedule();
+      schedule.value = (await APIService.instance.fetchSchedule(1))[0];
 
       _state.value = DoneState();
     } catch (error) {

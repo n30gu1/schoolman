@@ -9,6 +9,8 @@ import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/model/user.dart';
 
+import '../model/schedule.dart';
+
 class APIService {
   static APIService instance = APIService();
 
@@ -162,10 +164,22 @@ class APIService {
     });
   }
 
-  Future<void> fetchSchedule() async {
+  Future<List<Schedule>> fetchSchedule(int itemCount) async {
     School school = GlobalController.instance.school!;
     String today = DateFormat("yyyyMMdd").format(DateTime.now());
-    String uriString = "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&";
-    print(uriString);
+    String uriString = "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&pSize=$itemCount";
+    return await http.get(Uri.parse(uriString)).then((response) {
+      Map<String, dynamic> decoded = jsonDecode(response.body);
+      if (decoded["RESULT"] == null) {
+        List<Schedule> result = [];
+        for (var item in decoded["SchoolSchedule"][1]["row"]) {
+          result.add(Schedule.fromMap(item));
+        }
+
+        return result;
+      } else {
+        throw "There is no schedule";
+      }
+    });
   }
 }
