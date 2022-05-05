@@ -8,7 +8,9 @@ import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
+import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
+import 'package:schoolman/view/infopage.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -21,7 +23,7 @@ class MainPage extends StatelessWidget {
       body: Obx(() {
         if (GlobalController.instance.state is LoadingState ||
             controller.state is LoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: LoadingIndicator());
         } else {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +32,7 @@ class MainPage extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).viewPadding.top + 72,
+                    height: MediaQuery.of(context).viewPadding.top + 87,
                     color: Colors.white,
                   ),
                   Padding(
@@ -48,6 +50,11 @@ class MainPage extends StatelessWidget {
                               child: Text(
                                   "${DateFormat.yMd().format(DateTime.now())}"),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2.0),
+                              child: Text(
+                                  "${GlobalController.instance.school?.schoolName}"),
+                            ),
                             Text(
                               "Dashboard",
                               style: TextStyle(
@@ -60,10 +67,10 @@ class MainPage extends StatelessWidget {
                           width: 40,
                           height: 40,
                           onTap: () {
-                            GlobalController.instance.signOut();
+                            Get.to(() => InfoPage());
                           },
                           borderRadius: BorderRadius.circular(1000),
-                          child: Icon(Icons.door_back_door),
+                          child: Icon(Icons.info_outline),
                         )
                       ],
                     ),
@@ -90,7 +97,7 @@ class MainPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       for (var item
-                                          in controller.timeTable.value!.items)
+                                          in controller.timeTable.value?.items ?? [])
                                         Text(
                                             "${item.period}교시   ${item.subject}")
                                     ],
@@ -114,6 +121,8 @@ class MainPage extends StatelessWidget {
                                         return "Dinner";
                                       case MealType.nextDayBreakfast:
                                         return "Breakfast (+1)";
+                                      case MealType.nextDayLunch:
+                                        return "Lunch (+1)";
                                     }
                                   } catch (e) {
                                     return "Meal";
@@ -127,7 +136,7 @@ class MainPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       for (var item
-                                          in controller.meal.value?.meal ?? [])
+                                          in controller.meal.value?.meal ?? ["No meal now."])
                                         Text("${item}")
                                     ],
                                   ),

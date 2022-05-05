@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/controller/input_school_info_controller.dart';
 import 'package:schoolman/current_state.dart';
+import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info.dart';
 
 class InputSchoolInfo extends StatelessWidget {
@@ -25,7 +26,7 @@ class InputSchoolInfo extends StatelessWidget {
         body: Obx(() {
           if (controller.state is LoadingState) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingIndicator(),
             );
           } else {
             return Column(

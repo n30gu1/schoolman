@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/uitools/loading_indicator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Pretendard",
           primaryColor: Colors.black,
           focusColor: Colors.black),
-      home: const Center(child: CircularProgressIndicator()),
+      home: const Center(child: LoadingIndicator()),
     );
   }
 }

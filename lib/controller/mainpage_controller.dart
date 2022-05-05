@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/schedule.dart';
+import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
 
 class MainPageController extends GetxController {
@@ -25,14 +27,26 @@ class MainPageController extends GetxController {
       timeTable.value = await APIService.instance.fetchTimeTable();
       int now = DateTime.now().hour;
       MealType? mealType;
-      if (now < 8) {
-        mealType = MealType.breakfast;
-      } else if (now >= 8 && now < 13) {
-        mealType = MealType.lunch;
-      } else if (now >= 13 && now < 19) {
-        mealType = MealType.dinner;
+      if (GlobalController.instance.school!.schoolType == SchoolType.high) {
+        if (now < 8) {
+          mealType = MealType.breakfast;
+        } else if (now >= 8 && now < 13) {
+          mealType = MealType.lunch;
+        } else if (now >= 13 && now < 19) {
+          mealType = MealType.dinner;
+        } else {
+          mealType = MealType.nextDayBreakfast;
+        }
       } else {
-        mealType = MealType.nextDayBreakfast;
+        if (now < 8) {
+          mealType = MealType.lunch;
+        } else if (now >= 8 && now < 13) {
+          mealType = MealType.lunch;
+        } else if (now >= 13 && now < 19) {
+          mealType = MealType.nextDayLunch;
+        } else {
+          mealType = MealType.nextDayLunch;
+        }
       }
 
       meal.value = await APIService.instance

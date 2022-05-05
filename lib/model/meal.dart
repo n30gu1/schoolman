@@ -31,7 +31,11 @@ class Meal {
           return MealType.nextDayBreakfast;
         }
       case "2":
-        return MealType.lunch;
+        if (mealDate.day == DateTime.now().day) {
+          return MealType.lunch;
+        } else {
+          return MealType.nextDayLunch;
+        }
       case "3":
         return MealType.dinner;
       default:
@@ -53,7 +57,8 @@ enum MealType {
   breakfast(1),
   lunch(2),
   dinner(3),
-  nextDayBreakfast(1);
+  nextDayBreakfast(1),
+  nextDayLunch(2);
 
   const MealType(this.code);
   final num code;

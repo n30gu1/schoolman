@@ -142,11 +142,13 @@ class APIService {
     School school = GlobalController.instance.school!;
     // SET MMEAL_SC_CODE TO MODIFY MEAL TYPE
     String? uriString;
-    if (type == MealType.nextDayBreakfast) {
+    if (type == MealType.nextDayBreakfast || type == MealType.nextDayLunch) {
       String day =
           DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
       uriString =
           "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+      // TODO: FOR DEBUGGING - REMOVE AFTER TEST
+      print(uriString);
     } else {
       String today = DateFormat("yyyyMMdd").format(DateTime.now());
       uriString =

@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/current_state.dart';
 
-// TODO: Fix Searching Algorithm
-
 class InputSchoolInfoController extends GetxController {
   Rx<CurrentState> _state = CurrentState().obs;
   get state => _state.value;
