@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:schoolman/controller/global_controller.dart';
-import 'package:schoolman/uitools/custom_button.dart';
-import 'package:schoolman/view/infopage.dart';
-import 'package:intl/intl.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String title;

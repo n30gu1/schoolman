@@ -19,9 +19,9 @@ class InfoPage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -29,13 +29,28 @@ class InfoPage extends StatelessWidget {
               Text("${s.regionCode} - ${s.orgName} - ${s.regionName}"),
               Text("Founded at: ${s.foundationDate}"),
               Text("${s.foundationType.name} School"),
+
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                child: Text("n30GUI alpha - Under Construction"),
+              ),
+
+              Spacer(),
+
               CustomButton(
-                  onTap: () {},
+                  onTap: () {
+                    GlobalController.instance.signOut();
+                  },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                    child: Text(
-                      "Sign Out",
-                      style: TextStyle(color: Colors.red),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Container(
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          "Sign Out",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     ),
                   ),
                 borderRadius: BorderRadius.circular(1000),

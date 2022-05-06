@@ -6,13 +6,11 @@ import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/controller/mainpage_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
-import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/infopage.dart';
-import 'package:schoolman/view/timetablepage.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -69,7 +67,6 @@ class MainPage extends StatelessWidget {
                               child: MainPageCard(
                                 title: "Time Table",
                                 height: 230,
-                                onTap: () => Get.to(() => TimeTablePage()),
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
@@ -173,26 +170,6 @@ class MainPage extends StatelessWidget {
                                     child: Text("No upcoming event."));
                               }
                             }()),
-                        // TODO: FOR DEBUGGING - REMOVE AFTER TEST
-                        MainPageCard(
-                          title: "School Info (FOR DEBUGGING)",
-                          child: () {
-                            School s = GlobalController.instance.school!;
-                            return Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${s.schoolCode} - ${s.schoolName}"),
-                                  Text(
-                                      "${s.regionCode} - ${s.orgName} - ${s.regionName}"),
-                                  Text("Founded at: ${s.foundationDate}"),
-                                  Text("${s.foundationType.name} School")
-                                ],
-                              ),
-                            );
-                          }(),
-                        )
                       ],
                     ),
                   ),

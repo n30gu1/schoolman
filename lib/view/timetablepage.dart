@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
+import 'package:schoolman/uitools/custom_button.dart';
 
 class TimeTablePage extends StatelessWidget {
   const TimeTablePage({Key? key}) : super(key: key);
@@ -25,7 +26,29 @@ class TimeTablePage extends StatelessWidget {
                     "${GlobalController.instance.school?.schoolName}"),
               ),
             ],
-          ))
+          )),
+
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomButton(onTap: () {}, borderRadius: BorderRadius.circular(1000), child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.chevron_left),
+                  )),
+                  Text("${DateFormat.yMd().format(DateTime.now())}"),
+                  CustomButton(onTap: () {}, borderRadius: BorderRadius.circular(1000), child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.chevron_right),
+                  ))
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
