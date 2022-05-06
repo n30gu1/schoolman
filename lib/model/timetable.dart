@@ -1,3 +1,5 @@
+import 'package:schoolman/date_converter.dart';
+
 class TimeTable {
   DateTime date;
   List<TimeTableItem> items;
@@ -7,7 +9,8 @@ class TimeTable {
   static TimeTable fromList(List<dynamic> list) {
     List<TimeTableItem> items = [];
     for (var item in list) {
-      items.add(TimeTableItem(int.parse(item["PERIO"].toString()), item["ITRT_CNTNT"]));
+      items.add(TimeTableItem(
+          int.parse(item["PERIO"].toString()), item["ITRT_CNTNT"]));
     }
 
     return TimeTable(DateTime.now(), items);

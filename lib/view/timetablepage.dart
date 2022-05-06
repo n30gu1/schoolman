@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/controller/timetable_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 
 class TimeTablePage extends StatelessWidget {
-  const TimeTablePage({Key? key}) : super(key: key);
+  TimeTablePage({Key? key}) : super(key: key);
+
+  final controller = Get.put(TimeTableController());
 
   @override
   Widget build(BuildContext context) {

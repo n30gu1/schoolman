@@ -31,27 +31,13 @@ extension Extensions on DateTime {
       case 'Monday':
         return addToList(0, 4);
       case 'Tuesday':
-        List<DateTime> dates = addToList(-1, 3);
-        rearrange(dates, 1, 0);
-        rearrange(dates, 1, 4);
-        return dates;
+        return addToList(-1, 3);
       case 'Wednesday':
-        List<DateTime> dates = addToList(-2, 2);
-        rearrange(dates, 2, 0);
-        rearrange(dates, 1, 4);
-        rearrange(dates, 1, 4);
-        return dates;
+        return addToList(-2, 2);
       case 'Thursday':
-        List<DateTime> dates = addToList(-3, 1);
-        rearrange(dates, 3, 0);
-        rearrange(dates, 1, 4);
-        rearrange(dates, 1, 4);
-        rearrange(dates, 1, 4);
-        return dates;
+        return addToList(-3, 1);
       case 'Friday':
-        List<DateTime> dates = addToList(-4, 0);
-        rearrange(dates, 4, 0);
-        return dates;
+        return addToList(-4, 0);
       case 'Saturday':
         return addToList(2, 6);
       default:

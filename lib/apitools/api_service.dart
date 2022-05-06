@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
@@ -138,6 +138,58 @@ class APIService {
     return result!;
   }
 
+  // TODO: SUBSTITUTE startDate, endDate TO SINGLE PARAMETER
+  Future<List<TimeTable>> fetchTimeTableByDuration(
+      DateTime startDate, DateTime endDate) async {
+    School school = GlobalController.instance.school!;
+    User user = GlobalController.instance.user!;
+    String? uriString;
+    String? rootTitle;
+
+    List<TimeTable> result = [];
+
+    // TODO: SUBSTITUTE DateTime.now() TO PARAMETER
+    for (var dayOrg in DateTime.now().listByWeekday()) {
+      String day = DateFormat("yyyyMMdd").format(dayOrg);
+      switch (school.schoolType) {
+        case SchoolType.high:
+          uriString =
+          "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+          rootTitle = "hisTimetable";
+          break;
+        case SchoolType.middle:
+          uriString =
+          "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+          rootTitle = "misTimetable";
+          break;
+        case SchoolType.elementary:
+          uriString =
+          "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+          rootTitle = "elsTimetable";
+          break;
+        case SchoolType.other:
+          throw "Invalid School Type";
+      }
+
+      Uri uri = Uri.parse(uriString);
+      print(uriString);
+      result.add(await http.get(uri).then((response) {
+        Map<String, dynamic> decoded = jsonDecode(response.body);
+        if (decoded["RESULT"] == null) {
+          return TimeTable.fromList(decoded[rootTitle][1]["row"]);
+        } else {
+          throw "Today is not a school day.";
+        }
+      }));
+    }
+
+
+    // TODO: ONLY FOR DEBUGGING - REMOVE AFTER TEST
+    print(result);
+
+    return result;
+  }
+
   Future<List<Meal>> fetchMeal(MealType type) async {
     School school = GlobalController.instance.school!;
     // SET MMEAL_SC_CODE TO MODIFY MEAL TYPE
@@ -147,8 +199,6 @@ class APIService {
           DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
       uriString =
           "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
-      // TODO: FOR DEBUGGING - REMOVE AFTER TEST
-      print(uriString);
     } else {
       String today = DateFormat("yyyyMMdd").format(DateTime.now());
       uriString =
