@@ -32,12 +32,14 @@ class InfoPage extends StatelessWidget {
               CustomButton(
                   onTap: () {},
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                     child: Text(
                       "Sign Out",
                       style: TextStyle(color: Colors.red),
                     ),
-                  ))
+                  ),
+                borderRadius: BorderRadius.circular(1000),
+              ),
             ],
           ),
         ),

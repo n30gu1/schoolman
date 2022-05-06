@@ -7,10 +7,12 @@ import 'package:schoolman/controller/mainpage_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/school.dart';
+import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/infopage.dart';
+import 'package:schoolman/view/timetablepage.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -28,55 +30,32 @@ class MainPage extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).viewPadding.top + 87,
-                    color: Colors.white,
+              CustomAppBar(
+                  subView: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child:
+                            Text("${DateFormat.yMd().format(DateTime.now())}"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: Text(
+                            "${GlobalController.instance.school?.schoolName}"),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).viewPadding.top + 8,
-                        left: 16,
-                        right: 16),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 2.0),
-                              child: Text(
-                                  "${DateFormat.yMd().format(DateTime.now())}"),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 2.0),
-                              child: Text(
-                                  "${GlobalController.instance.school?.schoolName}"),
-                            ),
-                            Text(
-                              "Dashboard",
-                              style: TextStyle(
-                                  fontSize: 32, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        CustomButton(
-                          width: 40,
-                          height: 40,
-                          onTap: () {
-                            Get.to(() => InfoPage());
-                          },
-                          borderRadius: BorderRadius.circular(1000),
-                          child: Icon(Icons.info_outline),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  title: "Dashboard",
+                  trailing: CustomButton(
+                    width: 40,
+                    height: 40,
+                    onTap: () {
+                      Get.to(() => InfoPage());
+                    },
+                    borderRadius: BorderRadius.circular(1000),
+                    child: Icon(Icons.info_outline),
+                  )),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -90,14 +69,16 @@ class MainPage extends StatelessWidget {
                               child: MainPageCard(
                                 title: "Time Table",
                                 height: 230,
+                                onTap: () => Get.to(() => TimeTablePage()),
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      for (var item
-                                          in controller.timeTable.value?.items ?? [])
+                                      for (var item in controller
+                                              .timeTable.value?.items ??
+                                          [])
                                         Text(
                                             "${item.period}교시   ${item.subject}")
                                     ],
@@ -136,7 +117,8 @@ class MainPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       for (var item
-                                          in controller.meal.value?.meal ?? ["No meal now."])
+                                          in controller.meal.value?.meal ??
+                                              ["No meal now."])
                                         Text("${item}")
                                     ],
                                   ),
@@ -174,9 +156,12 @@ class MainPage extends StatelessWidget {
                                                   title: controller
                                                       .schedule.value!.title,
                                                   startDate: controller
-                                                      .schedule.value!.date.add(Duration(days: i)),
+                                                      .schedule.value!.date
+                                                      .add(Duration(days: i)),
                                                   endDate: controller
-                                                      .schedule.value!.date.add(Duration(days: i)), allDay: true));
+                                                      .schedule.value!.date
+                                                      .add(Duration(days: i)),
+                                                  allDay: true));
                                             }
                                           },
                                           child: Text("Add to Calendar"))

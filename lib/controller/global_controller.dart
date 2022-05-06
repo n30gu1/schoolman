@@ -7,6 +7,7 @@ import 'package:schoolman/view/input_school_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/view/tabview.dart';
 
 class GlobalController extends GetxController {
   static GlobalController instance = Get.find();
@@ -39,7 +40,7 @@ class GlobalController extends GetxController {
   _setInitialScreen() {
     if (user != null && school != null) {
       log("All infos are filled");
-      Get.offAll(() => MainPage());
+      Get.offAll(() => TabView());
     } else {
       log("Infos insufficient");
       Get.offAll(() => InputSchoolInfo());
