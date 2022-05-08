@@ -19,12 +19,6 @@ extension Extensions on DateTime {
       return list;
     }
 
-    void rearrange(List<DateTime> list, int from, int to) {
-      DateTime copy = list[from];
-      list.removeAt(from);
-      list.insert(to, copy);
-    }
-
     switch (f.format(this)) {
       case 'Sunday':
         return addToList(1, 5);
@@ -38,6 +32,55 @@ extension Extensions on DateTime {
         return addToList(-3, 1);
       case 'Friday':
         return addToList(-4, 0);
+      case 'Saturday':
+        return addToList(2, 6);
+      default:
+        return [DateTime.now()];
+    }
+  }
+
+
+  List<DateTime> listByWeekdayWithAutoListing() {
+    DateFormat f = DateFormat('EEEE');
+    List<DateTime> addToList(int start, int end) {
+      List<DateTime> list = [];
+      for (int i = start; i <= end; i++) list.add(this.add(Duration(days: i)));
+      return list;
+    }
+
+    void rearrange(List<DateTime> list, int from, int to) {
+      DateTime copy = list[from];
+      list.removeAt(from);
+      list.insert(to, copy);
+    }
+
+    switch (f.format(this)) {
+      case 'Sunday':
+        return addToList(1, 5);
+      case 'Monday':
+        return addToList(0, 4);
+      case 'Tuesday':
+        List<DateTime> dates = addToList(-1, 3);
+        rearrange(dates, 1, 0);
+        rearrange(dates, 1, 4);
+        return dates;
+      case 'Wednesday':
+        List<DateTime> dates = addToList(-2, 2);
+        rearrange(dates, 2, 0);
+        rearrange(dates, 1, 4);
+        rearrange(dates, 1, 4);
+        return dates;
+      case 'Thursday':
+        List<DateTime> dates = addToList(-3, 1);
+        rearrange(dates, 3, 0);
+        rearrange(dates, 1, 4);
+        rearrange(dates, 1, 4);
+        rearrange(dates, 1, 4);
+        return dates;
+      case 'Friday':
+        List<DateTime> dates = addToList(-4, 0);
+        rearrange(dates, 4, 0);
+        return dates;
       case 'Saturday':
         return addToList(2, 6);
       default:

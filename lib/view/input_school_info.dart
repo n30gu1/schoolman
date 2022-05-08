@@ -17,11 +17,10 @@ class InputSchoolInfo extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             "Select School",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
           shadowColor: Colors.transparent,
           backgroundColor: Colors.white,
-          centerTitle: false,
         ),
         body: Obx(() {
           if (controller.state is LoadingState) {

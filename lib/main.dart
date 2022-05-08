@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:schoolman/controller/global_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 
+// TODO: MAKE TABVIEW CAN DO LAZY LOADING
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {

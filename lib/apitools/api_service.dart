@@ -138,9 +138,8 @@ class APIService {
     return result!;
   }
 
-  // TODO: SUBSTITUTE startDate, endDate TO SINGLE PARAMETER
   Future<List<TimeTable>> fetchTimeTableByDuration(
-      DateTime startDate, DateTime endDate) async {
+      DateTime date) async {
     School school = GlobalController.instance.school!;
     User user = GlobalController.instance.user!;
     String? uriString;
@@ -149,7 +148,7 @@ class APIService {
     List<TimeTable> result = [];
 
     // TODO: SUBSTITUTE DateTime.now() TO PARAMETER
-    for (var dayOrg in DateTime.now().listByWeekday()) {
+    for (var dayOrg in date.listByWeekday()) {
       String day = DateFormat("yyyyMMdd").format(dayOrg);
       switch (school.schoolType) {
         case SchoolType.high:
@@ -172,7 +171,6 @@ class APIService {
       }
 
       Uri uri = Uri.parse(uriString);
-      print(uriString);
       result.add(await http.get(uri).then((response) {
         Map<String, dynamic> decoded = jsonDecode(response.body);
         if (decoded["RESULT"] == null) {
@@ -182,11 +180,6 @@ class APIService {
         }
       }));
     }
-
-
-    // TODO: ONLY FOR DEBUGGING - REMOVE AFTER TEST
-    print(result);
-
     return result;
   }
 
@@ -217,6 +210,38 @@ class APIService {
         throw "There is no meal info";
       }
     });
+  }
+
+  Future<List<Meal>> fetchMealByDuration(MealType type, DateTime date) async {
+    School school = GlobalController.instance.school!;
+    List<Meal> result = [];
+    List<DateTime> dateList = date.listByWeekdayWithAutoListing();
+
+    for (DateTime date in dateList) {
+      String? uriString;
+      if (type == MealType.nextDayBreakfast || type == MealType.nextDayLunch) {
+        String day =
+        DateFormat("yyyyMMdd").format(date.add(Duration(days: 1)));
+        uriString =
+        "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+      } else {
+        String today = DateFormat("yyyyMMdd").format(date);
+        uriString =
+        "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
+      }
+
+      await http.get(Uri.parse(uriString)).then((response) {
+        Map<String, dynamic> decoded = jsonDecode(response.body);
+        if (decoded["RESULT"] == null) {
+          for (var item in decoded["mealServiceDietInfo"][1]["row"]) {
+            result.add(Meal.fromMap(item));
+          }
+        } else {
+          throw "There is no meal info";
+        }
+      });
+    }
+    return result;
   }
 
   Future<List<Schedule>> fetchSchedule(int itemCount) async {
