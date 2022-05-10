@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Pretendard",
           primaryColor: Colors.black,
           focusColor: Colors.black),
-      home: const Center(child: LoadingIndicator()),
+      home: Scaffold(body: const Center(child: LoadingIndicator())),
     );
   }
 }

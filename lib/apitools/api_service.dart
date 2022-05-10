@@ -147,7 +147,6 @@ class APIService {
 
     List<TimeTable> result = [];
 
-    // TODO: SUBSTITUTE DateTime.now() TO PARAMETER
     for (var dayOrg in date.listByWeekday()) {
       String day = DateFormat("yyyyMMdd").format(dayOrg);
       switch (school.schoolType) {
@@ -230,17 +229,17 @@ class APIService {
         "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
       }
 
-      await http.get(Uri.parse(uriString)).then((response) {
+      result.add(await http.get(Uri.parse(uriString)).then((response) {
+        print("call");
         Map<String, dynamic> decoded = jsonDecode(response.body);
         if (decoded["RESULT"] == null) {
-          for (var item in decoded["mealServiceDietInfo"][1]["row"]) {
-            result.add(Meal.fromMap(item));
-          }
+          return Meal.fromMap(decoded["mealServiceDietInfo"][1]["row"][0]);
         } else {
           throw "There is no meal info";
         }
-      });
+      }));
     }
+
     return result;
   }
 
