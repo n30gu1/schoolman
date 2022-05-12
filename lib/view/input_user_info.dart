@@ -5,19 +5,20 @@ import 'package:schoolman/controller/input_user_info_controller.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 
-// TODO: Implement AZListView
-
 class InputUserInfo extends StatelessWidget {
-  const InputUserInfo(this.regionCode, this.schoolCode, {Key? key})
+  InputUserInfo(this.regionCode, this.schoolCode, {Key? key})
       : super(key: key);
 
   final String regionCode;
   final String schoolCode;
 
+  final TextStyle textStyle = TextStyle(fontFamily: "Pretendard");
+
   @override
   Widget build(BuildContext context) {
     InputUserInfoController controller =
         Get.put(InputUserInfoController(regionCode, schoolCode));
+
     return SizedBox(
       height: 250,
       child: Scaffold(
@@ -33,14 +34,19 @@ class InputUserInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CupertinoButton(
-                        child: Text("Cancel"),
+                        child: Text(
+                          "Cancel",
+                          style: textStyle,
+                        ),
                         onPressed: () {
                           Get.back();
                         }),
                     CupertinoButton(
                         child: Text(
                           "Done",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Pretendard"),
                         ),
                         onPressed: () {
                           print("Grade: ${controller.gradeSelected.value}");
@@ -61,7 +67,10 @@ class InputUserInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text("학년"),
+                          child: Text(
+                            "학년",
+                            style: textStyle,
+                          ),
                         ),
                         SizedBox(
                           height: 100,
@@ -76,7 +85,10 @@ class InputUserInfo extends StatelessWidget {
                               },
                               children: controller.gradeMap["grades"]
                                   .map<Widget>((item) {
-                                return Text(item.toString());
+                                return Text(
+                                  item.toString(),
+                                  style: textStyle,
+                                );
                               }).toList()),
                         ),
                       ],
@@ -91,7 +103,10 @@ class InputUserInfo extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Text("반"),
+                          child: Text(
+                            "반",
+                            style: textStyle,
+                          ),
                         ),
                         SizedBox(
                           height: 100,
@@ -107,7 +122,10 @@ class InputUserInfo extends StatelessWidget {
                               children: controller.gradeMap["classes"]
                                       [controller.gradeSelected.value]
                                   .map<Widget>((item) {
-                                return Text(item);
+                                return Text(
+                                  item,
+                                  style: textStyle,
+                                );
                               }).toList()),
                         ),
                       ],
@@ -118,11 +136,17 @@ class InputUserInfo extends StatelessWidget {
             );
           } else if (controller.state is ErrorState) {
             return Center(
-              child: Text((controller.state as ErrorState).error),
+              child: Text(
+                (controller.state as ErrorState).error,
+                style: textStyle,
+              ),
             );
           } else {
             return Center(
-              child: Text("What Happened?"),
+              child: Text(
+                "What Happened?",
+                style: textStyle,
+              ),
             );
           }
         }),

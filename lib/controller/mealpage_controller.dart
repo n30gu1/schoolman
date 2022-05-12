@@ -39,8 +39,13 @@ class MealPageController extends GetxController {
     }
   }
 
-  setDate(DateTime date) async {
+  setDate(DateTime date) {
     _date.value = date;
+    fetchMeals();
+  }
+
+  setMealType(MealType mealType) {
+    _mealType.value = mealType;
     fetchMeals();
   }
 }

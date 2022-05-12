@@ -230,7 +230,6 @@ class APIService {
       }
 
       result.add(await http.get(Uri.parse(uriString)).then((response) {
-        print("call");
         Map<String, dynamic> decoded = jsonDecode(response.body);
         if (decoded["RESULT"] == null) {
           return Meal.fromMap(decoded["mealServiceDietInfo"][1]["row"][0]);
