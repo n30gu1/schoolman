@@ -5,10 +5,7 @@ import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/timetable.dart';
 
 class TimeTableController extends GetxController {
-  RxList<TimeTable> timeTables = <TimeTable>[].obs;
-  Rx<DateTime> _date = DateTime
-      .now()
-      .obs;
+  Rx<DateTime> _date = DateTime.now().obs;
   Rx<CurrentState> _state = CurrentState().obs;
 
   get state => _state.value;
@@ -25,20 +22,16 @@ class TimeTableController extends GetxController {
 
   void fetchTimeTables() async {
     _timer?.cancel();
-    timeTables.clear();
     _state.value = LoadingState();
-    try {
-      _timer = Timer(Duration(milliseconds: 500), () {
-        APIService.instance
-            .fetchTimeTableByDuration(date)
-            .then((value) {
-          timeTables.addAll(value);
-          _state.value = DoneState();
+    _timer = Timer(Duration(milliseconds: 500), () {
+      try {
+        APIService.instance.fetchTimeTableByDuration(date).then((value) {
+          _state.value = DoneState(result: value);
         });
-      });
-    } catch (e) {
-      _state.value = ErrorState(e.toString());
-    }
+      } catch (e) {
+        _state.value = ErrorState(e.toString());
+      }
+    });
   }
 
   setDate(DateTime date) async {

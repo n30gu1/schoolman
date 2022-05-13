@@ -76,7 +76,7 @@ class TimeTablePage extends StatelessWidget {
               } else {
                 return Row(
                   children: [
-                    for (var timeTable in controller.timeTables)
+                    for (var timeTable in (controller.state as DoneState).result!)
                       Expanded(
                         child: Column(
                           children: [
