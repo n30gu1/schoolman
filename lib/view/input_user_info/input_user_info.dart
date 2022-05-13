@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:schoolman/controller/global_controller.dart';
-import 'package:schoolman/controller/input_user_info_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 

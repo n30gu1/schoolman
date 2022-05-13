@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/user.dart';
-import 'package:schoolman/view/input_school_info.dart';
+import 'package:schoolman/view/input_school_info/input_school_info.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';

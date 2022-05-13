@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:schoolman/controller/global_controller.dart';
-import 'package:schoolman/controller/mealpage_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/view/timetable/timetable_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 
-class MealPage extends StatelessWidget {
-  final controller = Get.put(MealPageController());
+class TimeTablePage extends StatelessWidget {
+  TimeTablePage({Key? key}) : super(key: key);
 
-  MealPage({Key? key}) : super(key: key);
+  final controller = Get.put(TimeTableController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MealPage extends StatelessWidget {
         return Column(
           children: [
             CustomAppBar(
-                title: "Meal",
+                title: "Time Table",
                 subView: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -31,8 +31,8 @@ class MealPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
-                      child: Text(
-                          "${GlobalController.instance.school?.schoolName}"),
+                      child:
+                      Text("${GlobalController.instance.school?.schoolName}"),
                     ),
                   ],
                 )),
@@ -70,26 +70,23 @@ class MealPage extends StatelessWidget {
                 ),
               ),
             ),
-            () {
+                () {
               if (!(controller.state is DoneState)) {
-                return LoadingIndicator();
+                return Center(child: LoadingIndicator());
               } else {
-                return Expanded(
-                    child: ListView.builder(
-                        itemCount: controller.meals.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(controller.meals[index].date
-                                    .formatToString(context)),
-                                for (var meal in controller.meals[index].meal)
-                                  Text(meal)
-                              ],
-                            ),
-                          );
-                        }));
+                return Row(
+                  children: [
+                    for (var timeTable in controller.timeTables)
+                      Expanded(
+                        child: Column(
+                          children: [
+                            for (var item in timeTable.items)
+                              Text("${item.subject}")
+                          ],
+                        ),
+                      )
+                  ],
+                );
               }
             }()
           ],

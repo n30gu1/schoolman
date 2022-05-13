@@ -2,15 +2,15 @@ import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:schoolman/controller/global_controller.dart';
-import 'package:schoolman/controller/mainpage_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/view/mainpage/mainpage_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
-import 'package:schoolman/view/infopage.dart';
+import 'package:schoolman/view/infopage/infopage.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/school.dart';

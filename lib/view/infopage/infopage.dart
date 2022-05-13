@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 

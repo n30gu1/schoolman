@@ -1,4 +1,3 @@
-import 'package:schoolman/date_converter.dart';
 
 class TimeTable {
   DateTime date;

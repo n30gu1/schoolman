@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
-import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/schedule.dart';

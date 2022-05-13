@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:schoolman/controller/global_controller.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 
 // TODO: MAKE TABVIEW CAN DO LAZY LOADING

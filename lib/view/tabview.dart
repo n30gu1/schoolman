@@ -1,10 +1,10 @@
 import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/controller/tabview_controller.dart';
-import 'package:schoolman/view/mainpage.dart';
-import 'package:schoolman/view/mealpage.dart';
-import 'package:schoolman/view/timetablepage.dart';
+import 'package:schoolman/view/tabview_controller.dart';
+import 'package:schoolman/view/mainpage/mainpage.dart';
+import 'package:schoolman/view/mealpage/mealpage.dart';
+import 'package:schoolman/view/timetable/timetablepage.dart';
 
 class TabView extends StatelessWidget {
   final List<Widget> views = [MainPage(), TimeTablePage(), MealPage()];
