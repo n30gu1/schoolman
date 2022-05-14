@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:intl/intl.dart';
 import 'package:schoolman/date_converter.dart';
 
 class Meal {
@@ -50,6 +53,19 @@ class Meal {
       mealType,
       mealDate
     );
+  }
+
+  String toJson() {
+    Map<String, dynamic> map = {
+      "meal": this.meal,
+      "origin": this.origin,
+      "calories": this.calories,
+      "nutrition": this.nutrition,
+      "mealType": this.mealType.code,
+      "date": DateFormat("yyyy/MM/dd").format(this.date)
+    };
+
+    return jsonEncode(map);
   }
 }
 
