@@ -38,60 +38,60 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDdnGYHPhdn0goHQnxo-G7AKeFDDmyYaDI',
-    appId: '1:702977533556:web:c56b91820ac0b2aec45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    authDomain: 'proj-schoolman.firebaseapp.com',
-    storageBucket: 'proj-schoolman.appspot.com',
-    measurementId: 'G-09GGLJ014G',
+    apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
+    appId: '1:891812150665:web:fa696e1aa88d253fb7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    authDomain: 'schoolman-proj.firebaseapp.com',
+    storageBucket: 'schoolman-proj.appspot.com',
+    measurementId: 'G-XBX45G93BX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB60eUGZJCz9_LtnmBF1qkzGeEg8wzD85Q',
-    appId: '1:702977533556:android:74c71c4d2881daa3c45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    storageBucket: 'proj-schoolman.appspot.com',
+    apiKey: 'AIzaSyBLu8TtYgeoWAGYukwh_lIU7FU1j0wgnPs',
+    appId: '1:891812150665:android:ddbd3d0151537109b7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    storageBucket: 'schoolman-proj.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB6e2XtSdgtcDNpNQKYRbFsI-Sut7X1IPs',
-    appId: '1:702977533556:ios:c06ca79be03210e8c45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    storageBucket: 'proj-schoolman.appspot.com',
-    iosClientId: '702977533556-sahiv9mnk66gkj6kpf4poncrmodlv0f0.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBFxN8gxjD87W0LkW1rbGDdZo4XRXzCYkA',
+    appId: '1:891812150665:ios:d8abb9e7dc9e76abb7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    storageBucket: 'schoolman-proj.appspot.com',
+    iosClientId: '891812150665-5vu12b7efc7qbfbk9cvvuanq5978g2fr.apps.googleusercontent.com',
     iosBundleId: 'com.n30gu1.schoolman',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB6e2XtSdgtcDNpNQKYRbFsI-Sut7X1IPs',
-    appId: '1:702977533556:ios:c06ca79be03210e8c45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    storageBucket: 'proj-schoolman.appspot.com',
-    iosClientId: '702977533556-sahiv9mnk66gkj6kpf4poncrmodlv0f0.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBFxN8gxjD87W0LkW1rbGDdZo4XRXzCYkA',
+    appId: '1:891812150665:ios:d8abb9e7dc9e76abb7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    storageBucket: 'schoolman-proj.appspot.com',
+    iosClientId: '891812150665-5vu12b7efc7qbfbk9cvvuanq5978g2fr.apps.googleusercontent.com',
     iosBundleId: 'com.n30gu1.schoolman',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDdnGYHPhdn0goHQnxo-G7AKeFDDmyYaDI',
-    appId: '1:702977533556:web:a982c8f438a06dd1c45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    authDomain: 'proj-schoolman.firebaseapp.com',
-    storageBucket: 'proj-schoolman.appspot.com',
-    measurementId: 'G-20JY9MP82N',
+    apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
+    appId: '1:891812150665:web:28c56ed995a29abbb7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    authDomain: 'schoolman-proj.firebaseapp.com',
+    storageBucket: 'schoolman-proj.appspot.com',
+    measurementId: 'G-EEWNNPVRB6',
   );
 
   static const FirebaseOptions linux = FirebaseOptions(
-    apiKey: 'AIzaSyDdnGYHPhdn0goHQnxo-G7AKeFDDmyYaDI',
-    appId: '1:702977533556:web:d99c2d7d38d8a95ec45321',
-    messagingSenderId: '702977533556',
-    projectId: 'proj-schoolman',
-    authDomain: 'proj-schoolman.firebaseapp.com',
-    storageBucket: 'proj-schoolman.appspot.com',
-    measurementId: 'G-H1ES7ECYTF',
+    apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
+    appId: '1:891812150665:web:443ecabf87709bdeb7f558',
+    messagingSenderId: '891812150665',
+    projectId: 'schoolman-proj',
+    authDomain: 'schoolman-proj.firebaseapp.com',
+    storageBucket: 'schoolman-proj.appspot.com',
+    measurementId: 'G-39GHTBM1HW',
   );
 }
