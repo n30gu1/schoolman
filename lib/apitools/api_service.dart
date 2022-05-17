@@ -16,40 +16,25 @@ class APIService {
 
   static const _KEY = "0c78f44ac03648f49ce553a199fc0389";
 
-  Future<List<dynamic>> fetchSchoolList() async {
-    const uriString =
-        "https://open.neis.go.kr/hub/schoolInfo?KEY=$_KEY&Type=json&pSize=1000";
+  Future<List<dynamic>> fetchSchoolList(String query) async {
+    String uriString =
+        "https://open.neis.go.kr/hub/schoolInfo?KEY=$_KEY&Type=json&SCHUL_NM=$query";
     log("Fetch Started");
     List<dynamic> list = [];
-    int pageCount = 1;
-    int pageCountEnd = 1;
-    do {
-      await http
-          .get(Uri.parse(uriString + "&pIndex=$pageCount"))
-          .then((response) {
-        if (response.statusCode == 200) {
-          Map decoded = jsonDecode(response.body);
-          if (decoded["schoolInfo"][0]["head"][1]["RESULT"]["CODE"] ==
-              "INFO-000") {
-            log("Fetch Done with no error");
-            list.addAll(decoded["schoolInfo"][1]["row"]);
-
-            if (pageCount == 1) {
-              pageCountEnd = (decoded["schoolInfo"][0]["head"][0]
-                          ["list_total_count"] /
-                      1000)
-                  .ceil();
-            }
-
-            pageCount++;
-          } else {
-            throw decoded["schoolInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
-          }
+    await http.get(Uri.parse(uriString)).then((response) {
+      if (response.statusCode == 200) {
+        Map decoded = jsonDecode(response.body);
+        if (decoded["schoolInfo"][0]["head"][1]["RESULT"]["CODE"] ==
+            "INFO-000") {
+          log("Fetch Done with no error");
+          list.addAll(decoded["schoolInfo"][1]["row"]);
         } else {
-          throw response.statusCode;
+          throw decoded["schoolInfo"][0]["head"][1]["RESULT"]["MESSAGE"];
         }
-      });
-    } while (pageCount <= pageCountEnd);
+      } else {
+        throw response.statusCode;
+      }
+    });
 
     list.sort(((a, b) => a["SCHUL_NM"].toString().compareTo(b["SCHUL_NM"])));
     return list;
@@ -138,8 +123,7 @@ class APIService {
     return result!;
   }
 
-  Future<List<TimeTable>> fetchTimeTableByDuration(
-      DateTime date) async {
+  Future<List<TimeTable>> fetchTimeTableByDuration(DateTime date) async {
     School school = GlobalController.instance.school!;
     User user = GlobalController.instance.user!;
     String? uriString;
@@ -152,17 +136,17 @@ class APIService {
       switch (school.schoolType) {
         case SchoolType.high:
           uriString =
-          "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
           rootTitle = "hisTimetable";
           break;
         case SchoolType.middle:
           uriString =
-          "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
           rootTitle = "misTimetable";
           break;
         case SchoolType.elementary:
           uriString =
-          "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
           rootTitle = "elsTimetable";
           break;
         case SchoolType.other:
@@ -219,14 +203,13 @@ class APIService {
     for (DateTime date in dateList) {
       String? uriString;
       if (type == MealType.nextDayBreakfast || type == MealType.nextDayLunch) {
-        String day =
-        DateFormat("yyyyMMdd").format(date.add(Duration(days: 1)));
+        String day = DateFormat("yyyyMMdd").format(date.add(Duration(days: 1)));
         uriString =
-        "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+            "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
       } else {
         String today = DateFormat("yyyyMMdd").format(date);
         uriString =
-        "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
+            "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
       }
 
       result.add(await http.get(Uri.parse(uriString)).then((response) {
