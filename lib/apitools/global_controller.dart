@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/school.dart';
@@ -11,6 +12,7 @@ import 'package:schoolman/view/tabview.dart';
 class GlobalController extends GetxController {
   static GlobalController instance = Get.find();
   final storage = const FlutterSecureStorage();
+  final _auth = Firebase.FirebaseAuth.instance;
 
   Rx<CurrentState> _state = CurrentState().obs;
   get state => _state.value;
@@ -32,12 +34,16 @@ class GlobalController extends GetxController {
       _user = Rx<User?>(null);
     }
     _setInitialScreen();
+    _auth.userChanges().listen((event) {
+      print("listen");
+      _setInitialScreen();
+    });
 
     super.onInit();
   }
 
   _setInitialScreen() {
-    if (user != null && school != null) {
+    if (user != null && school != null && _auth.currentUser != null) {
       log("All infos are filled");
       Get.offAll(() => TabView());
     } else {
@@ -56,11 +62,13 @@ class GlobalController extends GetxController {
     storage.write(key: "user", value: newUser.toJson());
     _user = Rx<User?>(newUser);
     await fetchSchoolInfo();
+    await _auth.signInAnonymously();
     _setInitialScreen();
   }
 
   signOut() {
     storage.delete(key: "user");
+    _auth.signOut();
     _user.value = null;
     _setInitialScreen();
   }

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/view/admin_sign_in/admin_sign_in_page.dart';
 import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 
 class InputUserInfo extends StatelessWidget {
-  InputUserInfo(this.regionCode, this.schoolCode, {Key? key})
-      : super(key: key);
+  InputUserInfo(this.regionCode, this.schoolCode, {Key? key}) : super(key: key);
 
   final String regionCode;
   final String schoolCode;
@@ -20,7 +20,7 @@ class InputUserInfo extends StatelessWidget {
         Get.put(InputUserInfoController(regionCode, schoolCode));
 
     return SizedBox(
-      height: 250,
+      height: 280,
       child: Scaffold(
         body: Obx(() {
           if (controller.state is LoadingState) {
@@ -132,6 +132,12 @@ class InputUserInfo extends StatelessWidget {
                     ),
                   ),
                 ]),
+                GestureDetector(onTap: () {
+                  Get.to(() => AdminSignInPage());
+                }, child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Are you a teacher?"),
+                ))
               ],
             );
           } else if (controller.state is ErrorState) {

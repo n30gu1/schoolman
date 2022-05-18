@@ -6,8 +6,6 @@ import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info.dart';
 
-// TODO: Implement AZListView
-
 class InputSchoolInfo extends StatelessWidget {
   InputSchoolInfo({Key? key}) : super(key: key);
 

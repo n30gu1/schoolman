@@ -74,7 +74,7 @@ class MainPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       for (var item in controller
-                                              .timeTable.value?.items ??
+                                              .timeTable?.items ??
                                           [])
                                         Text(
                                             "${item.period}교시   ${item.subject}")
@@ -90,7 +90,7 @@ class MainPage extends StatelessWidget {
                               child: MainPageCard(
                                 title: () {
                                   try {
-                                    switch (controller.meal.value!.mealType) {
+                                    switch (controller.meal!.mealType) {
                                       case MealType.breakfast:
                                         return "Breakfast";
                                       case MealType.lunch:
@@ -114,7 +114,7 @@ class MainPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       for (var item
-                                          in controller.meal.value?.meal ??
+                                          in controller.meal?.meal ??
                                               ["No meal now."])
                                         Text("${item}")
                                     ],
@@ -128,40 +128,21 @@ class MainPage extends StatelessWidget {
                             title: "Upcoming Schedule",
                             child: () {
                               DateFormat format = DateFormat("M. d.");
-                              if (controller.schedule.value != null) {
+                              if (controller.schedule != null) {
                                 return Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
                                       Text(
                                         format.format(
-                                            controller.schedule.value!.date),
+                                            controller.schedule!.date),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
                                       Spacer(),
-                                      Text(controller.schedule.value!.title,
+                                      Text(controller.schedule!.title,
                                           style: TextStyle(fontSize: 20)),
-                                      // TODO: FOR TESTING - REMOVE AFTER TEST
-                                      CustomButton(
-                                          width: 120,
-                                          height: 40,
-                                          onTap: () {
-                                            for (int i = 0; i < 5; i++) {
-                                              Add2Calendar.addEvent2Cal(Event(
-                                                  title: controller
-                                                      .schedule.value!.title,
-                                                  startDate: controller
-                                                      .schedule.value!.date
-                                                      .add(Duration(days: i)),
-                                                  endDate: controller
-                                                      .schedule.value!.date
-                                                      .add(Duration(days: i)),
-                                                  allDay: true));
-                                            }
-                                          },
-                                          child: Text("Add to Calendar"))
                                     ],
                                   ),
                                 );
@@ -170,6 +151,21 @@ class MainPage extends StatelessWidget {
                                     child: Text("No upcoming event."));
                               }
                             }()),
+                        MainPageCard(title: "Recent Notice", child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (controller.notice != null) ...[
+                                Text(controller.notice!.title, style: TextStyle(fontSize: 17),),
+                                Text(controller.notice!.content)
+                              ]
+                              else ...[
+                                Text("There is no notice yet.")
+                              ]
+                            ],
+                          ),
+                        ))
                       ],
                     ),
                   ),
