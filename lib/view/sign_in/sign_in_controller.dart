@@ -1,21 +1,29 @@
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
-import 'dart:developer';
-
 import 'package:schoolman/current_state.dart';
+import 'package:schoolman/model/user.dart';
 
-class InputUserInfoController extends GetxController {
+class SignInController extends GetxController {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final _auth = FirebaseAuth.FirebaseAuth.instance;
   late String schoolCode;
   late String regionCode;
   late Map gradeMap;
 
   Rx<CurrentState> _state = CurrentState().obs;
+
   get state => _state.value;
 
   RxString gradeSelected = "".obs;
   RxString classSelected = "".obs;
 
-  InputUserInfoController(this.regionCode, this.schoolCode);
+  SignInController(this.regionCode, this.schoolCode);
 
   @override
   void onInit() {
@@ -65,5 +73,31 @@ class InputUserInfoController extends GetxController {
     gradeSelected.value = grade.first.toString();
     classSelected.value = classMap[gradeSelected.value].first;
     return {"grades": grade, "classes": classMap};
+  }
+
+  void signUp() async {
+    await _auth.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+    FirebaseAuth.User? currentUser =
+        _auth.currentUser;
+    if (currentUser != null) {
+      var document = FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser.uid.toString());
+
+      User user = User(
+          regionCode: regionCode,
+          schoolCode: schoolCode,
+          grade: gradeSelected.value,
+          className: classSelected.value,
+          isAdmin: false);
+
+      document.set(user.toMap());
+    }
+  }
+
+  void signIn() {
+    _auth.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
   }
 }

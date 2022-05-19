@@ -5,28 +5,31 @@ class User {
   String schoolCode;
   String grade;
   String className;
+  bool isAdmin;
 
   User(
       {required this.regionCode,
       required this.schoolCode,
       required this.grade,
-      required this.className});
+      required this.className,
+      required this.isAdmin});
 
-  String toJson() {
-    return jsonEncode({
+  Map<String, dynamic> toMap() {
+    return {
       "regionCode": regionCode,
       "schoolCode": schoolCode,
       "grade": grade,
-      "classNum": className
-    });
+      "classNum": className,
+      "isAdmin": isAdmin
+    };
   }
 
-  static User parse(String json) {
-    Map<String, dynamic> decoded = jsonDecode(json);
+  static User parse(Map map) {
     return User(
-        regionCode: decoded["regionCode"],
-        schoolCode: decoded["schoolCode"],
-        grade: decoded["grade"],
-        className: decoded["classNum"]);
+        regionCode: map["regionCode"],
+        schoolCode: map["schoolCode"],
+        grade: map["grade"],
+        className: map["classNum"],
+        isAdmin: map["isAdmin"]);
   }
 }

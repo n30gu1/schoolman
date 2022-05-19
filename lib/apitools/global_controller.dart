@@ -9,6 +9,7 @@ import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/view/tabview.dart';
 
+// TODO: GET RID OF LOCAL AUTH SYSTEM
 class GlobalController extends GetxController {
   static GlobalController instance = Get.find();
   final storage = const FlutterSecureStorage();
@@ -26,6 +27,8 @@ class GlobalController extends GetxController {
 
   @override
   onInit() async {
+    if (_auth.currentUser != null) {
+    }
     final userJson = await storage.read(key: "user");
     if (userJson != null) {
       _user = Rx<User?>(User.parse(userJson));
