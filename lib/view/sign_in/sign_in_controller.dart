@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/user.dart';
 
@@ -11,7 +12,9 @@ class SignInController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final studentNumberController = TextEditingController();
   final _auth = FirebaseAuth.FirebaseAuth.instance;
+  final _storage = FirebaseFirestore.instance.collection("users");
   late String schoolCode;
   late String regionCode;
   late Map gradeMap;
@@ -76,24 +79,15 @@ class SignInController extends GetxController {
   }
 
   void signUp() async {
-    await _auth.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    FirebaseAuth.User? currentUser =
-        _auth.currentUser;
-    if (currentUser != null) {
-      var document = FirebaseFirestore.instance
-          .collection("users")
-          .doc(currentUser.uid.toString());
-
-      User user = User(
-          regionCode: regionCode,
-          schoolCode: schoolCode,
-          grade: gradeSelected.value,
-          className: classSelected.value,
-          isAdmin: false);
-
-      document.set(user.toMap());
-    }
+    GlobalController.instance.submitNewUser(
+        regionCode,
+        schoolCode,
+        gradeSelected.value,
+        classSelected.value,
+        studentNumberController.text,
+        emailController.text,
+        passwordController.text,
+        nameController.text);
   }
 
   void signIn() {

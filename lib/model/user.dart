@@ -4,6 +4,7 @@ class User {
   String regionCode;
   String schoolCode;
   String grade;
+  String studentNumber;
   String className;
   bool isAdmin;
 
@@ -11,6 +12,7 @@ class User {
       {required this.regionCode,
       required this.schoolCode,
       required this.grade,
+      required this.studentNumber,
       required this.className,
       required this.isAdmin});
 
@@ -19,6 +21,7 @@ class User {
       "regionCode": regionCode,
       "schoolCode": schoolCode,
       "grade": grade,
+      "studentNumber": studentNumber,
       "classNum": className,
       "isAdmin": isAdmin
     };
@@ -29,6 +32,7 @@ class User {
         regionCode: map["regionCode"],
         schoolCode: map["schoolCode"],
         grade: map["grade"],
+        studentNumber: map["studentNumber"],
         className: map["classNum"],
         isAdmin: map["isAdmin"]);
   }

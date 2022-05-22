@@ -44,13 +44,25 @@ class SignInPage extends StatelessWidget {
                     Validator.validatePassword(password: value!),
                 controller: c.passwordController,
               ),
-              TextFormField(
-                decoration: InputDecoration(label: Text("Name")),
-                controller: c.nameController,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(label: Text("Name")),
+                      controller: c.nameController,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(label: Text("Number")),
+                      controller: c.studentNumberController,
+                    ),
+                  ),
+                ],
               ),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () {}, child: Text("Sign In")),
+                  ElevatedButton(onPressed: () => c.signIn(), child: Text("Sign In")),
                   ElevatedButton(
                       onPressed: () => c.signUp(), child: Text("Sign Up"))
                 ],
