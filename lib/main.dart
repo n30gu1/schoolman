@@ -1,8 +1,9 @@
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/firebase_options.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
@@ -18,7 +19,6 @@ void main() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
   runApp(const MyApp());
-  Get.put(GlobalController());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(GlobalController());
     return GetMaterialApp(
       theme: ThemeData(
           fontFamily: "Pretendard",
