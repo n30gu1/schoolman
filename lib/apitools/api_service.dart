@@ -9,7 +9,7 @@ import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/model/user.dart';
 
-import '../model/schedule.dart';
+import '../model/event.dart';
 
 class APIService {
   static APIService instance = APIService();
@@ -225,7 +225,7 @@ class APIService {
     return result;
   }
 
-  Future<List<Schedule>> fetchSchedule(int itemCount) async {
+  Future<List<Event>> fetchEvents(int itemCount) async {
     School school = GlobalController.instance.school!;
     String today = DateFormat("yyyyMMdd").format(DateTime.now());
     String uriString =
@@ -233,9 +233,9 @@ class APIService {
     return await http.get(Uri.parse(uriString)).then((response) {
       Map<String, dynamic> decoded = jsonDecode(response.body);
       if (decoded["RESULT"] == null) {
-        List<Schedule> result = [];
+        List<Event> result = [];
         for (var item in decoded["SchoolSchedule"][1]["row"]) {
-          result.add(Schedule.fromMap(item));
+          result.add(Event.fromMap(item));
         }
 
         return result;
