@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 class Validator {
   static String? validateName({required String name}) {
     if (name == null) {

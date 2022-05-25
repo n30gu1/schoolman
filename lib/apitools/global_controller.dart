@@ -9,7 +9,6 @@ import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/view/tabview.dart';
 
-// TODO: GET RID OF LOCAL AUTH SYSTEM
 class GlobalController extends GetxController {
   static GlobalController instance = Get.find();
   final storage = FirebaseFirestore.instance.collection("users");
@@ -60,14 +59,24 @@ class GlobalController extends GetxController {
     }
   }
 
-  submitNewUser(String regionCode, String schoolCode, String grade,
-      String classNum, String studentNumber, String email, String password, String name) async {
+  submitNewUser(
+      String regionCode,
+      String schoolCode,
+      String grade,
+      String classNum,
+      String studentNumber,
+      String email,
+      String password,
+      String name) async {
     User newUser = User(
         regionCode: regionCode,
         schoolCode: schoolCode,
         grade: grade,
-        className: classNum, studentNumber: studentNumber, isAdmin: false);
-    await _auth.createUserWithEmailAndPassword(email: email, password: password);
+        className: classNum,
+        studentNumber: studentNumber,
+        isAdmin: false);
+    await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
 
     if (_auth.currentUser != null) {
       storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
@@ -91,7 +100,7 @@ class GlobalController extends GetxController {
 
     try {
       _school.value =
-      await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
+          await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
       _state.value = DoneState();
     } catch (error) {
       Get.snackbar("An Error Occurred", error.toString());

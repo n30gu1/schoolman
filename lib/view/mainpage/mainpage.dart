@@ -1,4 +1,3 @@
-import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -73,9 +72,8 @@ class MainPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      for (var item in controller
-                                              .timeTable?.items ??
-                                          [])
+                                      for (var item
+                                          in controller.timeTable?.items ?? [])
                                         Text(
                                             "${item.period}교시   ${item.subject}")
                                     ],
@@ -113,9 +111,8 @@ class MainPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      for (var item
-                                          in controller.meal?.meal ??
-                                              ["No meal now."])
+                                      for (var item in controller.meal?.meal ??
+                                          ["No meal now."])
                                         Text("${item}")
                                     ],
                                   ),
@@ -134,8 +131,8 @@ class MainPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        format.format(
-                                            controller.schedule!.date),
+                                        format
+                                            .format(controller.schedule!.date),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
@@ -151,21 +148,25 @@ class MainPage extends StatelessWidget {
                                     child: Text("No upcoming event."));
                               }
                             }()),
-                        MainPageCard(title: "Recent Notice", child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (controller.notice != null) ...[
-                                Text(controller.notice!.title, style: TextStyle(fontSize: 17),),
-                                Text(controller.notice!.content)
-                              ]
-                              else ...[
-                                Text("There is no notice yet.")
-                              ]
-                            ],
-                          ),
-                        ))
+                        MainPageCard(
+                            title: "Recent Notice",
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (controller.notice != null) ...[
+                                    Text(
+                                      controller.notice!.title,
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    Text(controller.notice!.content)
+                                  ] else ...[
+                                    Text("There is no notice yet.")
+                                  ]
+                                ],
+                              ),
+                            ))
                       ],
                     ),
                   ),

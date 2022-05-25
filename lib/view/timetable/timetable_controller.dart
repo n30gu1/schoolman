@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/current_state.dart';
-import 'package:schoolman/model/timetable.dart';
 
 class TimeTableController extends GetxController {
   Rx<DateTime> _date = DateTime.now().obs;

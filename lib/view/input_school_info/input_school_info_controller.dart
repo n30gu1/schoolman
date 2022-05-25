@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/current_state.dart';
-import 'package:schoolman/model/school.dart';
 
 class InputSchoolInfoController extends GetxController {
   Rx<CurrentState> _state = CurrentState().obs;

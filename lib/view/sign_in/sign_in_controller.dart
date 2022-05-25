@@ -1,12 +1,10 @@
 import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
-import 'package:schoolman/model/user.dart';
 
 class SignInController extends GetxController {
   final emailController = TextEditingController();
@@ -14,7 +12,6 @@ class SignInController extends GetxController {
   final nameController = TextEditingController();
   final studentNumberController = TextEditingController();
   final _auth = FirebaseAuth.FirebaseAuth.instance;
-  final _storage = FirebaseFirestore.instance.collection("users");
   late String schoolCode;
   late String regionCode;
   late Map gradeMap;
