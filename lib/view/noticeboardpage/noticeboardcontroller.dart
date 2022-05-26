@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/notice.dart';
@@ -7,6 +8,7 @@ import 'package:schoolman/model/school.dart';
 
 class NoticeBoardController extends GetxController {
   Rx<CurrentState> _state = CurrentState().obs;
+  DateFormat format = DateFormat("yyyy/M/d HH:mm:ss");
 
   CurrentState get state => _state.value;
 
@@ -38,6 +40,9 @@ class NoticeBoardController extends GetxController {
         notices.add(Notice.fromMap(element.data()));
       });
 
+      notices.sort(
+        (a, b) => b.timeCreated.compareTo(a.timeCreated),
+      );
       _state.value = DoneState(result: notices);
     } catch (e) {
       _state.value = ErrorState(e.toString());

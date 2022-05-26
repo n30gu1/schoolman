@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
+import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
@@ -58,13 +59,27 @@ class NoticeBoardPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: (c.state as DoneState).result?.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text((c.state as DoneState).result?[index].title),
-                          Text((c.state as DoneState).result?[index].content),
-                        ],
-                      );
+                      Notice? result = (c.state as DoneState).result?[index];
+                      if (result != null) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(c.format
+                                    .format((result.timeCreated.toDate()))),
+                                Text(result.title),
+                                Text(result.content),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Text("Null Detected");
+                      }
                     },
                   ),
                 ),
