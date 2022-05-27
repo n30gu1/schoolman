@@ -18,12 +18,6 @@ class NoticeBoardController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    fetch();
-    super.onReady();
-  }
-
   void fetch() async {
     _state.value = LoadingState();
     try {

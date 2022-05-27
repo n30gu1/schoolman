@@ -225,11 +225,14 @@ class APIService {
     return result;
   }
 
-  Future<List<Event>> fetchEvents(int itemCount) async {
+  Future<List<Event>> fetchEvents(int itemCount,
+      {DateTime? from, DateTime? to}) async {
     School school = GlobalController.instance.school!;
-    String today = DateFormat("yyyyMMdd").format(DateTime.now());
+    String startDate = DateFormat("yyyyMMdd").format(from ?? DateTime.now());
+    String endDate = DateFormat("yyyyMMdd")
+        .format(to ?? DateTime.now().add(Duration(days: itemCount)));
     String uriString =
-        "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$today&pSize=$itemCount";
+        "https://open.neis.go.kr/hub/SchoolSchedule?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&AA_FROM_YMD=$startDate&AA_TO_YMD=$endDate&pSize=$itemCount";
     return await http.get(Uri.parse(uriString)).then((response) {
       Map<String, dynamic> decoded = jsonDecode(response.body);
       if (decoded["RESULT"] == null) {

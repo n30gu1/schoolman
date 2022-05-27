@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/view/events_page/events_page.dart';
 import 'package:schoolman/view/noticeboardpage/noticeboardpage.dart';
 import 'package:schoolman/view/tabview_controller.dart';
 import 'package:schoolman/view/mainpage/mainpage.dart';
@@ -11,7 +12,8 @@ class TabView extends StatelessWidget {
     MainPage(),
     TimeTablePage(),
     MealPage(),
-    NoticeBoardPage()
+    NoticeBoardPage(),
+    EventsPage()
   ];
 
   final controller = Get.put(TabViewController());
@@ -21,7 +23,7 @@ class TabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         body: Obx(() {
           return Column(
@@ -72,6 +74,15 @@ class TabView extends StatelessWidget {
                       Tab(
                         child: Text(
                           "Notice Board",
+                          style: TextStyle(
+                              fontWeight: controller.index == 3
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          "Events",
                           style: TextStyle(
                               fontWeight: controller.index == 3
                                   ? FontWeight.bold
