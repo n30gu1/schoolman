@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
@@ -29,30 +30,28 @@ class InfoPage extends StatelessWidget {
               Text("${s.regionCode} - ${s.orgName} - ${s.regionName}"),
               Text("Founded at: ${s.foundationDate}"),
               Text("${s.foundationType.name} School"),
-
               Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Text("n30GUI alpha - Under Construction"),
               ),
-
               Spacer(),
-
               CustomButton(
-                  onTap: () {
-                    GlobalController.instance.signOut();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Container(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          "Sign Out",
-                          style: TextStyle(color: Colors.red),
-                        ),
+                onTap: () {
+                  GlobalController.instance.signOut();
+                  Get.back();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Container(
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "Sign Out",
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ),
+                ),
                 borderRadius: BorderRadius.circular(1000),
               ),
             ],

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/current_state.dart';
 import 'package:schoolman/firebase_options.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 
@@ -18,21 +19,32 @@ void main() async {
         statusBarColor: Colors.transparent));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final c = Get.put(GlobalController());
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(GlobalController());
     return GetMaterialApp(
       theme: ThemeData(
           fontFamily: "Pretendard",
           primaryColor: Colors.black,
           focusColor: Colors.black),
-      home: Scaffold(body: const Center(child: LoadingIndicator())),
+      home: () {
+        return Obx(() => Scaffold(body: () {
+              final userState = GlobalController.instance.userState;
+              if (userState is LoadingState) {
+                return const Center(child: LoadingIndicator());
+              } else if (userState is DoneState) {
+                return userState.result?[0];
+              } else {
+                return const Center(child: LoadingIndicator());
+              }
+            }()));
+      }(),
     );
   }
 }

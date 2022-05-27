@@ -87,8 +87,11 @@ class SignInController extends GetxController {
         nameController.text);
   }
 
-  void signIn() {
-    _auth.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
+  void signIn() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Get.back();
+    } catch (e) {}
   }
 }

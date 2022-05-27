@@ -15,8 +15,10 @@ class GlobalController extends GetxController {
   final _auth = Firebase.FirebaseAuth.instance;
 
   Rx<CurrentState> _state = CurrentState().obs;
+  Rx<CurrentState> _userState = CurrentState().obs;
 
   get state => _state.value;
+  get userState => _userState.value;
 
   Rx<User?> _user = Rx(null);
   Rx<School?> _school = Rx(null);
@@ -37,6 +39,7 @@ class GlobalController extends GetxController {
   }
 
   _setInitialScreen() async {
+    _userState.value = LoadingState();
     if (_auth.currentUser != null) {
       final userMap = await storage
           .doc(_auth.currentUser!.uid)
@@ -52,10 +55,10 @@ class GlobalController extends GetxController {
 
     if (user != null && school != null && _auth.currentUser != null) {
       log("All infos are filled");
-      Get.offAll(() => TabView());
+      _userState.value = DoneState(result: [TabView()]);
     } else {
       log("Infos insufficient");
-      Get.offAll(() => InputSchoolInfo());
+      _userState.value = DoneState(result: [InputSchoolInfo()]);
     }
   }
 
