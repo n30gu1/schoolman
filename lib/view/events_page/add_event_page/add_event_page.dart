@@ -20,7 +20,11 @@ class AddEventPage extends StatelessWidget {
             if (c.state is LoadingState) {
               return LoadingIndicator();
             } else {
-              return IconButton(onPressed: () {}, icon: Icon(Icons.add));
+              return IconButton(
+                  onPressed: () {
+                    c.upload();
+                  },
+                  icon: Icon(Icons.add));
             }
           })
         ],
@@ -29,6 +33,14 @@ class AddEventPage extends StatelessWidget {
         TextField(
           controller: c.titleController,
           decoration: InputDecoration(hintText: "Title"),
+        ),
+        TextField(
+          controller: c.commentController,
+          decoration: InputDecoration(hintText: "Comment"),
+        ),
+        TextField(
+          controller: c.locationController,
+          decoration: InputDecoration(hintText: "Location"),
         ),
         ElevatedButton(
             onPressed: () {

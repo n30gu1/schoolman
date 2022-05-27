@@ -32,7 +32,7 @@ class AddEventController extends GetxController {
       FirebaseFirestore.instance
           .collection(school.regionCode)
           .doc(school.schoolCode)
-          .collection("notices")
+          .collection("events")
           .add(Event(range!.start, titleController.text,
                   endDate: range!.end,
                   location: locationController.text,
