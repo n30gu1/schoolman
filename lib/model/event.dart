@@ -8,11 +8,14 @@ class Event {
   String? location;
   String? comment;
 
-  Event(this.date, this.title, {this.endDate, this.location, this.comment});
+  bool fromFirebase;
+
+  Event(this.date, this.title,
+      {this.endDate, this.location, this.comment, required this.fromFirebase});
 
   static fromMap(Map map) {
     DateTime date = map["AA_YMD"].toString().convertFromyyyyMMdd();
-    return Event(date, map["EVENT_NM"]);
+    return Event(date, map["EVENT_NM"], fromFirebase: false);
   }
 
   static fromFirebaseMap(Map map) {
@@ -32,7 +35,10 @@ class Event {
       comment = map["comment"];
     }
     return Event(date, map["title"],
-        location: location, comment: comment, endDate: endDate);
+        location: location,
+        comment: comment,
+        endDate: endDate,
+        fromFirebase: true);
   }
 
   Map<String, dynamic> toMap() {

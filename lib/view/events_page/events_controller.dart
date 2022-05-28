@@ -36,4 +36,27 @@ class EventsController extends GetxController {
       _state.value = ErrorState(e.toString());
     }
   }
+
+  void removeEvent(Event event) async {
+    try {
+      User user = GlobalController.instance.user!;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection(user.regionCode)
+          .doc(user.schoolCode)
+          .collection("events")
+          .get();
+
+      print(snapshot.docs.where((element) {
+        Map map = element.data() as Map;
+        return map["title"] == event.title &&
+            map["startDate"] == event.date &&
+            map["endDate"] == event.endDate;
+      }));
+
+      fetch();
+    } catch (e) {
+      print(e);
+      _state.value = ErrorState(e.toString());
+    }
+  }
 }

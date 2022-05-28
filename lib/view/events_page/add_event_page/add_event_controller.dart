@@ -36,7 +36,8 @@ class AddEventController extends GetxController {
           .add(Event(range!.start, titleController.text,
                   endDate: range!.end,
                   location: locationController.text,
-                  comment: commentController.text)
+                  comment: commentController.text,
+                  fromFirebase: true)
               .toMap())
           .then((_) {
         _state.value = DoneState();

@@ -64,7 +64,14 @@ class EventsPage extends StatelessWidget {
                       children: [
                         Text(DateFormat.yMd().format(result[index].date)),
                         Spacer(),
-                        Text(result[index].title)
+                        Text(result[index].title),
+                        if (result[index].fromFirebase == true) ...[
+                          IconButton(
+                            onPressed: () => c.removeEvent(result[index]),
+                            icon: Icon(Icons.delete),
+                            color: Colors.red,
+                          )
+                        ]
                       ],
                     ),
                   );
