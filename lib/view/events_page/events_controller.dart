@@ -46,12 +46,20 @@ class EventsController extends GetxController {
           .collection("events")
           .get();
 
-      print(snapshot.docs.where((element) {
+      var target = snapshot.docs.where((element) {
         Map map = element.data() as Map;
         return map["title"] == event.title &&
-            map["startDate"] == event.date &&
-            map["endDate"] == event.endDate;
-      }));
+            map["date"] == Timestamp.fromDate(event.date) &&
+            map["endDate"] ==
+                (event.endDate != null
+                    ? Timestamp.fromDate(event.endDate!)
+                    : null);
+      });
+
+      await FirebaseFirestore.instance
+          .runTransaction((Transaction myTransaction) async {
+        await myTransaction.delete(target.first.reference);
+      });
 
       fetch();
     } catch (e) {
