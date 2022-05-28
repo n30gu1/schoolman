@@ -37,7 +37,7 @@ class EventsController extends GetxController {
     }
   }
 
-  void removeEvent(Event event) async {
+  void deleteEvent(Event event) async {
     try {
       User user = GlobalController.instance.user!;
       QuerySnapshot snapshot = await FirebaseFirestore.instance

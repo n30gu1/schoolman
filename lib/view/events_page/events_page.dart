@@ -67,7 +67,7 @@ class EventsPage extends StatelessWidget {
                         Text(result[index].title),
                         if (result[index].fromFirebase == true) ...[
                           IconButton(
-                            onPressed: () => c.removeEvent(result[index]),
+                            onPressed: () => c.deleteEvent(result[index]),
                             icon: Icon(Icons.delete),
                             color: Colors.red,
                           )
