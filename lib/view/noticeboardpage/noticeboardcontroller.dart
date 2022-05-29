@@ -5,6 +5,7 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/school.dart';
+import 'package:schoolman/model/user.dart';
 
 class NoticeBoardController extends GetxController {
   Rx<CurrentState> _state = CurrentState().obs;
@@ -39,6 +40,32 @@ class NoticeBoardController extends GetxController {
       );
       _state.value = DoneState(result: notices);
     } catch (e) {
+      _state.value = ErrorState(e.toString());
+    }
+  }
+
+  void deleteNotice(Notice notice) async {
+    try {
+      User user = GlobalController.instance.user!;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection(user.regionCode)
+          .doc(user.schoolCode)
+          .collection("notices")
+          .get();
+
+      var target = snapshot.docs.where((element) {
+        Map map = element.data() as Map;
+        return map["title"] == notice.title && map["content"] == notice.content;
+      });
+
+      await FirebaseFirestore.instance
+          .runTransaction((Transaction myTransaction) async {
+        await myTransaction.delete(target.first.reference);
+      });
+
+      fetch();
+    } catch (e) {
+      print(e);
       _state.value = ErrorState(e.toString());
     }
   }

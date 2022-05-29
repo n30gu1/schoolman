@@ -66,13 +66,25 @@ class NoticeBoardPage extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(color: Colors.white),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
-                                Text(c.format
-                                    .format((result.timeCreated.toDate()))),
-                                Text(result.title),
-                                Text(result.content),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(c.format
+                                        .format((result.timeCreated.toDate()))),
+                                    Text(result.title),
+                                    Text(result.content),
+                                  ],
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  onPressed: () => c.deleteNotice(result),
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                )
                               ],
                             ),
                           ),
