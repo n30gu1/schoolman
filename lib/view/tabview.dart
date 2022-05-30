@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/view/events_page/events_page.dart';
-import 'package:schoolman/view/noticeboardpage/noticeboardpage.dart';
+import 'package:schoolman/view/notice_board_page/notice_board_page.dart';
 import 'package:schoolman/view/tabview_controller.dart';
-import 'package:schoolman/view/mainpage/mainpage.dart';
-import 'package:schoolman/view/mealpage/mealpage.dart';
-import 'package:schoolman/view/timetable/timetablepage.dart';
+import 'package:schoolman/view/main_page/main_page.dart';
+import 'package:schoolman/view/meal_page/meal_page.dart';
+import 'package:schoolman/view/time_table/time_table_page.dart';
 
 class TabView extends StatelessWidget {
   final List<Widget> views = [

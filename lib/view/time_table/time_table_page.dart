@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/view/timetable/timetable_controller.dart';
+import 'package:schoolman/view/time_table/time_table_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
@@ -31,8 +31,8 @@ class TimeTablePage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
-                      child:
-                      Text("${GlobalController.instance.school?.schoolName}"),
+                      child: Text(
+                          "${GlobalController.instance.school?.schoolName}"),
                     ),
                   ],
                 )),
@@ -70,13 +70,14 @@ class TimeTablePage extends StatelessWidget {
                 ),
               ),
             ),
-                () {
+            () {
               if (!(controller.state is DoneState)) {
                 return Center(child: LoadingIndicator());
               } else {
                 return Row(
                   children: [
-                    for (var timeTable in (controller.state as DoneState).result!)
+                    for (var timeTable
+                        in (controller.state as DoneState).result!)
                       Expanded(
                         child: Column(
                           children: [
