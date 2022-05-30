@@ -84,7 +84,7 @@ class TabView extends StatelessWidget {
                         child: Text(
                           "Events",
                           style: TextStyle(
-                              fontWeight: controller.index == 3
+                              fontWeight: controller.index == 4
                                   ? FontWeight.bold
                                   : FontWeight.normal),
                         ),
