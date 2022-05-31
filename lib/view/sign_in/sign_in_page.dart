@@ -4,15 +4,13 @@ import 'package:get/get.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/validator.dart';
-
 import 'sign_in_controller.dart';
 
 class SignInPage extends StatelessWidget {
   final String regionCode;
   final String schoolCode;
 
-  SignInPage(this.regionCode, this.schoolCode, {Key? key})
-      : super(key: key);
+  SignInPage(this.regionCode, this.schoolCode, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class SignInPage extends StatelessWidget {
         if (c.state is DoneState) {
           return Column(
             children: [
-              Text("Teacher Sign In Page"),
+              Text("Sign In Page"),
               Text("Under Construction, needs a design"),
               TextFormField(
                 autofocus: true,
@@ -62,9 +60,16 @@ class SignInPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () => c.signIn(), child: Text("Sign In")),
                   ElevatedButton(
-                      onPressed: () => c.signUp(), child: Text("Sign Up"))
+                      onPressed: () => c.signIn(), child: Text("Sign In")),
+                  ElevatedButton(
+                      onPressed: () => c.signUp(), child: Text("Sign Up")),
+                  ElevatedButton(
+                      onPressed: () => c.signInWithGoogle(),
+                      child: Text("Google")),
+                  ElevatedButton(
+                      onPressed: () => c.signInWithApple(),
+                      child: Text("Apple"))
                 ],
               ),
               Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -82,10 +87,10 @@ class SignInPage extends StatelessWidget {
                         child: CupertinoPicker(
                             itemExtent: 29,
                             scrollController:
-                            FixedExtentScrollController(initialItem: 0),
+                                FixedExtentScrollController(initialItem: 0),
                             onSelectedItemChanged: (item) {
                               c.gradeSelected.value =
-                              c.gradeMap["grades"].toList()[item];
+                                  c.gradeMap["grades"].toList()[item];
                             },
                             children: c.gradeMap["grades"].map<Widget>((item) {
                               return Text(
@@ -114,12 +119,13 @@ class SignInPage extends StatelessWidget {
                         child: CupertinoPicker(
                             itemExtent: 29,
                             scrollController:
-                            FixedExtentScrollController(initialItem: 0),
+                                FixedExtentScrollController(initialItem: 0),
                             onSelectedItemChanged: (item) {
                               c.classSelected.value = c.gradeMap["classes"]
-                              [c.gradeSelected.value][item];
+                                  [c.gradeSelected.value][item];
                             },
-                            children: c.gradeMap["classes"][c.gradeSelected.value]
+                            children: c.gradeMap["classes"]
+                                    [c.gradeSelected.value]
                                 .map<Widget>((item) {
                               return Text(
                                 item,

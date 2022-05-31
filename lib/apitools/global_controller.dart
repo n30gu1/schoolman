@@ -62,15 +62,8 @@ class GlobalController extends GetxController {
     }
   }
 
-  submitNewUser(
-      String regionCode,
-      String schoolCode,
-      String grade,
-      String classNum,
-      String studentNumber,
-      String email,
-      String password,
-      String name) async {
+  submitNewUser(String regionCode, String schoolCode, String grade,
+      String classNum, String studentNumber, String name) async {
     User newUser = User(
         regionCode: regionCode,
         schoolCode: schoolCode,
@@ -78,12 +71,13 @@ class GlobalController extends GetxController {
         className: classNum,
         studentNumber: studentNumber,
         isAdmin: false);
-    await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
 
     if (_auth.currentUser != null) {
-      storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
-      _auth.currentUser!.updateDisplayName(name);
+      var snapshot = await storage.doc(_auth.currentUser!.uid).get();
+      if (!snapshot.exists) {
+        storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
+        _auth.currentUser!.updateDisplayName(name);
+      }
     }
     _user = Rx<User?>(newUser);
     await fetchSchoolInfo();

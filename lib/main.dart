@@ -11,7 +11,8 @@ import 'package:schoolman/uitools/loading_indicator.dart';
 // TODO: MAKE TABVIEW CAN DO LAZY LOADING
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
+
   if (Platform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.transparent,
