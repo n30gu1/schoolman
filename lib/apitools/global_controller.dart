@@ -7,6 +7,7 @@ import 'package:schoolman/model/user.dart';
 import 'package:schoolman/view/input_school_info/input_school_info.dart';
 import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/view/sign_in/sign_in_page.dart';
 import 'package:schoolman/view/tabview.dart';
 
 class GlobalController extends GetxController {
@@ -41,12 +42,9 @@ class GlobalController extends GetxController {
   _setInitialScreen() async {
     _userState.value = LoadingState();
     if (_auth.currentUser != null) {
-      final userMap = await storage
-          .doc(_auth.currentUser!.uid)
-          .get()
-          .then((value) => value.data());
-      if (userMap != null) {
-        _user = Rx<User?>(User.parse(userMap));
+      final userMap = await storage.doc(_auth.currentUser!.uid).get();
+      if (userMap.exists) {
+        _user = Rx<User?>(User.parse(userMap.data()!));
         await fetchSchoolInfo();
       } else {
         _user = Rx<User?>(null);
@@ -58,7 +56,7 @@ class GlobalController extends GetxController {
       _userState.value = DoneState(result: [TabView()]);
     } else {
       log("Infos insufficient");
-      _userState.value = DoneState(result: [InputSchoolInfo()]);
+      _userState.value = DoneState(result: [SignInPage()]);
     }
   }
 
@@ -72,13 +70,8 @@ class GlobalController extends GetxController {
         studentNumber: studentNumber,
         isAdmin: false);
 
-    if (_auth.currentUser != null) {
-      var snapshot = await storage.doc(_auth.currentUser!.uid).get();
-      if (!snapshot.exists) {
-        storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
-        _auth.currentUser!.updateDisplayName(name);
-      }
-    }
+    storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
+    _auth.currentUser!.updateDisplayName(name);
     _user = Rx<User?>(newUser);
     await fetchSchoolInfo();
   }

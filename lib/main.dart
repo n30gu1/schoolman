@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
               } else if (userState is DoneState) {
                 return userState.result?[0];
               } else {
-                return const Center(child: LoadingIndicator());
+                return const Center(child: Text("something went wrong!"));
               }
             }()));
       }(),

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/view/input_school_info/input_school_info_controller.dart';
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/sign_in/sign_in_page.dart';
+import 'package:schoolman/view/input_user_info/input_user_info.dart';
 
 class InputSchoolInfo extends StatelessWidget {
   InputSchoolInfo({Key? key}) : super(key: key);
@@ -59,8 +59,8 @@ class InputSchoolInfo extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.w200),
                         ),
                         onTap: () {
-                          Get.to(
-                            () => SignInPage(
+                          Get.bottomSheet(
+                            InputUserInfo(
                                 controller.schoolList[index]
                                     ["ATPT_OFCDC_SC_CODE"],
                                 controller.schoolList[index]["SD_SCHUL_CODE"]),
