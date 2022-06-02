@@ -75,6 +75,7 @@ class InputUserInfoController extends GetxController {
   }
 
   void submitUserInfo() async {
+    print(FirebaseAuth.instance.currentUser!.displayName);
     await GlobalController.instance.submitNewUser(
         this.regionCode,
         this.schoolCode,
