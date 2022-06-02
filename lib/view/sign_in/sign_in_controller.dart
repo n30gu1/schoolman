@@ -29,6 +29,7 @@ class SignInController extends GetxController {
         email: emailController.text, password: passwordController.text);
 
     if (_auth.currentUser != null) {
+      _auth.currentUser!.updateDisplayName(nameController.text);
       Get.offAll(() => InputSchoolInfo());
     }
   }
@@ -102,6 +103,9 @@ class SignInController extends GetxController {
     FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
         .FirebaseAuth.instance
         .signInWithCredential(oauthCredential);
+
+    signedInUserCredential.user!.updateDisplayName(
+        (appleCredential.familyName ?? "") + (appleCredential.givenName ?? ""));
 
     if (signedInUserCredential != null) {
       var snapshot = await GlobalController.instance.storage
