@@ -78,13 +78,16 @@ class NoticeBoardPage extends StatelessWidget {
                                   ],
                                 ),
                                 Spacer(),
-                                IconButton(
-                                  onPressed: () => c.deleteNotice(result),
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                )
+                                if (GlobalController
+                                    .instance.user!.isAdmin) ...[
+                                  IconButton(
+                                    onPressed: () => c.deleteNotice(result),
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                ]
                               ],
                             ),
                           ),
