@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.n30gu1.schoolman">
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -10,6 +11,7 @@
         </intent>
     </queries>
     <application
+        tools:replace="android:label"
         android:label="schoolman"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
