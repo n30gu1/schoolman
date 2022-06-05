@@ -22,6 +22,7 @@ struct TimeTableTimelineProvider: TimelineProvider {
         var entries: [TimeTableEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        let appGroup = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: 'group.com.n30gu1.schoolman')
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
