@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
@@ -77,6 +79,12 @@ class MainPageController extends GetxController {
       _notice.value =
           Notice.fromMap(await noticesCollection.docs.first.data() as Map);
 
+      if (Platform.isIOS) {
+        WidgetKit.reloadAllTimelines();
+        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.setItem(
+            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
+      }
       _state.value = DoneState();
     } catch (error) {
       _state.value = ErrorState(error.toString());

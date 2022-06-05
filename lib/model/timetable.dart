@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:intl/intl.dart';
 
 class TimeTable {
   DateTime date;
@@ -13,6 +16,19 @@ class TimeTable {
     }
 
     return TimeTable(DateTime.now(), items);
+  }
+
+  String toJson() {
+    List<Map<String, Object>> items = this
+        .items
+        .map((e) => {"period": e.period, "subject": e.subject})
+        .toList();
+    Map map = {
+      "date": DateFormat("yyyy/MM/dd").format(this.date),
+      "items": items
+    };
+
+    return jsonEncode(map);
   }
 }
 
