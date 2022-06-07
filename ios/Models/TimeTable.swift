@@ -9,7 +9,7 @@ import Foundation
 
 struct TimeTable: Codable {
     let date: Date
-    let items: TimeTableItem
+    let items: [TimeTableItem]
 }
 
 struct TimeTableItem: Codable {

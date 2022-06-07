@@ -80,10 +80,10 @@ class MainPageController extends GetxController {
           Notice.fromMap(await noticesCollection.docs.first.data() as Map);
 
       if (Platform.isIOS) {
-        WidgetKit.reloadAllTimelines();
         WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
         WidgetKit.setItem(
             "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.reloadAllTimelines();
       }
       _state.value = DoneState();
     } catch (error) {

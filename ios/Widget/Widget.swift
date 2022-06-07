@@ -13,7 +13,7 @@ struct Widgets: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
         MealWidget()
-        TimeTableWidget()
+//        TimeTableWidget()
     }
 }
 
