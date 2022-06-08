@@ -8,7 +8,7 @@
 import Foundation
 
 struct TimeTable: Codable {
-    let date: Date
+    let date: String
     let items: [TimeTableItem]
 }
 

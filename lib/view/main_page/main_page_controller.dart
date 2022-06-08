@@ -1,5 +1,7 @@
-import 'dart:io';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
@@ -66,6 +68,17 @@ class MainPageController extends GetxController {
           .fetchMeal(_mealType)
           .then((value) => value[0]);
 
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        print("platform is iOS");
+        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.setItem(
+            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.reloadAllTimelines();
+        print("done");
+      } else {
+        print("not supported");
+      }
+
       _schedule.value = (await APIService.instance.fetchEvents(1))[0];
 
       School currentSchool = GlobalController.instance.school!;
@@ -79,12 +92,6 @@ class MainPageController extends GetxController {
       _notice.value =
           Notice.fromMap(await noticesCollection.docs.first.data() as Map);
 
-      if (Platform.isIOS) {
-        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
-        WidgetKit.setItem(
-            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
-        WidgetKit.reloadAllTimelines();
-      }
       _state.value = DoneState();
     } catch (error) {
       _state.value = ErrorState(error.toString());

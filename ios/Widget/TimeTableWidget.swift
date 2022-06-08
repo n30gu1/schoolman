@@ -60,7 +60,7 @@ struct TimeTableWidgetEntryView : View {
 
     var body: some View {
         if let timeTable = entry.timeTable {
-            ForEach(timeTable.items, id: \.period) { item in
+            ForEach(timeTable.items, id: \.subject) { item in
                 Text("\(item.subject)")
             }
         } else {
@@ -73,8 +73,8 @@ struct TimeTableWidget: Widget {
     let kind: String = "TimeTableWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: MealTimelineProvider()) { entry in
-            MealWidgetEntryView(entry: entry)
+        StaticConfiguration(kind: kind, provider: TimeTableTimelineProvider()) { entry in
+            TimeTableWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Time Table Widget")
         .description("Under Construction. Do not leak.")

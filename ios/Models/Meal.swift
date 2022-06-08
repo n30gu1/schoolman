@@ -13,5 +13,5 @@ struct Meal: Codable {
     let calories: Double
     let nutrition: [String : Double]
     let mealType: Int
-    let date: Date
+    let date: String
 }
