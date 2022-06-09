@@ -8,8 +8,8 @@
 import Foundation
 
 struct TimeTable: Codable {
-    let date: Date
-    let items: TimeTableItem
+    let date: String
+    let items: [TimeTableItem]
 }
 
 struct TimeTableItem: Codable {

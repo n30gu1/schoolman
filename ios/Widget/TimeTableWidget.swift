@@ -10,11 +10,11 @@ import SwiftUI
 
 struct TimeTableTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> TimeTableEntry {
-        TimeTableEntry(date: Date())
+        TimeTableEntry(date: Date(), timeTable: nil)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (TimeTableEntry) -> ()) {
-        let entry = TimeTableEntry(date: Date())
+        let entry = TimeTableEntry(date: Date(), timeTable: nil)
         completion(entry)
     }
 
@@ -22,10 +22,26 @@ struct TimeTableTimelineProvider: TimelineProvider {
         var entries: [TimeTableEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        let appGroup = UserDefaults.init(suiteName: "group.com.n30gu1.schoolman")
+        
+        var timeTableData: TimeTable?
+        
+        if(appGroup != nil) {
+            do {
+              let shared = appGroup?.string(forKey: "timeTable")
+              if shared != nil {
+                let decoder = JSONDecoder()
+                timeTableData = try decoder.decode(TimeTable.self, from: shared!.data(using: .utf8)!)
+              }
+            } catch {
+              print(error)
+            }
+        }
+        
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = TimeTableEntry(date: entryDate)
+            let entry = TimeTableEntry(date: entryDate, timeTable: timeTableData)
             entries.append(entry)
         }
 
@@ -36,13 +52,20 @@ struct TimeTableTimelineProvider: TimelineProvider {
 
 struct TimeTableEntry: TimelineEntry {
     let date: Date
+    let timeTable: TimeTable?
 }
 
 struct TimeTableWidgetEntryView : View {
-    var entry: MealTimelineProvider.Entry
+    var entry: TimeTableTimelineProvider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        if let timeTable = entry.timeTable {
+            ForEach(timeTable.items, id: \.subject) { item in
+                Text("\(item.subject)")
+            }
+        } else {
+            Text(entry.date, style: .time)
+        }
     }
 }
 
@@ -50,8 +73,8 @@ struct TimeTableWidget: Widget {
     let kind: String = "TimeTableWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: MealTimelineProvider()) { entry in
-            MealWidgetEntryView(entry: entry)
+        StaticConfiguration(kind: kind, provider: TimeTableTimelineProvider()) { entry in
+            TimeTableWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Time Table Widget")
         .description("Under Construction. Do not leak.")

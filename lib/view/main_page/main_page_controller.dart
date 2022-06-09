@@ -1,5 +1,7 @@
-import 'dart:io';
+import 'package:background_fetch/background_fetch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
@@ -10,6 +12,7 @@ import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
+import 'package:schoolman/model/user.dart';
 
 class MainPageController extends GetxController {
   Rx<TimeTable?> _timeTable = Rx(null);
@@ -30,14 +33,31 @@ class MainPageController extends GetxController {
 
   @override
   void onInit() {
-    fetchItems();
+    FlutterSecureStorage()
+      ..write(
+          key: "regionCode",
+          value: GlobalController.instance.school?.regionCode)
+      ..write(
+          key: "schoolCode", value: GlobalController.instance.user?.schoolCode)
+      ..write(
+          key: "schoolType",
+          value: GlobalController.instance.school?.schoolType.code.toString())
+      ..write(key: "grade", value: GlobalController.instance.user?.grade)
+      ..write(key: "class", value: GlobalController.instance.user?.className);
     super.onInit();
   }
 
   void fetchItems() async {
     _state.value = LoadingState();
     try {
-      _timeTable.value = await APIService.instance.fetchTimeTable();
+      School school = GlobalController.instance.school!;
+      User user = GlobalController.instance.user!;
+      _timeTable.value = await APIService.instance.fetchTimeTable(
+          school.schoolType,
+          school.regionCode,
+          school.schoolCode,
+          user.grade,
+          user.className);
       int now = DateTime.now().hour;
       MealType? _mealType;
       if (GlobalController.instance.school!.schoolType == SchoolType.high) {
@@ -51,20 +71,103 @@ class MainPageController extends GetxController {
           _mealType = MealType.nextDayBreakfast;
         }
       } else {
-        if (now < 8) {
+        if (now < 13) {
           _mealType = MealType.lunch;
-        } else if (now >= 8 && now < 13) {
-          _mealType = MealType.lunch;
-        } else if (now >= 13 && now < 19) {
-          _mealType = MealType.nextDayLunch;
         } else {
           _mealType = MealType.nextDayLunch;
         }
       }
 
       _meal.value = await APIService.instance
-          .fetchMeal(_mealType)
-          .then((value) => value[0]);
+          .fetchMeal(school.regionCode, school.schoolCode, _mealType)
+          .then((value) => value);
+
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        print("platform is iOS");
+        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.setItem(
+            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
+        WidgetKit.reloadAllTimelines();
+        print("done");
+
+        int status = await BackgroundFetch.configure(
+            BackgroundFetchConfig(minimumFetchInterval: 60),
+            (String taskId) async {
+          print("[BackgroundFetch] taskId: $taskId");
+          FlutterSecureStorage storage = FlutterSecureStorage();
+
+          String? regionCode = await storage.read(key: "regionCode");
+          String? schoolCode = await storage.read(key: "schoolCode");
+          String? rawSchoolType = await storage.read(key: "schoolType");
+          String? grade = await storage.read(key: "grade");
+          String? className = await storage.read(key: "class");
+
+          MealType mealType;
+
+          if (regionCode != null &&
+              schoolCode != null &&
+              rawSchoolType != null &&
+              grade != null &&
+              className != null) {
+            SchoolType schoolType;
+            switch (rawSchoolType) {
+              case "0":
+                schoolType = SchoolType.elementary;
+                break;
+              case "1":
+                schoolType = SchoolType.middle;
+                break;
+              case "2":
+                schoolType = SchoolType.high;
+                break;
+              default:
+                schoolType = SchoolType.other;
+                break;
+            }
+
+            if (schoolType == SchoolType.high) {
+              if (now < 8) {
+                mealType = MealType.breakfast;
+              } else if (now >= 8 && now < 13) {
+                mealType = MealType.lunch;
+              } else if (now >= 13 && now < 19) {
+                mealType = MealType.dinner;
+              } else {
+                mealType = MealType.nextDayBreakfast;
+              }
+            } else {
+              if (now < 13) {
+                mealType = MealType.lunch;
+              } else {
+                mealType = MealType.nextDayLunch;
+              }
+            }
+
+            Meal meal = await APIService.instance
+                .fetchMeal(regionCode, schoolCode, mealType);
+            TimeTable timeTable = await APIService.instance.fetchTimeTable(
+                schoolType, regionCode, schoolCode, grade, className);
+            WidgetKit.setItem(
+                "meal", meal.toJson(), "group.com.n30gu1.schoolman");
+            WidgetKit.setItem(
+                "timeTable", timeTable.toJson(), "group.com.n30gu1.schoolman");
+            WidgetKit.reloadAllTimelines();
+            print("Done!");
+          } else {
+            throw "Failed to fetch widget datas";
+          }
+          BackgroundFetch.finish(taskId);
+        }, (String taskId) async {
+          print("[BackgroundFetch] TIMEOUT taskId: $taskId");
+          BackgroundFetch.finish(taskId);
+        });
+
+        BackgroundFetch.start();
+
+        print("BackgroundFetch status $status");
+      } else {
+        print("not supported");
+      }
 
       _schedule.value = (await APIService.instance.fetchEvents(1))[0];
 
@@ -79,12 +182,6 @@ class MainPageController extends GetxController {
       _notice.value =
           Notice.fromMap(await noticesCollection.docs.first.data() as Map);
 
-      if (Platform.isIOS) {
-        WidgetKit.reloadAllTimelines();
-        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
-        WidgetKit.setItem(
-            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
-      }
       _state.value = DoneState();
     } catch (error) {
       _state.value = ErrorState(error.toString());
