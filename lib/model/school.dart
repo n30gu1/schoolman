@@ -24,30 +24,29 @@ class School {
   DateTime foundationMemorialDate;
   DateTime lastModified;
 
-  School({
-    required this.regionCode,
-    required this.orgName,
-    required this.schoolCode,
-    required this.schoolName,
-    required this.engSchoolName,
-    required this.schoolType,
-    required this.regionName,
-    required this.foundationType,
-    required this.postalCode,
-    required this.address,
-    required this.addressDetail,
-    required this.telNumber,
-    required this.homepageAddress,
-    required this.coeduIdentifierType,
-    required this.faxNumber,
-    this.highSchoolTypeIdentifier,
-    required this.isBusinessSpecialClassExist,
-    required this.highSchoolGeneralBusinessIdentifier,
-    this.specialPurposeHighSchoolGroupType,
-    required this.foundationDate,
-    required this.foundationMemorialDate,
-    required this.lastModified
-  });
+  School(
+      {required this.regionCode,
+      required this.orgName,
+      required this.schoolCode,
+      required this.schoolName,
+      required this.engSchoolName,
+      required this.schoolType,
+      required this.regionName,
+      required this.foundationType,
+      required this.postalCode,
+      required this.address,
+      required this.addressDetail,
+      required this.telNumber,
+      required this.homepageAddress,
+      required this.coeduIdentifierType,
+      required this.faxNumber,
+      this.highSchoolTypeIdentifier,
+      required this.isBusinessSpecialClassExist,
+      required this.highSchoolGeneralBusinessIdentifier,
+      this.specialPurposeHighSchoolGroupType,
+      required this.foundationDate,
+      required this.foundationMemorialDate,
+      required this.lastModified});
 
   static School fromMap(Map map) {
     SchoolType schoolTypeConverter(String schoolType) {
@@ -62,7 +61,7 @@ class School {
           return SchoolType.other;
       }
     }
-    
+
     FoundationType foundationTypeConverter(String foundationType) {
       switch (foundationType) {
         case "사립":
@@ -73,7 +72,7 @@ class School {
           return FoundationType.other;
       }
     }
-    
+
     CoeduIDType coeduIDTypeConverter(String coeduIDType) {
       switch (coeduIDType) {
         case "남":
@@ -85,7 +84,8 @@ class School {
       }
     }
 
-    return School(regionCode: map["ATPT_OFCDC_SC_CODE"],
+    return School(
+        regionCode: map["ATPT_OFCDC_SC_CODE"],
         orgName: map["ATPT_OFCDC_SC_NM"],
         schoolCode: map["SD_SCHUL_CODE"],
         schoolName: map["SCHUL_NM"],
@@ -101,20 +101,25 @@ class School {
         coeduIdentifierType: coeduIDTypeConverter(map["COEDU_SC_NM"]),
         faxNumber: map["ORG_FAXNO"],
         highSchoolTypeIdentifier: map["HS_SC_NM"],
-        isBusinessSpecialClassExist: map["INDST_SPECL_CCCCL_EXST_YN"] == "Y" ? true:false,
+        isBusinessSpecialClassExist:
+            map["INDST_SPECL_CCCCL_EXST_YN"] == "Y" ? true : false,
         highSchoolGeneralBusinessIdentifier: map["HS_GNRL_BUSNS_SC_NM"],
         specialPurposeHighSchoolGroupType: map["SPCLY_PURPS_HS_ORD_NM"],
         foundationDate: map["FOND_YMD"].toString().convertFromyyyyMMdd(),
-        foundationMemorialDate: map["FOAS_MEMRD"].toString().convertFromyyyyMMdd(),
+        foundationMemorialDate:
+            map["FOAS_MEMRD"].toString().convertFromyyyyMMdd(),
         lastModified: map["LOAD_DTM"].toString().convertFromyyyyMMdd());
   }
 }
 
 enum SchoolType {
-  elementary,
-  middle,
-  high,
-  other
+  elementary(0),
+  middle(1),
+  high(2),
+  other(3);
+
+  const SchoolType(this.code);
+  final num code;
 }
 
 enum FoundationType {
@@ -126,8 +131,4 @@ enum FoundationType {
   final String name;
 }
 
-enum CoeduIDType {
-  men,
-  women,
-  coeducation
-}
+enum CoeduIDType { men, women, coeducation }

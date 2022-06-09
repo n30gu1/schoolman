@@ -81,29 +81,28 @@ class APIService {
     });
   }
 
-  Future<TimeTable> fetchTimeTable() async {
+  Future<TimeTable> fetchTimeTable(SchoolType schoolType, String regionCode,
+      String schoolCode, String grade, String className) async {
     String today = DateFormat("yyyyMMdd").format(DateTime.now());
-    School school = GlobalController.instance.school!;
-    User user = GlobalController.instance.user!;
     String? uriString;
     String? rootTitle;
 
     TimeTable? result;
 
-    switch (school.schoolType) {
+    switch (schoolType) {
       case SchoolType.high:
         uriString =
-            "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
+            "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${regionCode}&SD_SCHUL_CODE=${schoolCode}&ALL_TI_YMD=$today&GRADE=${grade}&CLASS_NM=${className}";
         rootTitle = "hisTimetable";
         break;
       case SchoolType.middle:
         uriString =
-            "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
+            "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${regionCode}&SD_SCHUL_CODE=${schoolCode}&ALL_TI_YMD=$today&GRADE=${grade}&CLASS_NM=${className}";
         rootTitle = "misTimetable";
         break;
       case SchoolType.elementary:
         uriString =
-            "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$today&GRADE=${user.grade}&CLASS_NM=${user.className}";
+            "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${regionCode}&SD_SCHUL_CODE=${schoolCode}&ALL_TI_YMD=$today&GRADE=${grade}&CLASS_NM=${className}";
         rootTitle = "elsTimetable";
         break;
       case SchoolType.other:
@@ -166,19 +165,19 @@ class APIService {
     return result;
   }
 
-  Future<List<Meal>> fetchMeal(MealType type) async {
-    School school = GlobalController.instance.school!;
+  Future<Meal> fetchMeal(
+      String regionCode, String schoolCode, MealType type) async {
     // SET MMEAL_SC_CODE TO MODIFY MEAL TYPE
     String? uriString;
     if (type == MealType.nextDayBreakfast || type == MealType.nextDayLunch) {
       String day =
           DateFormat("yyyyMMdd").format(DateTime.now().add(Duration(days: 1)));
       uriString =
-          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
+          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${regionCode}&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=$day&MMEAL_SC_CODE=${type.code}";
     } else {
       String today = DateFormat("yyyyMMdd").format(DateTime.now());
       uriString =
-          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
+          "https://open.neis.go.kr/hub/mealServiceDietInfo?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${regionCode}&SD_SCHUL_CODE=${schoolCode}&MLSV_YMD=$today&MMEAL_SC_CODE=${type.code}";
     }
 
     return await http.get(Uri.parse(uriString)).then((response) {
@@ -188,7 +187,7 @@ class APIService {
         for (var item in decoded["mealServiceDietInfo"][1]["row"]) {
           result.add(Meal.fromMap(item));
         }
-        return result;
+        return result.first;
       } else {
         throw "There is no meal info";
       }
