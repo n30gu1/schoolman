@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/current_state.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/validator.dart';
 import 'sign_in_controller.dart';
 

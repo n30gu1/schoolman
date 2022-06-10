@@ -44,6 +44,7 @@ class MainPageController extends GetxController {
           value: GlobalController.instance.school?.schoolType.code.toString())
       ..write(key: "grade", value: GlobalController.instance.user?.grade)
       ..write(key: "class", value: GlobalController.instance.user?.className);
+    fetchItems();
     super.onInit();
   }
 
@@ -184,6 +185,7 @@ class MainPageController extends GetxController {
 
       _state.value = DoneState();
     } catch (error) {
+      print(error);
       _state.value = ErrorState(error.toString());
     }
   }

@@ -7,7 +7,6 @@ import 'dart:developer';
 
 import 'package:schoolman/current_state.dart';
 import 'package:schoolman/view/tabview.dart';
-import 'package:schoolman/view/tabview_controller.dart';
 
 class InputUserInfoController extends GetxController {
   late String schoolCode;
