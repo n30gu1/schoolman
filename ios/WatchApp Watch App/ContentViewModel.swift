@@ -7,34 +7,32 @@
 
 import Foundation
 import Combine
+import WatchConnectivity
 
-class ContentViewModel: ObservableObject {
+class ContentViewModel: NSObject, ObservableObject, WCSessionDelegate {
     @Published var meal: Meal?
     @Published var timeTable: TimeTable?
     
-    init() {
-        fetchItems()
+    private let session: WCSession
+    
+    init(session: WCSession = .default) {
+        self.session = session
+        super.init()
+        self.session.delegate = self
+        self.session.activate()
     }
     
-    func fetchItems() {
-        let appGroup = UserDefaults.init(suiteName: "group.com.n30gu1.schoolman")
-        
-        if(appGroup != nil) {
-            print("App Group isn't nil")
-            do {
-                let mealShared = appGroup?.string(forKey: "meal")
-                if mealShared != nil {
-                    let decoder = JSONDecoder()
-                    meal = try decoder.decode(Meal.self, from: mealShared!.data(using: .utf8)!)
-                }
-                let timeTableShared = appGroup?.string(forKey: "meal")
-                if timeTableShared != nil {
-                    let decoder = JSONDecoder()
-                    timeTable = try decoder.decode(TimeTable.self, from: timeTableShared!.data(using: .utf8)!)
-                }
-            } catch {
-                print(error)
-            }
+    func send(message: [String:Any]) {
+        session.sendMessage(message, replyHandler: nil) { (error) in
+            print(error.localizedDescription)
         }
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("Current Activation State: \(activationState)")
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        print(message)
     }
 }

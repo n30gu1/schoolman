@@ -759,6 +759,8 @@ PODS:
   - PromisesObjC (2.1.0)
   - sign_in_with_apple (0.0.1):
     - Flutter
+  - watch_connectivity (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
@@ -771,6 +773,7 @@ DEPENDENCIES:
   - flutter_widgetkit (from `.symlinks/plugins/flutter_widgetkit/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
+  - watch_connectivity (from `.symlinks/plugins/watch_connectivity/ios`)
 
 SPEC REPOS:
   trunk:
@@ -815,6 +818,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
+  watch_connectivity:
+    :path: ".symlinks/plugins/watch_connectivity/ios"
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -846,6 +851,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+  watch_connectivity: 715eb484685e05846eab74795348a44bb2809b82
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

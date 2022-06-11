@@ -50,6 +50,7 @@ dependencies:
   flutter_widgetkit: ^1.0.3
   background_fetch: ^1.1.0
   flutter_secure_storage: ^5.0.2
+  watch_connectivity: ^0.1.2
 
 dev_dependencies:
   flutter_test:

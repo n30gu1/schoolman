@@ -12,8 +12,8 @@ import SwiftUI
 struct Widgets: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
-        //        MealWidget()
-        TimeTableWidget()
+                MealWidget()
+//        TimeTableWidget()
     }
 }
 

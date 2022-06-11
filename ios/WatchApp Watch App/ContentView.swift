@@ -12,13 +12,13 @@ struct ContentView: View {
     var body: some View {
         List {
             VStack {
-                ForEach(viewModel.meal?.meal ?? ["No meal err"], id: \.self) { meal in
-                    Text(meal)
+                ForEach(viewModel.meal?.meal ?? [], id: \.self) { meal in
+                    Text("\(meal)")
                 }
             }
             VStack {
-                ForEach(viewModel.timeTable?.items ?? [], id: \.subject) { item in
-                    Text(item.subject)
+                ForEach(viewModel.timeTable?.items ?? [], id: \.period) { item in
+                    Text("\(item.subject)")
                 }
             }
         }

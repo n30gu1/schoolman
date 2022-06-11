@@ -13,11 +13,12 @@ import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/model/user.dart';
+import 'package:watch_connectivity/watch_connectivity.dart';
 
 class MainPageController extends GetxController {
   Rx<TimeTable?> _timeTable = Rx(null);
   Rx<Meal?> _meal = Rx(null);
-  Rx<Event?> _schedule = Rx(null);
+  Rx<Event?> _event = Rx(null);
   Rx<Notice?> _notice = Rx(null);
   Rx<CurrentState> _state = CurrentState().obs;
 
@@ -25,14 +26,27 @@ class MainPageController extends GetxController {
 
   Meal? get meal => _meal.value;
 
-  Event? get schedule => _schedule.value;
+  Event? get event => _event.value;
 
   Notice? get notice => _notice.value;
 
   CurrentState? get state => _state.value;
 
   @override
-  void onInit() {
+  void onInit() async {
+    _state.value = LoadingState();
+    writeSchoolDataToUserDefault();
+    await fetchTimeTable();
+    await fetchMeal();
+    await fetchEvent();
+    await fetchNotice();
+    sendToWidgetAndWatch();
+    _state.value = DoneState();
+
+    super.onInit();
+  }
+
+  void writeSchoolDataToUserDefault() {
     FlutterSecureStorage()
       ..write(
           key: "regionCode",
@@ -44,12 +58,9 @@ class MainPageController extends GetxController {
           value: GlobalController.instance.school?.schoolType.code.toString())
       ..write(key: "grade", value: GlobalController.instance.user?.grade)
       ..write(key: "class", value: GlobalController.instance.user?.className);
-    fetchItems();
-    super.onInit();
   }
 
-  void fetchItems() async {
-    _state.value = LoadingState();
+  Future<void> fetchTimeTable() async {
     try {
       School school = GlobalController.instance.school!;
       User user = GlobalController.instance.user!;
@@ -59,6 +70,15 @@ class MainPageController extends GetxController {
           school.schoolCode,
           user.grade,
           user.className);
+    } catch (error) {
+      print(error);
+      _state.value = ErrorState(error.toString());
+    }
+  }
+
+  Future<void> fetchMeal() async {
+    try {
+      School school = GlobalController.instance.school!;
       int now = DateTime.now().hour;
       MealType? _mealType;
       if (GlobalController.instance.school!.schoolType == SchoolType.high) {
@@ -82,14 +102,43 @@ class MainPageController extends GetxController {
       _meal.value = await APIService.instance
           .fetchMeal(school.regionCode, school.schoolCode, _mealType)
           .then((value) => value);
+    } catch (e) {
+      print(e);
+    }
+  }
 
+  Future<void> fetchEvent() async {
+    try {
+      _event.value = (await APIService.instance.fetchEvents(1))[0];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> fetchNotice() async {
+    try {
+      School currentSchool = GlobalController.instance.school!;
+      QuerySnapshot noticesCollection = await FirebaseFirestore.instance
+          .collection("${currentSchool.regionCode}")
+          .doc("${currentSchool.schoolCode}")
+          .collection("notices")
+          .orderBy("timeCreated", descending: true)
+          .get();
+
+      _notice.value =
+          Notice.fromMap(await noticesCollection.docs.first.data() as Map);
+
+      _state.value = DoneState();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> scheduleBackgroundEvent() async {
+    try {
+      int now = DateTime.now().hour;
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         print("platform is iOS");
-        WidgetKit.setItem("meal", meal?.toJson(), "group.com.n30gu1.schoolman");
-        WidgetKit.setItem(
-            "timeTable", timeTable?.toJson(), "group.com.n30gu1.schoolman");
-        WidgetKit.reloadAllTimelines();
-        print("done");
 
         int status = await BackgroundFetch.configure(
             BackgroundFetchConfig(minimumFetchInterval: 60),
@@ -169,24 +218,35 @@ class MainPageController extends GetxController {
       } else {
         print("not supported");
       }
+    } catch (e) {
+      print("Error at scheduleBackgroundEvent: $e");
+    }
+  }
 
-      _schedule.value = (await APIService.instance.fetchEvents(1))[0];
+  void sendToWidgetAndWatch() async {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        WidgetKit.setItem(
+            "meal", meal?.toJson() ?? "", "group.com.n30gu1.schoolman");
+        WidgetKit.setItem("timeTable", timeTable?.toJson() ?? "",
+            "group.com.n30gu1.schoolman");
+        WidgetKit.reloadAllTimelines();
+        print("done");
 
-      School currentSchool = GlobalController.instance.school!;
-      QuerySnapshot noticesCollection = await FirebaseFirestore.instance
-          .collection("${currentSchool.regionCode}")
-          .doc("${currentSchool.schoolCode}")
-          .collection("notices")
-          .orderBy("timeCreated", descending: true)
-          .get();
+        final watch = WatchConnectivity();
 
-      _notice.value =
-          Notice.fromMap(await noticesCollection.docs.first.data() as Map);
-
-      _state.value = DoneState();
-    } catch (error) {
-      print(error);
-      _state.value = ErrorState(error.toString());
+        if (await watch.isSupported) {
+          if (await watch.isPaired && await watch.isReachable) {
+            watch.sendMessage({
+              "meal": meal?.toJson() ?? "",
+              "timeTable": timeTable?.toJson() ?? ""
+            });
+            print("sent messages to watch!");
+          }
+        }
+      }
+    } catch (e) {
+      print("Error at sendToWidgetAndWatch: $e");
     }
   }
 }

@@ -125,20 +125,19 @@ class MainPage extends StatelessWidget {
                             title: "Upcoming Schedule",
                             child: () {
                               DateFormat format = DateFormat("M. d.");
-                              if (controller.schedule != null) {
+                              if (controller.event != null) {
                                 return Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
                                       Text(
-                                        format
-                                            .format(controller.schedule!.date),
+                                        format.format(controller.event!.date),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
                                       Spacer(),
-                                      Text(controller.schedule!.title,
+                                      Text(controller.event!.title,
                                           style: TextStyle(fontSize: 20)),
                                     ],
                                   ),
