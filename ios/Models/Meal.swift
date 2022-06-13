@@ -12,6 +12,13 @@ struct Meal: Codable {
     let origin: [String]
     let calories: Double
     let nutrition: [String : Double]
-    let mealType: Int
-    let date: String
+    let mealType: MealType
+}
+
+enum MealType: Int, Codable {
+    case breakfast = 1
+    case lunch = 2
+    case dinner = 3
+    case nextDayBreakfast = 4
+    case nextDatLunch = 5
 }

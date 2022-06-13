@@ -11,14 +11,8 @@ import SwiftUI
 struct WatchApp_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            if #available(watchOS 9.0, *) {
-                NavigationStack {
-                    ContentView()
-                }
-            } else {
-                NavigationView {
-                    ContentView()
-                }
+            NavigationView {
+                ContentView()
             }
         }
     }

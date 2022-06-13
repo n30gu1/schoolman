@@ -10,11 +10,11 @@ import SwiftUI
 
 struct MealTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> MealEntry {
-        MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: 1, date: ""), date: Date())
+        MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: MealType.breakfast), date: Date())
     }
     
     func getSnapshot(in context: Context, completion: @escaping (MealEntry) -> ()) {
-        let entry = MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: 1, date: ""), date: Date())
+        let entry = MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: MealType.breakfast), date: Date())
         completion(entry)
     }
     

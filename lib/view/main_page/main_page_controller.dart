@@ -1,7 +1,4 @@
-import 'package:background_fetch/background_fetch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
@@ -36,28 +33,53 @@ class MainPageController extends GetxController {
   void onInit() async {
     _state.value = LoadingState();
     writeSchoolDataToUserDefault();
+    sendSchoolDataViaWC();
     await fetchTimeTable();
     await fetchMeal();
     await fetchEvent();
     await fetchNotice();
-    sendToWidgetAndWatch();
     _state.value = DoneState();
 
     super.onInit();
   }
 
   void writeSchoolDataToUserDefault() {
-    FlutterSecureStorage()
-      ..write(
-          key: "regionCode",
-          value: GlobalController.instance.school?.regionCode)
-      ..write(
-          key: "schoolCode", value: GlobalController.instance.user?.schoolCode)
-      ..write(
-          key: "schoolType",
-          value: GlobalController.instance.school?.schoolType.code.toString())
-      ..write(key: "grade", value: GlobalController.instance.user?.grade)
-      ..write(key: "class", value: GlobalController.instance.user?.className);
+    try {
+      WidgetKit.setItem(
+          "regionCode",
+          GlobalController.instance.school?.regionCode,
+          "group.com.n30gu1.schoolman");
+      WidgetKit.setItem(
+          "schoolCode",
+          GlobalController.instance.user?.schoolCode,
+          "group.com.n30gu1.schoolman");
+      WidgetKit.setItem(
+          "schoolType",
+          GlobalController.instance.school?.schoolType.code.toString(),
+          "group.com.n30gu1.schoolman");
+      WidgetKit.setItem("grade", GlobalController.instance.user?.grade,
+          "group.com.n30gu1.schoolman");
+      WidgetKit.setItem("class", GlobalController.instance.user?.className,
+          "group.com.n30gu1.schoolman");
+    } catch (e) {
+      print("Error occured while writing data to UserDefault $e");
+    }
+  }
+
+  void sendSchoolDataViaWC() {
+    try {
+      WatchConnectivity wc = WatchConnectivity();
+      wc.sendMessage({
+        "regionCode": GlobalController.instance.school?.regionCode,
+        "schoolCode": GlobalController.instance.user?.schoolCode,
+        "schoolType":
+            GlobalController.instance.school?.schoolType.code.toString(),
+        "grade": GlobalController.instance.user?.grade,
+        "class": GlobalController.instance.user?.className
+      });
+    } catch (e) {
+      print("Error occured while sending via WatchConnectivity $e");
+    }
   }
 
   Future<void> fetchTimeTable() async {
@@ -131,122 +153,6 @@ class MainPageController extends GetxController {
       _state.value = DoneState();
     } catch (e) {
       print(e);
-    }
-  }
-
-  Future<void> scheduleBackgroundEvent() async {
-    try {
-      int now = DateTime.now().hour;
-      if (defaultTargetPlatform == TargetPlatform.iOS) {
-        print("platform is iOS");
-
-        int status = await BackgroundFetch.configure(
-            BackgroundFetchConfig(minimumFetchInterval: 60),
-            (String taskId) async {
-          print("[BackgroundFetch] taskId: $taskId");
-          FlutterSecureStorage storage = FlutterSecureStorage();
-
-          String? regionCode = await storage.read(key: "regionCode");
-          String? schoolCode = await storage.read(key: "schoolCode");
-          String? rawSchoolType = await storage.read(key: "schoolType");
-          String? grade = await storage.read(key: "grade");
-          String? className = await storage.read(key: "class");
-
-          MealType mealType;
-
-          if (regionCode != null &&
-              schoolCode != null &&
-              rawSchoolType != null &&
-              grade != null &&
-              className != null) {
-            SchoolType schoolType;
-            switch (rawSchoolType) {
-              case "0":
-                schoolType = SchoolType.elementary;
-                break;
-              case "1":
-                schoolType = SchoolType.middle;
-                break;
-              case "2":
-                schoolType = SchoolType.high;
-                break;
-              default:
-                schoolType = SchoolType.other;
-                break;
-            }
-
-            if (schoolType == SchoolType.high) {
-              if (now < 8) {
-                mealType = MealType.breakfast;
-              } else if (now >= 8 && now < 13) {
-                mealType = MealType.lunch;
-              } else if (now >= 13 && now < 19) {
-                mealType = MealType.dinner;
-              } else {
-                mealType = MealType.nextDayBreakfast;
-              }
-            } else {
-              if (now < 13) {
-                mealType = MealType.lunch;
-              } else {
-                mealType = MealType.nextDayLunch;
-              }
-            }
-
-            Meal meal = await APIService.instance
-                .fetchMeal(regionCode, schoolCode, mealType);
-            TimeTable timeTable = await APIService.instance.fetchTimeTable(
-                schoolType, regionCode, schoolCode, grade, className);
-            WidgetKit.setItem(
-                "meal", meal.toJson(), "group.com.n30gu1.schoolman");
-            WidgetKit.setItem(
-                "timeTable", timeTable.toJson(), "group.com.n30gu1.schoolman");
-            WidgetKit.reloadAllTimelines();
-            print("Done!");
-          } else {
-            throw "Failed to fetch widget datas";
-          }
-          BackgroundFetch.finish(taskId);
-        }, (String taskId) async {
-          print("[BackgroundFetch] TIMEOUT taskId: $taskId");
-          BackgroundFetch.finish(taskId);
-        });
-
-        BackgroundFetch.start();
-
-        print("BackgroundFetch status $status");
-      } else {
-        print("not supported");
-      }
-    } catch (e) {
-      print("Error at scheduleBackgroundEvent: $e");
-    }
-  }
-
-  void sendToWidgetAndWatch() async {
-    try {
-      if (defaultTargetPlatform == TargetPlatform.iOS) {
-        WidgetKit.setItem(
-            "meal", meal?.toJson() ?? "", "group.com.n30gu1.schoolman");
-        WidgetKit.setItem("timeTable", timeTable?.toJson() ?? "",
-            "group.com.n30gu1.schoolman");
-        WidgetKit.reloadAllTimelines();
-        print("done");
-
-        final watch = WatchConnectivity();
-
-        if (await watch.isSupported) {
-          if (await watch.isPaired && await watch.isReachable) {
-            watch.sendMessage({
-              "meal": meal?.toJson() ?? "",
-              "timeTable": timeTable?.toJson() ?? ""
-            });
-            print("sent messages to watch!");
-          }
-        }
-      }
-    } catch (e) {
-      print("Error at sendToWidgetAndWatch: $e");
     }
   }
 }

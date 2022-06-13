@@ -22,7 +22,7 @@ struct Widget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             MealWidgetEntryView(entry:
-                                    MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: 1, date: ""), date: Date())
+                                    MealEntry(meal: Meal(meal: [], origin: [], calories: 0.0, nutrition: [:], mealType: MealType.breakfast), date: Date())
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             TimeTableWidgetEntryView(entry: TimeTableEntry(date: Date(), timeTable: nil))
