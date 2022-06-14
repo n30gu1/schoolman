@@ -30,7 +30,7 @@ class APIService {
         }
     }
     
-    func fetchMeal(date: Date, mealType: MealType) async throws -> Void {
+    func fetchMeal(date: Date, mealType: MealType) async throws -> Meal {
         guard let regionCode = self.regionCode else { throw NSError() }
         guard let schoolCode = self.schoolCode else { throw NSError() }
         let dateFormatter = {
@@ -52,13 +52,48 @@ class APIService {
             let (data, _): (Data, URLResponse) = try await URLSession.shared.data(from: URL(string: uriString!)!)
             
             let result = try! JSONSerialization.jsonObject(with: data) as? [String : [[String : [[String : Any]]]]]
-            print(result?["mealServiceDietInfo"]?[1]["row"]?[0])
+            
+            guard let result = result?["mealServiceDietInfo"]?[1]["row"]?[0] else { throw NSError() }
+            return Meal.fromDictionary(result)
         } catch {
             throw error
         }
     }
     
-    func fetchTimeTable(date: Date) async throws -> Void {
+    func fetchTimeTable(date: Date) async throws -> TimeTable {
+        guard let regionCode = self.regionCode else { throw NSError() }
+        guard let schoolCode = self.schoolCode else { throw NSError() }
+        guard let grade = self.grade else { throw NSError() }
+        guard let className = self.className else { throw NSError() }
         
+        let dateFormatter = {
+            let f = DateFormatter()
+            f.dateFormat = "yyyyMMdd"
+            return f
+        }()
+        var rootTitle: String?
+        switch schoolType {
+        case "0":
+            rootTitle = "elsTimetable"
+        case "1":
+            rootTitle = "misTimetable"
+        case "2":
+            rootTitle = "hisTimetable"
+        default:
+            throw NSError()
+        }
+        
+        let uriString = "https://open.neis.go.kr/hub/\(rootTitle!)?KEY=\(KEY)&Type=json&ATPT_OFCDC_SC_CODE=\(regionCode)&SD_SCHUL_CODE=\(schoolCode)&ALL_TI_YMD=\(dateFormatter.string(from: Date()))&GRADE=\(grade)&CLASS_NM=\(className)"
+        
+        do {
+            let (data, _): (Data, URLResponse) = try await URLSession.shared.data(from: URL(string: uriString)!)
+            
+            let result = try! JSONSerialization.jsonObject(with: data) as? [String : [[String : [[String : Any]]]]]
+            guard let result = result?[rootTitle!]?[1]["row"] else { throw NSError() }
+            
+            return TimeTable.fromList(result)
+        } catch {
+            throw error
+        }
     }
 }

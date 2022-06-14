@@ -41,7 +41,8 @@ class ContentViewModel: NSObject, ObservableObject, WCSessionDelegate {
         api.className = className
         
         Task(priority: .high) {
-            try! await api.fetchMeal(date: Date(), mealType: .lunch)
+            self.meal = try! await api.fetchMeal(date: Date(), mealType: .lunch)
+            self.timeTable = try! await api.fetchTimeTable(date: Date())
         }
     }
     
