@@ -8,7 +8,7 @@
 import Foundation
 
 class APIService {
-    static let instance = APIService(useAppGroup: false)
+    static let instance = APIService()
     private let KEY = "0c78f44ac03648f49ce553a199fc0389"
     
     var schoolCode: String?
@@ -17,16 +17,14 @@ class APIService {
     var grade: String?
     var className: String?
     
-    init(useAppGroup: Bool) {
-        if useAppGroup {
-            let appGroup = UserDefaults.init(suiteName: "group.com.n30gu1.schoolman")
-            if let group = appGroup {
-                schoolCode = group.string(forKey: "schoolCode")
-                regionCode = group.string(forKey: "regionCode")
-                schoolType = group.string(forKey: "schoolType")
-                grade = group.string(forKey: "grade")
-                className = group.string(forKey: "class")
-            }
+    func setAppGroup() {
+        let appGroup = UserDefaults.init(suiteName: "group.com.n30gu1.schoolman")
+        if let group = appGroup {
+            schoolCode = group.string(forKey: "schoolCode")
+            regionCode = group.string(forKey: "regionCode")
+            schoolType = group.string(forKey: "schoolType")
+            grade = group.string(forKey: "grade")
+            className = group.string(forKey: "class")
         }
     }
     

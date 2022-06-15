@@ -8,6 +8,26 @@
 import WidgetKit
 import SwiftUI
 
+class TimeTableGetter: ObservableObject {
+    var timeTable: TimeTable?
+    var isLoaded = false
+    var date = Date()
+    
+    init(_ date: Date) {
+        self.date = date
+        
+        Task {
+            do {
+                isLoaded = false
+                timeTable = try await APIService.instance.fetchTimeTable(date: self.date)
+                isLoaded = true
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
 struct TimeTableTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> TimeTableEntry {
         TimeTableEntry(date: Date(), timeTable: nil)
@@ -20,28 +40,16 @@ struct TimeTableTimelineProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<TimeTableEntry>) -> ()) {
         var entries: [TimeTableEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let appGroup = UserDefaults.init(suiteName: "group.com.n30gu1.schoolman")
-        
-        var timeTableData: TimeTable?
-        
-        if(appGroup != nil) {
-            do {
-              let shared = appGroup?.string(forKey: "timeTable")
-              if shared != nil {
-                let decoder = JSONDecoder()
-                timeTableData = try decoder.decode(TimeTable.self, from: shared!.data(using: .utf8)!)
-              }
-            } catch {
-              print(error)
-            }
-        }
         
         let currentDate = Date()
+        APIService.instance.setAppGroup()
+        
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = TimeTableEntry(date: entryDate, timeTable: timeTableData)
+            
+            let getter = TimeTableGetter(entryDate)
+            while getter.isLoaded == false {}
+            let entry = TimeTableEntry(date: entryDate, timeTable: getter.timeTable!)
             entries.append(entry)
         }
 
