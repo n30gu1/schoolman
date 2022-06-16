@@ -18,7 +18,7 @@ final class WatchAppTests: XCTestCase {
     }
 
     func testExample() async throws {
-        try! await APIService.instance.fetchMeal(date: Date(), mealType: MealType.breakfast)
+        
     }
 
     func testPerformanceExample() throws {

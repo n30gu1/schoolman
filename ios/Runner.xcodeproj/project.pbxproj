@@ -18,9 +18,6 @@
 		B233E33328543401005EF9C0 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E33128543391005EF9C0 /* APIService.swift */; };
 		B233E33428543402005EF9C0 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E33128543391005EF9C0 /* APIService.swift */; };
 		B233E33C28543A2D005EF9C0 /* WatchAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E33B28543A2D005EF9C0 /* WatchAppTests.swift */; };
-		B233E34328543A40005EF9C0 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E33128543391005EF9C0 /* APIService.swift */; };
-		B233E34428543B85005EF9C0 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC6282F5042001A6D73 /* Meal.swift */; };
-		B233E34528543B88005EF9C0 /* TimeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC8282F50A8001A6D73 /* TimeTable.swift */; };
 		B2370EB0282F4D91001A6D73 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2370E96282F49E9001A6D73 /* WidgetKit.framework */; };
 		B2370EB1282F4D91001A6D73 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2370E98282F49E9001A6D73 /* SwiftUI.framework */; };
 		B2370EB4282F4D91001A6D73 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EB3282F4D91001A6D73 /* Widget.swift */; };
@@ -554,9 +551,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B233E34328543A40005EF9C0 /* APIService.swift in Sources */,
-				B233E34528543B88005EF9C0 /* TimeTable.swift in Sources */,
-				B233E34428543B85005EF9C0 /* Meal.swift in Sources */,
 				B233E33C28543A2D005EF9C0 /* WatchAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
