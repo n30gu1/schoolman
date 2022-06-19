@@ -15,6 +15,8 @@ import IntentsUI
 // "Send a message using <myApp>"
 
 class IntentViewController: UIViewController, INUIHostedViewControlling {
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var mealLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
