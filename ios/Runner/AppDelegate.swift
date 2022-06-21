@@ -9,10 +9,26 @@ import Intents
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
-        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    }
-    
-    func donateIntent() {
         
+        INPreferences.requestSiriAuthorization { (status) in
+            switch status {
+            case .authorized:
+                let mealIntent = FetchMealIntent()
+                mealIntent.suggestedInvocationPhrase = "Tell me today's lunch"
+                let interaction = INInteraction(intent: mealIntent, response: nil)
+                interaction.donate { (error) in
+                    if error != nil {
+                        if let error = error as NSError? {
+                            print("Interaction donation failed: \(error.description)")
+                        } else {
+                            print("Successfully donated interaction")
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        }
+        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 }

@@ -27,6 +27,11 @@
 		B2370EC4282F4F1B001A6D73 /* TimeTableWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC1282F4E74001A6D73 /* TimeTableWidget.swift */; };
 		B2370ECA282F5160001A6D73 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC6282F5042001A6D73 /* Meal.swift */; };
 		B2370ECB282F5163001A6D73 /* TimeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC8282F50A8001A6D73 /* TimeTable.swift */; };
+		B2542C322861D33B00AEFD0A /* SchoolManSiriIntentDefinition.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B2C0FA39285D5569000A4B6A /* SchoolManSiriIntentDefinition.intentdefinition */; };
+		B2542C332861D33D00AEFD0A /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C0FA19285D4F29000A4B6A /* IntentHandler.swift */; };
+		B2542C342861D35500AEFD0A /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC6282F5042001A6D73 /* Meal.swift */; };
+		B2542C352861D35900AEFD0A /* TimeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2370EC8282F50A8001A6D73 /* TimeTable.swift */; };
+		B2542C362861D36800AEFD0A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B233E33128543391005EF9C0 /* APIService.swift */; };
 		B27E643D285410A000900B6F /* WatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E643C285410A000900B6F /* WatchAppApp.swift */; };
 		B27E6441285410A100900B6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B27E6440285410A100900B6F /* Assets.xcassets */; };
 		B27E6444285410A100900B6F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B27E6443285410A100900B6F /* Preview Assets.xcassets */; };
@@ -682,8 +687,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2542C342861D35500AEFD0A /* Meal.swift in Sources */,
+				B2542C362861D36800AEFD0A /* APIService.swift in Sources */,
+				B2542C352861D35900AEFD0A /* TimeTable.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				B2542C332861D33D00AEFD0A /* IntentHandler.swift in Sources */,
+				B2542C322861D33B00AEFD0A /* SchoolManSiriIntentDefinition.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

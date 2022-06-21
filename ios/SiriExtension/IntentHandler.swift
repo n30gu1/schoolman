@@ -25,14 +25,15 @@ class IntentHandler: INExtension, FetchMealIntentHandling, FetchTimeTableIntentH
                 mealType = .lunch
             case .dinner:
                 mealType = .dinner
-            case .nextDayBreakfast:
-                mealType = .nextDayBreakfast
-            case .nextDayLunch:
-                mealType = .nextDatLunch
+            case .next:
+                mealType = autoMealType()
             }
             do {
                 let meal = try await APIService.instance.fetchMeal(date: date, mealType: mealType!)
-                return FetchMealIntentResponse.success(result: meal.meal)
+                let result = meal.meal.map {
+                    return $0.replacingOccurrences(of: "\\s|[(0-9.)]", with: "", options: [.regularExpression])
+                }
+                return FetchMealIntentResponse.success(result: result)
             } catch {
                 fatalError(error.localizedDescription)
             }

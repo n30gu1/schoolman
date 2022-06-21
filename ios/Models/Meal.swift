@@ -68,3 +68,23 @@ enum MealType: Int, Codable {
     case nextDayBreakfast = 4
     case nextDatLunch = 5
 }
+
+func autoMealType() -> MealType {
+    return {
+        let zero = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
+        let breakfast = Calendar.current.date(bySettingHour: 7, minute: 00, second: 00, of: Date())!
+        let lunch = Calendar.current.date(bySettingHour: 13, minute: 00, second: 00, of: Date())!
+        let dinner = Calendar.current.date(bySettingHour: 19, minute: 00, second: 00, of: Date())!
+        
+        switch Date() {
+        case zero...breakfast:
+            return MealType.breakfast
+        case breakfast...lunch:
+            return MealType.lunch
+        case lunch...dinner:
+            return MealType.dinner
+        default:
+            return MealType.nextDayBreakfast
+        }
+    }()
+}

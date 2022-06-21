@@ -84,13 +84,13 @@
 				</dict>
 				<dict>
 					<key>INEnumValueDisplayName</key>
-					<string>Next Breakfast</string>
+					<string>Next</string>
 					<key>INEnumValueDisplayNameID</key>
 					<string>vAKi6h</string>
 					<key>INEnumValueIndex</key>
 					<integer>4</integer>
 					<key>INEnumValueName</key>
-					<string>nextDayBreakfast</string>
+					<string>next</string>
 					<key>INEnumValueSynonyms</key>
 					<array>
 						<dict>
@@ -110,37 +110,6 @@
 							<string>Breakfast of tomorrow</string>
 							<key>INEnumValueSynonymSynonymID</key>
 							<string>pGACum</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>INEnumValueDisplayName</key>
-					<string>Next Lunch</string>
-					<key>INEnumValueDisplayNameID</key>
-					<string>PC6oTE</string>
-					<key>INEnumValueIndex</key>
-					<integer>5</integer>
-					<key>INEnumValueName</key>
-					<string>nextDayLunch</string>
-					<key>INEnumValueSynonyms</key>
-					<array>
-						<dict>
-							<key>INEnumValueSynonymSynonym</key>
-							<string>Next lunch</string>
-							<key>INEnumValueSynonymSynonymID</key>
-							<string>TujMQE</string>
-						</dict>
-						<dict>
-							<key>INEnumValueSynonymSynonym</key>
-							<string>Tomorrow lunch</string>
-							<key>INEnumValueSynonymSynonymID</key>
-							<string>u83NqZ</string>
-						</dict>
-						<dict>
-							<key>INEnumValueSynonymSynonym</key>
-							<string>Lunch of tomorrow</string>
-							<key>INEnumValueSynonymSynonymID</key>
-							<string>uIFgGj</string>
 						</dict>
 					</array>
 				</dict>
@@ -368,7 +337,7 @@
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Fetch Meal</string>
+			<string>View Meal</string>
 			<key>INIntentTitleID</key>
 			<string>eiWwpX</string>
 			<key>INIntentType</key>
@@ -532,7 +501,7 @@
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Fetch Time Table</string>
+			<string>View Time Table</string>
 			<key>INIntentTitleID</key>
 			<string>bLgh9p</string>
 			<key>INIntentType</key>
