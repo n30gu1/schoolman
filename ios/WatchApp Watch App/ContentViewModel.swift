@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import WatchConnectivity
 
-class ContentViewModel: NSObject, ObservableObject, WCSessionDelegate {
+class ContentViewModel: NSObject, ObservableObject {
     @Published var meal: Meal?
     @Published var timeTable: TimeTable?
     @Published var loadingState: LoadingState = .loading
@@ -40,14 +40,15 @@ class ContentViewModel: NSObject, ObservableObject, WCSessionDelegate {
         api.grade = grade
         api.className = className
         
-        // TODO: Implement Fetching By Time
         Task(priority: .high) {
             let mealType = autoMealType()
             self.meal = try! await api.fetchMeal(date: Date(), mealType: mealType)
             self.timeTable = try! await api.fetchTimeTable(date: Date())
         }
     }
-    
+}
+
+extension ContentViewModel: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print(message)
         api.schoolCode = (message["schoolCode"] as! String)
@@ -68,6 +69,15 @@ class ContentViewModel: NSObject, ObservableObject, WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("Current Activation State: \(activationState)")
     }
+    
+    #if os(iOS)
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("error in sessionDidBecomeInactive")
+    }
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("error in SesssionDidDeactivate")
+    }
+    #endif
 }
 
 enum LoadingState {
