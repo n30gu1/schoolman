@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
@@ -32,8 +33,10 @@ class MainPageController extends GetxController {
   @override
   void onInit() async {
     _state.value = LoadingState();
-    writeSchoolDataToUserDefault();
-    sendSchoolDataViaWC();
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      writeSchoolDataToUserDefault();
+      sendSchoolDataViaWC();
+    }
     await fetchTimeTable();
     await fetchMeal();
     await fetchEvent();

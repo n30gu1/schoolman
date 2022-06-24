@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "891812150665-glv51nm730hb780j8g5edattlbcromks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.n30gu1.schoolman",
+            "certificate_hash": "499d05b16c4ab2d5db17a8e296d5728261f1a2e7"
+          }
+        },
+        {
           "client_id": "891812150665-ta2q78eakn2qc6ujg8h15bbaqccu5kj0.apps.googleusercontent.com",
           "client_type": 3
         }
