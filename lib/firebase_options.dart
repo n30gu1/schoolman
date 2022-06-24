@@ -57,22 +57,22 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBFxN8gxjD87W0LkW1rbGDdZo4XRXzCYkA',
-    appId: '1:891812150665:ios:d8abb9e7dc9e76abb7f558',
+    appId: '1:891812150665:ios:e528ad0f71015f93b7f558',
     messagingSenderId: '891812150665',
     projectId: 'schoolman-proj',
     storageBucket: 'schoolman-proj.appspot.com',
-    iosClientId: '891812150665-5vu12b7efc7qbfbk9cvvuanq5978g2fr.apps.googleusercontent.com',
-    iosBundleId: 'com.n30gu1.schoolman',
+    iosClientId: '891812150665-3o4tlf7565fh0klfhjbq9suqqe59rt7c.apps.googleusercontent.com',
+    iosBundleId: 'com.n30gu1.SchoolMan',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBFxN8gxjD87W0LkW1rbGDdZo4XRXzCYkA',
-    appId: '1:891812150665:ios:d8abb9e7dc9e76abb7f558',
+    appId: '1:891812150665:ios:e528ad0f71015f93b7f558',
     messagingSenderId: '891812150665',
     projectId: 'schoolman-proj',
     storageBucket: 'schoolman-proj.appspot.com',
-    iosClientId: '891812150665-5vu12b7efc7qbfbk9cvvuanq5978g2fr.apps.googleusercontent.com',
-    iosBundleId: 'com.n30gu1.schoolman',
+    iosClientId: '891812150665-3o4tlf7565fh0klfhjbq9suqqe59rt7c.apps.googleusercontent.com',
+    iosBundleId: 'com.n30gu1.SchoolMan',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

@@ -1,17 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.n30gu1.schoolman">
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.INSERT" />
-            <data android:mimeType="vnd.android.cursor.item/event" />
-        </intent>
-    </queries>
-    <application
-        tools:replace="android:label"
+   <application
         android:label="schoolman"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
