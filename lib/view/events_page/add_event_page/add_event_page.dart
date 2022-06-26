@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/events_page/add_event_page/add_event_controller.dart';
 
@@ -16,17 +15,13 @@ class AddEventPage extends StatelessWidget {
         foregroundColor: Colors.black,
         shadowColor: Colors.transparent,
         actions: [
-          Obx(() {
-            if (c.state is LoadingState) {
-              return LoadingIndicator();
-            } else {
-              return IconButton(
+          c.obx(
+              (state) => IconButton(
                   onPressed: () {
                     c.upload();
                   },
-                  icon: Icon(Icons.add));
-            }
-          })
+                  icon: Icon(Icons.add)),
+              onLoading: LoadingIndicator())
         ],
       ),
       body: Column(children: [

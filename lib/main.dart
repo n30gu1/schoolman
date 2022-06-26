@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 
 // TODO: MAKE TABVIEW CAN DO LAZY LOADING
@@ -44,16 +43,17 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Colors.black,
           focusColor: Colors.black),
       home: () {
-        return Obx(() => Scaffold(body: () {
-              final userState = GlobalController.instance.userState;
-              if (userState is LoadingState) {
-                return const Center(child: LoadingIndicator());
-              } else if (userState is DoneState) {
-                return userState.result?[0];
-              } else {
-                return const Center(child: Text("something went wrong!"));
-              }
-            }()));
+        // return Obx(() => Scaffold(body: () {
+        //       final userState = GlobalController.instance.userState;
+        //       if (userState is LoadingState) {
+        //         return const Center(child: LoadingIndicator());
+        //       } else if (userState is DoneState) {
+        //         return userState.result?[0];
+        //       } else {
+        //         return const Center(child: Text("something went wrong!"));
+        //       }
+        //     }()));
+        return Scaffold();
       }(),
     );
   }

@@ -2,20 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/view/events_page/events_controller.dart';
 
-class AddEventController extends GetxController {
-  Rx<CurrentState> _state = CurrentState().obs;
+class AddEventController extends GetxController with StateMixin {
   TextEditingController titleController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController commentController = TextEditingController();
   Rx<DateTimeRange?> _range = Rx(null);
   RxList _attachments = [].obs;
 
-  CurrentState get state => _state.value;
   List get attachments => _attachments;
   DateTimeRange? get range => _range.value;
 
@@ -27,7 +24,7 @@ class AddEventController extends GetxController {
 
   void upload() {
     School school = GlobalController.instance.school!;
-    _state.value = LoadingState();
+    change(null, status: RxStatus.loading());
     try {
       FirebaseFirestore.instance
           .collection(school.regionCode)
@@ -40,14 +37,14 @@ class AddEventController extends GetxController {
                   fromFirebase: true)
               .toMap())
           .then((_) {
-        _state.value = DoneState();
+        change(null, status: RxStatus.loading());
         Get.back();
 
         EventsController eventsController = Get.find();
         eventsController.fetch();
       });
     } catch (e) {
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 

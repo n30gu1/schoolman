@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/user.dart';
 import 'dart:developer';
@@ -9,7 +9,7 @@ import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/view/sign_in/sign_in_page.dart';
 import 'package:schoolman/view/tabview.dart';
 
-class GlobalController extends GetxController {
+class GlobalController extends GetxController with StateMixin {
   static GlobalController instance = Get.find();
   final storage = FirebaseFirestore.instance.collection("users");
   final _auth = Firebase.FirebaseAuth.instance;
