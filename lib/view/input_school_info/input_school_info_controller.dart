@@ -1,16 +1,9 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
-import 'package:schoolman/current_state.dart';
 
-class InputSchoolInfoController extends GetxController {
-  Rx<CurrentState> _state = CurrentState().obs;
+class InputSchoolInfoController extends GetxController with StateMixin {
   Timer? _timer;
-
-  get state => _state.value;
-
-  RxList schoolList = [].obs;
 
   @override
   void onInit() {
@@ -19,12 +12,17 @@ class InputSchoolInfoController extends GetxController {
 
   void search(String query) {
     _timer?.cancel();
+    change(null, status: RxStatus.loading());
     if (query.isEmpty) {
-      schoolList.clear();
+      change([], status: RxStatus.success());
     } else {
-      schoolList.clear();
       _timer = Timer(Duration(milliseconds: 500), () async {
-        schoolList.addAll(await APIService.instance.fetchSchoolList(query));
+        try {
+          List result = await APIService.instance.fetchSchoolList(query);
+          change(result, status: RxStatus.success());
+        } catch (e) {
+          change(null, status: RxStatus.error(e.toString()));
+        }
       });
     }
   }

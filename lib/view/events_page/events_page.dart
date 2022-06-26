@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
@@ -16,8 +15,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Obx(
-      () => Column(
+      body: Column(
         children: [
           CustomAppBar(
               subView: Column(
@@ -50,39 +48,35 @@ class EventsPage extends StatelessWidget {
                   );
                 }
               }()),
-          () {
-            if (c.state is DoneState) {
-              List result = (c.state as DoneState).result!;
-              return Expanded(
-                  child: ListView.builder(
-                itemCount: result.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(DateFormat.yMd().format(result[index].date)),
-                        Spacer(),
-                        Text(result[index].title),
-                        if (result[index].fromFirebase == true) ...[
-                          IconButton(
-                            onPressed: () => c.deleteEvent(result[index]),
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
-                          )
-                        ]
-                      ],
-                    ),
-                  );
-                },
-              ));
-            } else {
-              return LoadingIndicator();
-            }
-          }()
+          c.obx((state) {
+            List result = state;
+            return Expanded(
+                child: ListView.builder(
+              itemCount: result.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(DateFormat.yMd().format(result[index].date)),
+                      Spacer(),
+                      Text(result[index].title),
+                      if (result[index].fromFirebase == true) ...[
+                        IconButton(
+                          onPressed: () => c.deleteEvent(result[index]),
+                          icon: Icon(Icons.delete),
+                          color: Colors.red,
+                        )
+                      ]
+                    ],
+                  ),
+                );
+              },
+            ));
+          }, onLoading: LoadingIndicator())
         ],
       ),
-    ));
+    );
   }
 }

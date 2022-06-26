@@ -2,15 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/user.dart';
 
-class EventsController extends GetxController {
-  Rx<CurrentState> _state = CurrentState().obs;
-
-  CurrentState get state => _state.value;
-
+class EventsController extends GetxController with StateMixin {
   @override
   void onInit() {
     fetch();
@@ -18,7 +13,7 @@ class EventsController extends GetxController {
   }
 
   void fetch() async {
-    _state.value = LoadingState();
+    change(null, status: RxStatus.loading());
     try {
       User user = GlobalController.instance.user!;
       List<Event> result = await APIService.instance.fetchEvents(200);
@@ -31,9 +26,9 @@ class EventsController extends GetxController {
         result.add(Event.fromFirebaseMap(element.data() as Map));
       });
       result.sort(((a, b) => a.date.compareTo(b.date)));
-      _state.value = DoneState(result: result);
+      change(result, status: RxStatus.success());
     } catch (e) {
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 
@@ -63,8 +58,7 @@ class EventsController extends GetxController {
 
       fetch();
     } catch (e) {
-      print(e);
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 }

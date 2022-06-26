@@ -4,7 +4,6 @@ import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/event.dart';
@@ -13,12 +12,11 @@ import 'package:schoolman/model/timetable.dart';
 import 'package:schoolman/model/user.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 
-class MainPageController extends GetxController {
+class MainPageController extends GetxController with StateMixin {
   Rx<TimeTable?> _timeTable = Rx(null);
   Rx<Meal?> _meal = Rx(null);
   Rx<Event?> _event = Rx(null);
   Rx<Notice?> _notice = Rx(null);
-  Rx<CurrentState> _state = CurrentState().obs;
 
   TimeTable? get timeTable => _timeTable.value;
 
@@ -28,20 +26,22 @@ class MainPageController extends GetxController {
 
   Notice? get notice => _notice.value;
 
-  CurrentState? get state => _state.value;
-
   @override
   void onInit() async {
-    _state.value = LoadingState();
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      writeSchoolDataToUserDefault();
-      sendSchoolDataViaWC();
+    change(null, status: RxStatus.loading());
+    try {
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        writeSchoolDataToUserDefault();
+        sendSchoolDataViaWC();
+      }
+      await fetchTimeTable();
+      await fetchMeal();
+      await fetchEvent();
+      await fetchNotice();
+      change(null, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
     }
-    await fetchTimeTable();
-    await fetchMeal();
-    await fetchEvent();
-    await fetchNotice();
-    _state.value = DoneState();
 
     super.onInit();
   }
@@ -97,7 +97,6 @@ class MainPageController extends GetxController {
           user.className);
     } catch (error) {
       print(error);
-      _state.value = ErrorState(error.toString());
     }
   }
 
@@ -152,8 +151,6 @@ class MainPageController extends GetxController {
 
       _notice.value =
           Notice.fromMap(await noticesCollection.docs.first.data() as Map);
-
-      _state.value = DoneState();
     } catch (e) {
       print(e);
     }
