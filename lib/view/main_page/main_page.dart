@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/view/main_page/main_page_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
@@ -14,14 +13,14 @@ import 'package:schoolman/view/info_page/info_page.dart';
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
 
-  final controller = Get.put(MainPageController());
+  final c = Get.put(MainPageController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
+      body: c.obx((state) {
         if (GlobalController.instance.state is LoadingState ||
-            controller.state is LoadingState) {
+            c.state is LoadingState) {
           return Center(child: LoadingIndicator());
         } else {
           return Column(
@@ -72,8 +71,7 @@ class MainPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      for (var item
-                                          in controller.timeTable?.items ?? [])
+                                      for (var item in c.timeTable?.items ?? [])
                                         Text(
                                             "${item.period}교시   ${item.subject}")
                                     ],
@@ -88,7 +86,7 @@ class MainPage extends StatelessWidget {
                               child: MainPageCard(
                                 title: () {
                                   try {
-                                    switch (controller.meal!.mealType) {
+                                    switch (c.meal!.mealType) {
                                       case MealType.breakfast:
                                         return "Breakfast";
                                       case MealType.lunch:
@@ -111,8 +109,8 @@ class MainPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      for (var item in controller.meal?.meal ??
-                                          ["No meal now."])
+                                      for (var item
+                                          in c.meal?.meal ?? ["No meal now."])
                                         Text("${item}")
                                     ],
                                   ),
@@ -125,19 +123,19 @@ class MainPage extends StatelessWidget {
                             title: "Upcoming Schedule",
                             child: () {
                               DateFormat format = DateFormat("M. d.");
-                              if (controller.event != null) {
+                              if (c.event != null) {
                                 return Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
                                     children: [
                                       Text(
-                                        format.format(controller.event!.date),
+                                        format.format(c.event!.date),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
                                       Spacer(),
-                                      Text(controller.event!.title,
+                                      Text(c.event!.title,
                                           style: TextStyle(fontSize: 20)),
                                     ],
                                   ),
@@ -154,12 +152,12 @@ class MainPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (controller.notice != null) ...[
+                                  if (c.notice != null) ...[
                                     Text(
-                                      controller.notice!.title,
+                                      c.notice!.title,
                                       style: TextStyle(fontSize: 17),
                                     ),
-                                    Text(controller.notice!.content)
+                                    Text(c.notice!.content)
                                   ] else ...[
                                     Text("There is no notice yet.")
                                   ]
