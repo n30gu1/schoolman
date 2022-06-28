@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
-import 'package:schoolman/current_state.dart';
 
-class TimeTableController extends GetxController {
+class TimeTableController extends GetxController with StateMixin {
   Rx<DateTime> _date = DateTime.now().obs;
-  Rx<CurrentState> _state = CurrentState().obs;
-
-  get state => _state.value;
 
   DateTime get date => _date.value;
 
@@ -21,14 +17,14 @@ class TimeTableController extends GetxController {
 
   void fetchTimeTables() async {
     _timer?.cancel();
-    _state.value = LoadingState();
+    change(null, status: RxStatus.loading());
     _timer = Timer(Duration(milliseconds: 500), () {
       try {
         APIService.instance.fetchTimeTableByDuration(date).then((value) {
-          _state.value = DoneState(result: value);
+          change(value, status: RxStatus.success());
         });
       } catch (e) {
-        _state.value = ErrorState(e.toString());
+        change(null, status: RxStatus.error(e.toString()));
       }
     });
   }

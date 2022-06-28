@@ -2,16 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/user.dart';
 
-class NoticeBoardController extends GetxController {
-  Rx<CurrentState> _state = CurrentState().obs;
+class NoticeBoardController extends GetxController with StateMixin {
   DateFormat format = DateFormat("yyyy/M/d HH:mm:ss");
-
-  CurrentState get state => _state.value;
 
   @override
   void onInit() {
@@ -20,7 +16,7 @@ class NoticeBoardController extends GetxController {
   }
 
   void fetch() async {
-    _state.value = LoadingState();
+    change(null, status: RxStatus.loading());
     try {
       School school = GlobalController.instance.school!;
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
@@ -38,9 +34,9 @@ class NoticeBoardController extends GetxController {
       notices.sort(
         (a, b) => b.timeCreated.compareTo(a.timeCreated),
       );
-      _state.value = DoneState(result: notices);
+      change(notices, status: RxStatus.success());
     } catch (e) {
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 
@@ -66,7 +62,7 @@ class NoticeBoardController extends GetxController {
       fetch();
     } catch (e) {
       print(e);
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 }

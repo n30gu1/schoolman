@@ -43,17 +43,10 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Colors.black,
           focusColor: Colors.black),
       home: () {
-        // return Obx(() => Scaffold(body: () {
-        //       final userState = GlobalController.instance.userState;
-        //       if (userState is LoadingState) {
-        //         return const Center(child: LoadingIndicator());
-        //       } else if (userState is DoneState) {
-        //         return userState.result?[0];
-        //       } else {
-        //         return const Center(child: Text("something went wrong!"));
-        //       }
-        //     }()));
-        return Scaffold();
+        return c.obx((state) => Scaffold(body: state),
+            onLoading: Center(
+              child: LoadingIndicator(),
+            ));
       }(),
     );
   }

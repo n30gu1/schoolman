@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/notice_board_page/add_notice_page/add_notice_controller.dart';
 
@@ -16,17 +15,13 @@ class AddNoticePage extends StatelessWidget {
         foregroundColor: Colors.black,
         shadowColor: Colors.transparent,
         actions: [
-          Obx(() {
-            if (c.state is LoadingState) {
-              return LoadingIndicator();
-            } else {
-              return IconButton(
-                  onPressed: () {
-                    c.upload();
-                  },
-                  icon: Icon(Icons.add));
-            }
-          })
+          c.obx((state) {
+            return IconButton(
+                onPressed: () {
+                  c.upload();
+                },
+                icon: Icon(Icons.add));
+          }, onLoading: LoadingIndicator())
         ],
       ),
       body: Column(children: [

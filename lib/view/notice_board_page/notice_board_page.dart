@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
@@ -52,14 +51,12 @@ class NoticeBoardPage extends StatelessWidget {
                       );
                     }
                   }()),
-              if (c.state is LoadingState) ...[
-                LoadingIndicator()
-              ] else ...[
-                Expanded(
+              c.obx((state) {
+                return Expanded(
                   child: ListView.builder(
-                    itemCount: (c.state as DoneState).result?.length,
+                    itemCount: state.length,
                     itemBuilder: (context, index) {
-                      Notice? result = (c.state as DoneState).result?[index];
+                      Notice? result = state[index];
                       if (result != null) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
@@ -97,8 +94,8 @@ class NoticeBoardPage extends StatelessWidget {
                       }
                     },
                   ),
-                ),
-              ]
+                );
+              }, onLoading: LoadingIndicator())
             ],
           ),
         ));

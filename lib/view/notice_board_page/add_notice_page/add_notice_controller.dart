@@ -2,18 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/current_state.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/view/notice_board_page/notice_board_controller.dart';
 
-class AddNoticeController extends GetxController {
-  Rx<CurrentState> _state = CurrentState().obs;
+class AddNoticeController extends GetxController with StateMixin {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   RxList _attachments = [].obs;
 
-  CurrentState get state => _state.value;
   List get attachments => _attachments;
 
   @override
@@ -25,7 +22,7 @@ class AddNoticeController extends GetxController {
 
   void upload() {
     School school = GlobalController.instance.school!;
-    _state.value = LoadingState();
+    change(null, status: RxStatus.loading());
     try {
       FirebaseFirestore.instance
           .collection(school.regionCode)
@@ -38,14 +35,14 @@ class AddNoticeController extends GetxController {
                   attachments: attachments)
               .toMap())
           .then((_) {
-        _state.value = DoneState();
+        change(null, status: RxStatus.success());
         Get.back();
 
         NoticeBoardController noticeBoardController = Get.find();
         noticeBoardController.fetch();
       });
     } catch (e) {
-      _state.value = ErrorState(e.toString());
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 }

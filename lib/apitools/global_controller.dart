@@ -14,12 +14,6 @@ class GlobalController extends GetxController with StateMixin {
   final storage = FirebaseFirestore.instance.collection("users");
   final _auth = Firebase.FirebaseAuth.instance;
 
-  Rx<CurrentState> _state = CurrentState().obs;
-  Rx<CurrentState> _userState = CurrentState().obs;
-
-  get state => _state.value;
-  get userState => _userState.value;
-
   Rx<User?> _user = Rx(null);
   Rx<School?> _school = Rx(null);
 
@@ -39,7 +33,7 @@ class GlobalController extends GetxController with StateMixin {
   }
 
   _setInitialScreen() async {
-    _userState.value = LoadingState();
+    change(null, status: RxStatus.loading());
     if (_auth.currentUser != null) {
       final userMap = await storage.doc(_auth.currentUser!.uid).get();
       if (userMap.exists) {
@@ -52,10 +46,10 @@ class GlobalController extends GetxController with StateMixin {
 
     if (user != null && school != null && _auth.currentUser != null) {
       log("All infos are filled");
-      _userState.value = DoneState(result: [TabView()]);
+      change(TabView(), status: RxStatus.success());
     } else {
       log("Infos insufficient");
-      _userState.value = DoneState(result: [SignInPage()]);
+      change(SignInPage(), status: RxStatus.success());
     }
   }
 
@@ -82,18 +76,14 @@ class GlobalController extends GetxController with StateMixin {
   }
 
   fetchSchoolInfo() async {
-    _state.value = LoadingState();
-
     String schoolCode = user!.schoolCode;
     String regionCode = user!.regionCode;
 
     try {
       _school.value =
           await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
-      _state.value = DoneState();
     } catch (error) {
       Get.snackbar("An Error Occurred", error.toString());
-      _state.value = ErrorState(error.toString());
     }
   }
 }
