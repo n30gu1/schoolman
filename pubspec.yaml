@@ -47,6 +47,7 @@ dependencies:
   sign_in_with_apple: ^4.0.0
   flutter_widgetkit: ^1.0.3
   watch_connectivity: ^0.1.2
+  bitsdojo_window: ^0.1.2
 
 dev_dependencies:
   flutter_test:

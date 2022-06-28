@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
+import 'package:schoolman/view/titleview.dart';
 
 // TODO: MAKE TABVIEW CAN DO LAZY LOADING
 void main() async {
@@ -43,7 +46,14 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Colors.black,
           focusColor: Colors.black),
       home: () {
-        return c.obx((state) => Scaffold(body: state),
+        return c.obx((state) {
+          if (defaultTargetPlatform == TargetPlatform.macOS) {
+            return Scaffold(
+              body: TitleView(appWindow.titleBarHeight, child: state),
+            );
+          }
+          return Scaffold(body: state);
+        },
             onLoading: Center(
               child: LoadingIndicator(),
             ));

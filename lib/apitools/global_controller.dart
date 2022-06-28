@@ -1,5 +1,7 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/school.dart';
@@ -29,7 +31,21 @@ class GlobalController extends GetxController with StateMixin {
       _setInitialScreen();
     });
 
+    if (defaultTargetPlatform == TargetPlatform.macOS) _configureWindow();
+
     super.onInit();
+  }
+
+  _configureWindow() {
+    doWhenWindowReady(() {
+      final win = appWindow;
+      const initialSize = Size(600, 450);
+      win.minSize = initialSize;
+      win.size = initialSize;
+      win.alignment = Alignment.center;
+      win.title = "Custom window with Flutter";
+      win.show();
+    });
   }
 
   _setInitialScreen() async {
