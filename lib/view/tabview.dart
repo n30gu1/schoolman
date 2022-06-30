@@ -6,6 +6,7 @@ import 'package:schoolman/view/tabview_controller.dart';
 import 'package:schoolman/view/main_page/main_page.dart';
 import 'package:schoolman/view/meal_page/meal_page.dart';
 import 'package:schoolman/view/time_table/time_table_page.dart';
+import 'package:schoolman/view/todo_list_page/todo_list_page.dart';
 
 class TabView extends StatelessWidget {
   final List<Widget> views = [
@@ -13,7 +14,8 @@ class TabView extends StatelessWidget {
     TimeTablePage(),
     MealPage(),
     NoticeBoardPage(),
-    EventsPage()
+    EventsPage(),
+    TodoListPage()
   ];
 
   final controller = Get.put(TabViewController());
@@ -23,7 +25,7 @@ class TabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
         body: Obx(() {
           return Column(
@@ -85,6 +87,15 @@ class TabView extends StatelessWidget {
                           "Events",
                           style: TextStyle(
                               fontWeight: controller.index == 4
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          "Todo List",
+                          style: TextStyle(
+                              fontWeight: controller.index == 5
                                   ? FontWeight.bold
                                   : FontWeight.normal),
                         ),
