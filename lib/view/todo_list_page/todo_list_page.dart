@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
-import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/todo_list_page/todo_list_controller.dart';
 
@@ -36,9 +35,16 @@ class TodoListPage extends StatelessWidget {
         c.obx((state) {
           return Expanded(
             child: ListView.builder(
-              itemCount: state.length,
+                itemCount: state.length,
                 itemBuilder: ((context, index) => ListTile(
                       title: Text(state[index].title),
+                      trailing: IconButton(
+                        icon: Icon(Icons.circle_outlined),
+                        onPressed: () {
+                          // TODO: IMPLEMENT MARK AS DONE
+                          
+                        },
+                      ),
                     ))),
           );
         },
