@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/view/main_page/debug_page/debug_page.dart';
 import 'package:schoolman/view/main_page/main_page_controller.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
@@ -155,7 +156,8 @@ class MainPage extends StatelessWidget {
                                 ]
                               ],
                             ),
-                          ))
+                          )),
+                      TextButton(onPressed: () => Get.to(() => DebugPage()), child: Text("Go Debug!"))
                     ],
                   ),
                 ),
