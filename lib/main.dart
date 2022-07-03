@@ -20,6 +20,7 @@ void main() async {
         statusBarColor: Colors.transparent));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
+
   runApp(MyApp());
 }
 
