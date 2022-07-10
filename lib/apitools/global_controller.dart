@@ -77,6 +77,7 @@ class GlobalController extends GetxController with StateMixin {
         grade: grade,
         className: classNum,
         studentNumber: studentNumber,
+        todoDone: [],
         isAdmin: false);
 
     storage.doc(_auth.currentUser!.uid).set(newUser.toMap());

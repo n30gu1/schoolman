@@ -4,6 +4,7 @@ class User {
   String grade;
   String studentNumber;
   String className;
+  List<String> todoDone;
   bool isAdmin;
 
   User(
@@ -12,6 +13,7 @@ class User {
       required this.grade,
       required this.studentNumber,
       required this.className,
+      required this.todoDone,
       required this.isAdmin});
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class User {
         grade: map["grade"],
         studentNumber: map["studentNumber"],
         className: map["classNum"],
+        todoDone: map["todoDone"],
         isAdmin: map["isAdmin"]);
   }
 }

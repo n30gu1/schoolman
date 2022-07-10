@@ -39,10 +39,12 @@ class TodoListPage extends StatelessWidget {
                 itemBuilder: ((context, index) => ListTile(
                       title: Text(state[index].title),
                       trailing: IconButton(
-                        icon: Icon(Icons.circle_outlined),
+                        icon: Icon((GlobalController.instance.user!.todoDone
+                                .contains(state[index].id)
+                            ? Icons.check_circle_rounded
+                            : Icons.check_circle_outlined)),
                         onPressed: () {
-                          // TODO: IMPLEMENT MARK AS DONE
-                          
+                          c.markReminderAsDone(state[index]);
                         },
                       ),
                     ))),
