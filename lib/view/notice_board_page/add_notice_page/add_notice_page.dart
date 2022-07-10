@@ -33,6 +33,20 @@ class AddNoticePage extends StatelessWidget {
           controller: c.contentController,
           decoration: InputDecoration(hintText: "Content"),
         ),
+        TextButton(
+            onPressed: () {
+              c.expandTodoTab.toggle();
+            },
+            child: Text("Expand Todo Tab")),
+        Obx(() {
+          if (c.expandTodoTab.isTrue) {
+            return Column(
+              children: [Text("Expanded!")],
+            );
+          } else {
+            return Container();
+          }
+        })
       ]),
     );
   }

@@ -4,7 +4,7 @@ class User {
   String grade;
   String studentNumber;
   String className;
-  List<String> todoDone;
+  List<dynamic> todoDone;
   bool isAdmin;
 
   User(

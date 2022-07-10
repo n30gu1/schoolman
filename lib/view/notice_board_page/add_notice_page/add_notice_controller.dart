@@ -11,7 +11,15 @@ class AddNoticeController extends GetxController with StateMixin {
   TextEditingController contentController = TextEditingController();
   RxList _attachments = [].obs;
 
+  RxBool expandTodoTab = false.obs;
+
   List get attachments => _attachments;
+
+  @override
+  void onInit() {
+    change(null, status: RxStatus.success());
+    super.onInit();
+  }
 
   @override
   void onClose() {
