@@ -82,7 +82,10 @@ class TimeTablePage extends StatelessWidget {
         },
             onLoading: Center(
               child: LoadingIndicator(),
-            )),
+            ),
+            onError: (error) => Center(
+                  child: Text("Couldn't load: ${error}"),
+                )),
       ],
     ));
   }

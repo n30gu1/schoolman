@@ -19,13 +19,11 @@ class TimeTableController extends GetxController with StateMixin {
     _timer?.cancel();
     change(null, status: RxStatus.loading());
     _timer = Timer(Duration(milliseconds: 500), () {
-      try {
-        APIService.instance.fetchTimeTableByDuration(date).then((value) {
-          change(value, status: RxStatus.success());
-        });
-      } catch (e) {
-        change(null, status: RxStatus.error(e.toString()));
-      }
+      APIService.instance.fetchTimeTableByDuration(date).then((value) {
+        change(value, status: RxStatus.success());
+      }).onError((error, stackTrace) {
+        change(null, status: RxStatus.error(error.toString()));
+      });
     });
   }
 

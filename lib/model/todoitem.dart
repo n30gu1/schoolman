@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class TodoItem {
   String id;
   Timestamp dueDate;
   String title;
   String comment;
-  List gradeAssigned;
-  List classAssigned;
+  Map classAssigned;
 
   TodoItem(
       {required this.id,
       required this.dueDate,
       required this.title,
       required this.comment,
-      required this.gradeAssigned,
       required this.classAssigned});
 
   static TodoItem fromMap(Map<String, dynamic> map) {
@@ -22,7 +21,16 @@ class TodoItem {
         dueDate: map["dueDate"],
         title: map["title"],
         comment: map["comment"],
-        gradeAssigned: map["gradeAssigned"],
         classAssigned: map["classAssigned"]);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "dueDate": dueDate,
+      "title": title,
+      "comment": comment,
+      "classAssigned": classAssigned
+    };
   }
 }

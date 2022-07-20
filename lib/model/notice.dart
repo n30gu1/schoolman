@@ -5,19 +5,22 @@ class Notice {
   String content;
   Timestamp timeCreated;
   List attachments;
+  String? todoItemId;
 
   Notice(
       {required this.title,
       required this.content,
       required this.timeCreated,
-      required this.attachments});
+      required this.attachments,
+      this.todoItemId});
 
   static Notice fromMap(Map map) {
     return Notice(
         title: map["title"],
         content: map["content"],
         timeCreated: map["timeCreated"],
-        attachments: map["attachments"]);
+        attachments: map["attachments"],
+        todoItemId: map["todoItemId"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -25,7 +28,8 @@ class Notice {
       "title": this.title,
       "content": this.content,
       "timeCreated": this.timeCreated,
-      "attachments": this.attachments
+      "attachments": this.attachments,
+      "todoItemId": this.todoItemId
     };
   }
 }

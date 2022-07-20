@@ -21,11 +21,14 @@ class TodoListController extends GetxController with StateMixin {
     try {
       String regionCode = GlobalController.instance.school!.regionCode;
       String schoolCode = GlobalController.instance.school!.schoolCode;
+      String grade = GlobalController.instance.user!.grade;
+      String className = GlobalController.instance.user!.className;
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance
           .collection(regionCode)
           .doc(schoolCode)
           .collection("todos")
+          .where("classAssigned.$grade", arrayContains: className)
           .get();
 
       List<TodoItem> result = <TodoItem>[];
