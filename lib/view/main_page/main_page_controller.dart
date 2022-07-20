@@ -124,7 +124,8 @@ class MainPageController extends GetxController with StateMixin {
       }
 
       _meal.value = await APIService.instance
-          .fetchMeal(school.regionCode, school.schoolCode, _mealType)
+          .fetchMeal(
+              school.regionCode, school.schoolCode, _mealType, DateTime.now())
           .then((value) => value);
     } catch (e) {
       print(e);

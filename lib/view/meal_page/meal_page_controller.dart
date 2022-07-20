@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/model/meal.dart';
+import 'package:schoolman/model/school.dart';
 
 class MealPageController extends GetxController with StateMixin {
   Rx<MealType> _mealType = MealType.lunch.obs;
@@ -23,16 +26,23 @@ class MealPageController extends GetxController with StateMixin {
   void fetchMeals() async {
     _timer?.cancel();
     change(null, status: RxStatus.loading());
+    _timer = Timer(Duration(milliseconds: 500), () async {
+      List<Meal> meals = [];
+      for (DateTime d in date.listByWeekdayWithAutoListing()) {
+        School school = GlobalController.instance.school!;
+        await APIService.instance
+            .fetchMeal(school.regionCode, school.schoolCode, mealType, d)
+            .then((value) {
+          meals.add(value);
+        }).onError((error, stackTrace) => null);
+      }
 
-    try {
-      _timer = Timer(Duration(milliseconds: 500), () {
-        APIService.instance.fetchMealByDuration(mealType, date).then((value) {
-          change(value, status: RxStatus.success());
-        });
-      });
-    } catch (e) {
-      change(null, status: RxStatus.error());
-    }
+      if (meals.isEmpty) {
+        change(null, status: RxStatus.error("There is no meal"));
+      } else {
+        change(meals, status: RxStatus.success());
+      }
+    });
   }
 
   setDate(DateTime date) {

@@ -157,7 +157,9 @@ class MainPage extends StatelessWidget {
                               ],
                             ),
                           )),
-                      TextButton(onPressed: () => Get.to(() => DebugPage()), child: Text("Go Debug!"))
+                      TextButton(
+                          onPressed: () => Get.to(() => DebugPage()),
+                          child: Text("Go Debug!"))
                     ],
                   ),
                 ),

@@ -57,7 +57,7 @@ class MealPage extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(Icons.chevron_left),
                             )),
-                        Text("${c.date.showRangeAsString(context)}"),
+                        Obx(() => Text("${c.date.showRangeAsString(context)}")),
                         CustomButton(
                             onTap: () {
                               c.setDate(c.date.add(Duration(days: 7)));
