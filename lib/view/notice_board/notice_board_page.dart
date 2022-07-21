@@ -6,8 +6,8 @@ import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/notice_board_page/add_notice_page/add_notice_page.dart';
-import 'package:schoolman/view/notice_board_page/notice_board_controller.dart';
+import 'package:schoolman/view/notice_board/add_notice/add_notice_page.dart';
+import 'package:schoolman/view/notice_board/notice_board_controller.dart';
 
 class NoticeBoardPage extends StatelessWidget {
   final c = Get.put(NoticeBoardController());

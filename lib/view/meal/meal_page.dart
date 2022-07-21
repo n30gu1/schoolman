@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/view/meal_page/meal_page_controller.dart';
+import 'package:schoolman/view/meal/meal_page_controller.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/todo_list_page/todo_list_controller.dart';
+import 'package:schoolman/view/todo_list/todo_list_controller.dart';
 
 class TodoListPage extends StatelessWidget {
   TodoListPage({Key? key}) : super(key: key);

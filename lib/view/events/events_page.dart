@@ -5,8 +5,8 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/events_page/add_event_page/add_event_page.dart';
-import 'package:schoolman/view/events_page/events_controller.dart';
+import 'package:schoolman/view/events/add_event/add_event_page.dart';
+import 'package:schoolman/view/events/events_controller.dart';
 
 class EventsPage extends StatelessWidget {
   final c = Get.put(EventsController());

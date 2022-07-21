@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/events_page/add_event_page/add_event_controller.dart';
+import 'package:schoolman/view/events/add_event/add_event_controller.dart';
 
 class AddEventPage extends StatelessWidget {
   final c = Get.put(AddEventController());

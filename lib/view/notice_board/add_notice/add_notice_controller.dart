@@ -8,7 +8,7 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/todoitem.dart';
-import 'package:schoolman/view/notice_board_page/notice_board_controller.dart';
+import 'package:schoolman/view/notice_board/notice_board_controller.dart';
 import 'package:uuid/uuid.dart';
 
 class AddNoticeController extends GetxController with StateMixin {

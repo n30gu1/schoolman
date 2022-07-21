@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/user.dart';
-import 'package:schoolman/view/main_page/debug_page/debug_page_controller.dart';
+import 'package:schoolman/view/main/debug_page/debug_page_controller.dart';
 
 class DebugPage extends StatelessWidget {
   final c = Get.put(DebugPageController());

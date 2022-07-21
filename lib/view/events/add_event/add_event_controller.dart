@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/school.dart';
-import 'package:schoolman/view/events_page/events_controller.dart';
+import 'package:schoolman/view/events/events_controller.dart';
 
 class AddEventController extends GetxController with StateMixin {
   TextEditingController titleController = TextEditingController();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/notice_board_page/add_notice_page/add_notice_controller.dart';
+import 'package:schoolman/view/notice_board/add_notice/add_notice_controller.dart';
 
 class AddNoticePage extends StatelessWidget {
   final c = Get.put(AddNoticeController());

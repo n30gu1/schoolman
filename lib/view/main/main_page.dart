@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
-import 'package:schoolman/view/main_page/debug_page/debug_page.dart';
-import 'package:schoolman/view/main_page/main_page_controller.dart';
+import 'package:schoolman/view/main/debug_page/debug_page.dart';
+import 'package:schoolman/view/main/main_page_controller.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
-import 'package:schoolman/view/info_page/info_page.dart';
+import 'package:schoolman/view/info/info_page.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
