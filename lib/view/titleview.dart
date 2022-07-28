@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TitleView extends StatelessWidget {
-  double height;
-  Widget child;
+  final double height;
+  final Widget child;
   TitleView(this.height, {required this.child, Key? key}) : super(key: key);
 
   @override

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class TodoItem {
   String id;
   Timestamp dueDate;
   String title;
   String comment;
-  Map classAssigned;
+  Map<String, dynamic> classAssigned;
 
   TodoItem(
       {required this.id,

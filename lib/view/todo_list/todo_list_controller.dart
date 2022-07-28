@@ -8,7 +8,6 @@ import 'package:schoolman/model/todoitem.dart';
 
 class TodoListController extends GetxController with StateMixin {
   RxList todoDone = (GlobalController.instance.user!.todoDone).obs;
-  Timer? _timer;
 
   @override
   void onInit() {
@@ -51,7 +50,7 @@ class TodoListController extends GetxController with StateMixin {
         todoDone.remove(item.id);
       }
 
-      _timer = Timer(const Duration(seconds: 1), () {
+      Timer(const Duration(seconds: 1), () {
         user.update({"todoDone": todoDone});
       });
     } catch (e) {

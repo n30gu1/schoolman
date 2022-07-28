@@ -21,7 +21,7 @@ class AddNoticeController extends GetxController with StateMixin {
   TextEditingController todoCommentController = TextEditingController();
   DateTime _dueDate = DateTime.now();
   RxBool isAssignedToAllClasses = false.obs;
-  RxMap classSelected = {}.obs;
+  RxMap<String, dynamic> classSelected = Map<String, dynamic>().obs;
 
   late Map gradeMap;
 
