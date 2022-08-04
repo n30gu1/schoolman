@@ -48,7 +48,7 @@ class TabView extends StatelessWidget {
                     tabs: [
                       Tab(
                         child: Text(
-                          "Dashboard",
+                          "Summary",
                           style: TextStyle(
                               fontWeight: controller.index == 0
                                   ? FontWeight.bold

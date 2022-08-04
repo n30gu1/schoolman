@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                title: "Dashboard",
+                title: "Summary",
                 trailing: CustomButton(
                   width: 40,
                   height: 40,

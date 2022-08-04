@@ -45,6 +45,8 @@
 	<string>INSERT_REASON_HERE</string>
 	<key>NSSiriUsageDescription</key>
 	<string>Ask meal and time table with Siri</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>FetchMealIntent</string>
