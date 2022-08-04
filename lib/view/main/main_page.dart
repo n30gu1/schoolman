@@ -10,6 +10,7 @@ import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/info/info_page.dart';
+import 'package:schoolman/view/main/switch_user/switch_user_page.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -44,10 +45,12 @@ class MainPage extends StatelessWidget {
                   width: 40,
                   height: 40,
                   onTap: () {
-                    Get.to(() => InfoPage());
+                    Get.bottomSheet(SwitchUserPage(),
+                        enterBottomSheetDuration: Duration(milliseconds: 100),
+                        exitBottomSheetDuration: Duration(milliseconds: 100));
                   },
                   borderRadius: BorderRadius.circular(1000),
-                  child: Icon(Icons.info_outline),
+                  child: Icon(Icons.account_circle_sharp),
                 )),
             Expanded(
               child: SingleChildScrollView(

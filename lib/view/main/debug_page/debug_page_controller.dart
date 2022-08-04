@@ -24,8 +24,8 @@ class DebugPageController extends GetxController with StateMixin {
         .where("grade", isEqualTo: grade)
         .where("classNum", isEqualTo: classNum)
         .get()
-      ..docs.forEach((element) {
-        result.add(User.parse(element.data()));
+      ..docs.forEach((element) async {
+        result.add(await User.parse(element.data()));
       });
 
     change(result, status: RxStatus.success());

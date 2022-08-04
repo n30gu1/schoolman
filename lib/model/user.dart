@@ -1,5 +1,9 @@
+import 'package:schoolman/apitools/api_service.dart';
+
 class User {
   String regionCode;
+  List<dynamic> additionalSchools;
+  List<Map<String, String>> additionalSchoolNames;
   String schoolCode;
   String grade;
   String studentNumber;
@@ -9,6 +13,8 @@ class User {
 
   User(
       {required this.regionCode,
+      required this.additionalSchools,
+      required this.additionalSchoolNames,
       required this.schoolCode,
       required this.grade,
       required this.studentNumber,
@@ -20,20 +26,31 @@ class User {
     return {
       "regionCode": regionCode,
       "schoolCode": schoolCode,
+      "additionalSchools": additionalSchools,
       "grade": grade,
       "studentNumber": studentNumber,
-      "classNum": className,
+      "className": className,
       "isAdmin": isAdmin
     };
   }
 
-  static User parse(Map map) {
+  static Future<User> parse(Map map) async {
+    List<Map<String, String>> additionalSchoolNames = [];
+    for (var item in map["additionalSchools"]) {
+      additionalSchoolNames.add({
+        item["schoolCode"]: await APIService.instance
+            .fetchSchoolName(item["regionCode"], item["schoolCode"])
+      });
+    }
+
     return User(
         regionCode: map["regionCode"],
         schoolCode: map["schoolCode"],
+        additionalSchools: map["additionalSchools"],
+        additionalSchoolNames: [],
         grade: map["grade"],
         studentNumber: map["studentNumber"],
-        className: map["classNum"],
+        className: map["className"],
         todoDone: map["todoDone"],
         isAdmin: map["isAdmin"]);
   }

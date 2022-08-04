@@ -53,7 +53,7 @@ class GlobalController extends GetxController with StateMixin {
     if (_auth.currentUser != null) {
       final userMap = await storage.doc(_auth.currentUser!.uid).get();
       if (userMap.exists) {
-        _user = Rx<User?>(User.parse(userMap.data()!));
+        _user = Rx<User?>(await User.parse(userMap.data()!));
         await fetchSchoolInfo();
       } else {
         _user = Rx<User?>(null);
@@ -73,6 +73,8 @@ class GlobalController extends GetxController with StateMixin {
       String classNum, String studentNumber, String name) async {
     User newUser = User(
         regionCode: regionCode,
+        additionalSchools: [],
+        additionalSchoolNames: [],
         schoolCode: schoolCode,
         grade: grade,
         className: classNum,

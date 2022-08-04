@@ -41,25 +41,32 @@ class InputSchoolInfo extends StatelessWidget {
               ),
             )),
           ),
-          c.obx((state) => Expanded(
-                child: ListView.builder(
-                    itemCount: state.length,
-                    itemBuilder: ((context, index) {
-                      return ListTile(
-                        title: Text(state[index]["SCHUL_NM"]),
-                        trailing: Text(
-                          state[index]["ATPT_OFCDC_SC_NM"],
-                          style: const TextStyle(fontWeight: FontWeight.w200),
-                        ),
-                        onTap: () {
-                          Get.bottomSheet(
-                            InputUserInfo(state[index]["ATPT_OFCDC_SC_CODE"],
-                                state[index]["SD_SCHUL_CODE"]),
+          c.obx(
+              (state) => Expanded(
+                    child: ListView.builder(
+                        itemCount: state.length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                            title: Text(state[index]["SCHUL_NM"]),
+                            trailing: Text(
+                              state[index]["ATPT_OFCDC_SC_NM"],
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w200),
+                            ),
+                            onTap: () {
+                              Get.bottomSheet(
+                                  InputUserInfo(
+                                      state[index]["ATPT_OFCDC_SC_CODE"],
+                                      state[index]["SD_SCHUL_CODE"]),
+                                  enterBottomSheetDuration:
+                                      Duration(milliseconds: 100),
+                                  exitBottomSheetDuration:
+                                      Duration(milliseconds: 100));
+                            },
                           );
-                        },
-                      );
-                    })),
-              ), onLoading: LoadingIndicator())
+                        })),
+                  ),
+              onLoading: LoadingIndicator())
         ],
       ),
     ));
