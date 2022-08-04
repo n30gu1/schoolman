@@ -2,9 +2,9 @@ import 'package:schoolman/apitools/api_service.dart';
 
 class User {
   String regionCode;
+  String schoolCode;
   List<dynamic> additionalSchools;
   List<Map<String, String>> additionalSchoolNames;
-  String schoolCode;
   String grade;
   String studentNumber;
   String className;
@@ -13,9 +13,9 @@ class User {
 
   User(
       {required this.regionCode,
+      required this.schoolCode,
       required this.additionalSchools,
       required this.additionalSchoolNames,
-      required this.schoolCode,
       required this.grade,
       required this.studentNumber,
       required this.className,
