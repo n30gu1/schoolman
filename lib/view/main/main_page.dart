@@ -9,7 +9,6 @@ import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
-import 'package:schoolman/view/info/info_page.dart';
 import 'package:schoolman/view/main/switch_user/switch_user_page.dart';
 
 class MainPage extends StatelessWidget {

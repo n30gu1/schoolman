@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/user.dart';
@@ -20,7 +21,6 @@ class GlobalController extends GetxController with StateMixin {
   Rx<School?> _school = Rx(null);
 
   User? get user => _user.value;
-
   School? get school => _school.value;
 
   @override
@@ -69,21 +69,30 @@ class GlobalController extends GetxController with StateMixin {
     }
   }
 
-  submitNewUser(String regionCode, String schoolCode, String grade,
-      String classNum, String studentNumber, String name) async {
+  submitNewUser(
+      String regionCode,
+      String schoolCode,
+      String grade,
+      String classNum,
+      String studentNumber,
+      String name,
+      bool isMainProfile) async {
     User newUser = User(
         regionCode: regionCode,
-        additionalSchools: [],
-        additionalSchoolNames: [],
         schoolCode: schoolCode,
+        schoolName:
+            await APIService.instance.fetchSchoolName(regionCode, schoolCode),
         grade: grade,
         className: classNum,
         studentNumber: studentNumber,
         todoDone: [],
-        isAdmin: false);
+        isAdmin: false,
+        isMainProfile: isMainProfile);
 
-    storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
-    _auth.currentUser!.updateDisplayName(name);
+    if (isMainProfile) {
+      storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
+      _auth.currentUser!.updateDisplayName(name);
+    }
     _user = Rx<User?>(newUser);
     await fetchSchoolInfo();
   }
@@ -95,6 +104,8 @@ class GlobalController extends GetxController with StateMixin {
   }
 
   fetchSchoolInfo() async {
+    FlutterSecureStorage storage = FlutterSecureStorage();
+
     String schoolCode = user!.schoolCode;
     String regionCode = user!.regionCode;
 

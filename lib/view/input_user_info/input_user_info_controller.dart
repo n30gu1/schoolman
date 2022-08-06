@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,14 +70,26 @@ class InputUserInfoController extends GetxController with StateMixin {
   }
 
   void submitUserInfo() async {
-    print(FirebaseAuth.instance.currentUser!.displayName);
+    bool isMainProfile = () {
+      var userDataIsBlank = FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .isBlank;
+
+      if (userDataIsBlank != null) {
+        return !userDataIsBlank;
+      } else {
+        return true;
+      }
+    }();
     await GlobalController.instance.submitNewUser(
         this.regionCode,
         this.schoolCode,
         gradeSelected.value,
         classSelected.value,
         studentNumberInputController.text,
-        FirebaseAuth.instance.currentUser!.displayName!);
+        FirebaseAuth.instance.currentUser!.displayName!,
+        isMainProfile);
     Get.offAll(() => TabView());
   }
 }
