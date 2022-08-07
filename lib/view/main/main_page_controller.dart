@@ -31,10 +31,6 @@ class MainPageController extends GetxController with StateMixin {
     build();
 
     super.onInit();
-    ever(GlobalController.instance.user, (_) {
-      print("changed!");
-      build();
-    });
   }
 
   void build() async {
