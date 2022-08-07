@@ -117,6 +117,8 @@ class GlobalController extends GetxController with StateMixin {
     _localStorage.write(key: "currentSchool", value: json);
 
     this.user.value = user;
+
+    Get.deleteAll();
     _setInitialScreen();
   }
 
