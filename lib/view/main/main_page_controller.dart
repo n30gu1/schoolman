@@ -28,6 +28,16 @@ class MainPageController extends GetxController with StateMixin {
 
   @override
   void onInit() async {
+    build();
+
+    super.onInit();
+    ever(GlobalController.instance.user, (_) {
+      print("changed!");
+      build();
+    });
+  }
+
+  void build() async {
     change(null, status: RxStatus.loading());
     try {
       if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -42,8 +52,6 @@ class MainPageController extends GetxController with StateMixin {
     } catch (e) {
       change(null, status: RxStatus.error(e.toString()));
     }
-
-    super.onInit();
   }
 
   void writeSchoolDataToUserDefault() {
@@ -54,15 +62,17 @@ class MainPageController extends GetxController with StateMixin {
           "group.com.n30gu1.schoolman");
       WidgetKit.setItem(
           "schoolCode",
-          GlobalController.instance.user?.schoolCode,
+          GlobalController.instance.user.value?.schoolCode,
           "group.com.n30gu1.schoolman");
       WidgetKit.setItem(
           "schoolType",
           GlobalController.instance.school?.schoolType.code.toString(),
           "group.com.n30gu1.schoolman");
-      WidgetKit.setItem("grade", GlobalController.instance.user?.grade,
+      WidgetKit.setItem("grade", GlobalController.instance.user.value?.grade,
           "group.com.n30gu1.schoolman");
-      WidgetKit.setItem("class", GlobalController.instance.user?.className,
+      WidgetKit.setItem(
+          "class",
+          GlobalController.instance.user.value?.className,
           "group.com.n30gu1.schoolman");
     } catch (e) {
       print("Error occured while writing data to UserDefault $e");
@@ -74,11 +84,11 @@ class MainPageController extends GetxController with StateMixin {
       WatchConnectivity wc = WatchConnectivity();
       wc.sendMessage({
         "regionCode": GlobalController.instance.school?.regionCode,
-        "schoolCode": GlobalController.instance.user?.schoolCode,
+        "schoolCode": GlobalController.instance.user.value?.schoolCode,
         "schoolType":
             GlobalController.instance.school?.schoolType.code.toString(),
-        "grade": GlobalController.instance.user?.grade,
-        "class": GlobalController.instance.user?.className
+        "grade": GlobalController.instance.user.value?.grade,
+        "class": GlobalController.instance.user.value?.className
       });
     } catch (e) {
       print("Error occured while sending via WatchConnectivity $e");
@@ -88,7 +98,7 @@ class MainPageController extends GetxController with StateMixin {
   Future<void> fetchTimeTable() async {
     try {
       School school = GlobalController.instance.school!;
-      User user = GlobalController.instance.user!;
+      User user = GlobalController.instance.user.value!;
       _timeTable.value = await APIService.instance.fetchTimeTable(
           school.schoolType,
           school.regionCode,

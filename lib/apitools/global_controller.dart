@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
@@ -15,17 +16,16 @@ import 'package:schoolman/view/tabview.dart';
 class GlobalController extends GetxController with StateMixin {
   static GlobalController instance = Get.find();
   final storage = FirebaseFirestore.instance.collection("users");
+  final _localStorage = FlutterSecureStorage();
   final _auth = Firebase.FirebaseAuth.instance;
 
-  Rx<User?> _user = Rx(null);
+  Rx<User?> user = Rx(null);
   Rx<School?> _school = Rx(null);
 
-  User? get user => _user.value;
   School? get school => _school.value;
 
   @override
   onInit() {
-    _setInitialScreen();
     _auth.userChanges().listen((event) {
       print("listen");
       _setInitialScreen();
@@ -51,16 +51,27 @@ class GlobalController extends GetxController with StateMixin {
   _setInitialScreen() async {
     change(null, status: RxStatus.loading());
     if (_auth.currentUser != null) {
-      final userMap = await storage.doc(_auth.currentUser!.uid).get();
-      if (userMap.exists) {
-        _user = Rx<User?>(await User.parse(userMap.data()!));
+      final currentUser = await _localStorage.read(key: "currentSchool") != null
+          ? jsonDecode((await _localStorage.read(key: "currentSchool"))!)
+          : null;
+      final userMap = (await storage.doc(_auth.currentUser!.uid).get()).data();
+      if (userMap != null &&
+          userMap["schoolCode"] == currentUser["schoolCode"] &&
+          userMap["grade"] == currentUser["grade"] &&
+          userMap["className"] == currentUser["className"]) {
+        userMap["isMainProfile"] = true;
+        user = Rx<User?>(await User.parse(userMap));
+        await fetchSchoolInfo();
+      } else if (currentUser != null) {
+        currentUser["isMainProfile"] = false;
+        user = Rx<User?>(await User.parse(currentUser));
         await fetchSchoolInfo();
       } else {
-        _user = Rx<User?>(null);
+        user = Rx<User?>(null);
       }
     }
 
-    if (user != null && school != null && _auth.currentUser != null) {
+    if (user.value != null && school != null && _auth.currentUser != null) {
       log("All infos are filled");
       change(TabView(), status: RxStatus.success());
     } else {
@@ -72,6 +83,7 @@ class GlobalController extends GetxController with StateMixin {
   submitNewUser(
       String regionCode,
       String schoolCode,
+      String schoolName,
       String grade,
       String classNum,
       String studentNumber,
@@ -80,8 +92,7 @@ class GlobalController extends GetxController with StateMixin {
     User newUser = User(
         regionCode: regionCode,
         schoolCode: schoolCode,
-        schoolName:
-            await APIService.instance.fetchSchoolName(regionCode, schoolCode),
+        schoolName: schoolName,
         grade: grade,
         className: classNum,
         studentNumber: studentNumber,
@@ -92,22 +103,32 @@ class GlobalController extends GetxController with StateMixin {
     if (isMainProfile) {
       storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
       _auth.currentUser!.updateDisplayName(name);
+    } else {
+      final data = (await storage.doc(_auth.currentUser!.uid).get()).data();
+      (data!["additionalSchools"] as List).add(newUser.toMap());
+      storage.doc(_auth.currentUser!.uid).update(data);
     }
-    _user = Rx<User?>(newUser);
-    await fetchSchoolInfo();
+
+    switchUser(newUser);
+  }
+
+  switchUser(User user) {
+    final json = jsonEncode(user.toMap());
+    _localStorage.write(key: "currentSchool", value: json);
+
+    this.user.value = user;
+    _setInitialScreen();
   }
 
   signOut() {
     _auth.signOut();
-    _user.value = null;
+    user.value = null;
     _setInitialScreen();
   }
 
   fetchSchoolInfo() async {
-    FlutterSecureStorage storage = FlutterSecureStorage();
-
-    String schoolCode = user!.schoolCode;
-    String regionCode = user!.regionCode;
+    String schoolCode = user.value!.schoolCode;
+    String regionCode = user.value!.regionCode;
 
     try {
       _school.value =

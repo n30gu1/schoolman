@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/model/user.dart' as LocalUser;
 
 class SwitchUserController extends GetxController with StateMixin {
-  FlutterSecureStorage _storage = FlutterSecureStorage();
-
   @override
   void onInit() {
     fetchSchools();
@@ -13,6 +11,7 @@ class SwitchUserController extends GetxController with StateMixin {
   }
 
   void fetchSchools() async {
+    change(null, status: RxStatus.loading());
     var firestore = await () async {
       var snapshot = await FirebaseFirestore.instance
           .collection("users")
@@ -27,19 +26,23 @@ class SwitchUserController extends GetxController with StateMixin {
       "schoolCode": firestore["schoolCode"],
       "schoolName": firestore["schoolName"],
       "grade": firestore["grade"],
-      "className": firestore["className"]
+      "className": firestore["className"],
+      "isMainProfile": true
     };
 
-    var additional = firestore["additionalSchools"];
+    List additional = firestore["additionalSchools"];
 
-    List<dynamic> result = [];
-    result.add(primary);
-    result.addAll(additional);
+    List<dynamic> mapList = [];
+    mapList.add(primary);
+    mapList.addAll(additional);
 
-    print(result);
+    List<LocalUser.User> result = mapList.map((e) {
+      if (e["isMainProfile"] == null) {
+        e["isMainProfile"] = false;
+      }
+      return LocalUser.User.parse(e);
+    }).toList();
 
     change(result, status: RxStatus.success());
   }
-
-  void switchUser(Map item) {}
 }

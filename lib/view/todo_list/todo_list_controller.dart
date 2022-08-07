@@ -7,7 +7,7 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/todoitem.dart';
 
 class TodoListController extends GetxController with StateMixin {
-  RxList todoDone = (GlobalController.instance.user!.todoDone).obs;
+  RxList todoDone = (GlobalController.instance.user.value!.todoDone).obs;
 
   @override
   void onInit() {
@@ -20,8 +20,8 @@ class TodoListController extends GetxController with StateMixin {
     try {
       String regionCode = GlobalController.instance.school!.regionCode;
       String schoolCode = GlobalController.instance.school!.schoolCode;
-      String grade = GlobalController.instance.user!.grade;
-      String className = GlobalController.instance.user!.className;
+      String grade = GlobalController.instance.user.value!.grade;
+      String className = GlobalController.instance.user.value!.className;
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance
           .collection(regionCode)

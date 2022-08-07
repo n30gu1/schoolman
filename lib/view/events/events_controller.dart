@@ -15,7 +15,7 @@ class EventsController extends GetxController with StateMixin {
   void fetch() async {
     change(null, status: RxStatus.loading());
     try {
-      User user = GlobalController.instance.user!;
+      User user = GlobalController.instance.user.value!;
       List<Event> result = await APIService.instance.fetchEvents(200);
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection(user.regionCode)
@@ -34,7 +34,7 @@ class EventsController extends GetxController with StateMixin {
 
   void deleteEvent(Event event) async {
     try {
-      User user = GlobalController.instance.user!;
+      User user = GlobalController.instance.user.value!;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection(user.regionCode)
           .doc(user.schoolCode)

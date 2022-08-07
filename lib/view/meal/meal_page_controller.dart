@@ -20,7 +20,12 @@ class MealPageController extends GetxController with StateMixin {
   @override
   onInit() {
     fetchMeals();
+
     super.onInit();
+    ever(GlobalController.instance.user, (_) {
+      print("changed!");
+      fetchMeals();
+    });
   }
 
   void fetchMeals() async {

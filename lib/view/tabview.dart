@@ -9,15 +9,6 @@ import 'package:schoolman/view/time_table/time_table_page.dart';
 import 'package:schoolman/view/todo_list/todo_list_page.dart';
 
 class TabView extends StatelessWidget {
-  final List<Widget> views = [
-    MainPage(),
-    TimeTablePage(),
-    MealPage(),
-    NoticeBoardPage(),
-    EventsPage(),
-    TodoListPage()
-  ];
-
   final controller = Get.put(TabViewController());
 
   TabView({Key? key}) : super(key: key);
@@ -30,7 +21,24 @@ class TabView extends StatelessWidget {
         body: Obx(() {
           return Column(
             children: [
-              Flexible(child: views[controller.index]),
+              Flexible(child: () {
+                switch (controller.index) {
+                  case 0:
+                    return MainPage();
+                  case 1:
+                    return TimeTablePage();
+                  case 2:
+                    return MealPage();
+                  case 3:
+                    return NoticeBoardPage();
+                  case 4:
+                    return EventsPage();
+                  case 5:
+                    return TodoListPage();
+                  default:
+                    return MainPage();
+                }
+              }()),
               Stack(
                 children: [
                   Container(

@@ -34,12 +34,12 @@ class EventsPage extends StatelessWidget {
               ),
               title: "Events",
               trailing: () {
-                if (GlobalController.instance.user!.isAdmin) {
+                if (GlobalController.instance.user.value!.isAdmin) {
                   return CustomButton(
                     width: 40,
                     height: 40,
                     onTap: () {
-                      if (GlobalController.instance.user!.isAdmin) {
+                      if (GlobalController.instance.user.value!.isAdmin) {
                         Get.to(() => AddEventPage());
                       }
                     },

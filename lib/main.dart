@@ -9,7 +9,6 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/titleview.dart';
 
-// TODO: MAKE TABVIEW CAN DO LAZY LOADING
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

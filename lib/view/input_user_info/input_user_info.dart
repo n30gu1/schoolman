@@ -5,17 +5,19 @@ import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
 
 class InputUserInfo extends StatelessWidget {
-  InputUserInfo(this.regionCode, this.schoolCode, {Key? key}) : super(key: key);
+  InputUserInfo(this.regionCode, this.schoolCode, this.schoolName, {Key? key})
+      : super(key: key);
 
   final String regionCode;
   final String schoolCode;
+  final String schoolName;
 
   final TextStyle textStyle = TextStyle(fontFamily: "Pretendard");
 
   @override
   Widget build(BuildContext context) {
     InputUserInfoController c =
-        Get.put(InputUserInfoController(regionCode, schoolCode));
+        Get.put(InputUserInfoController(regionCode, schoolCode, schoolName));
 
     return SizedBox(
       height: 250,

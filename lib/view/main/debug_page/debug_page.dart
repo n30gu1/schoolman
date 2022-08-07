@@ -28,7 +28,9 @@ class DebugPage extends StatelessWidget {
             c.obx((state) => Expanded(
                     child: ListView(
                   children: [
-                    for (User item in state) ...[Text(item.studentNumber)]
+                    for (User item in state) ...[
+                      Text(item.studentNumber ?? "0")
+                    ]
                   ],
                 )))
           ],

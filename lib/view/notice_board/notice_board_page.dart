@@ -38,12 +38,12 @@ class NoticeBoardPage extends StatelessWidget {
                   ),
                   title: "Notice Board",
                   trailing: () {
-                    if (GlobalController.instance.user!.isAdmin) {
+                    if (GlobalController.instance.user.value!.isAdmin) {
                       return CustomButton(
                         width: 40,
                         height: 40,
                         onTap: () {
-                          if (GlobalController.instance.user!.isAdmin) {
+                          if (GlobalController.instance.user.value!.isAdmin) {
                             Get.to(() => AddNoticePage());
                           }
                         },
@@ -103,7 +103,7 @@ class _NoticeListCell extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              if (GlobalController.instance.user!.isAdmin) ...[
+              if (GlobalController.instance.user.value!.isAdmin) ...[
                 IconButton(
                   onPressed: () => c.deleteNotice(result),
                   icon: Icon(

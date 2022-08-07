@@ -10,6 +10,7 @@ import 'package:schoolman/view/tabview.dart';
 class InputUserInfoController extends GetxController with StateMixin {
   late String schoolCode;
   late String regionCode;
+  late String schoolName;
   late Map gradeMap;
 
   RxString gradeSelected = "".obs;
@@ -17,7 +18,7 @@ class InputUserInfoController extends GetxController with StateMixin {
 
   final studentNumberInputController = TextEditingController();
 
-  InputUserInfoController(this.regionCode, this.schoolCode);
+  InputUserInfoController(this.regionCode, this.schoolCode, this.schoolName);
 
   @override
   void onInit() {
@@ -77,14 +78,17 @@ class InputUserInfoController extends GetxController with StateMixin {
           .isBlank;
 
       if (userDataIsBlank != null) {
-        return !userDataIsBlank;
+        return userDataIsBlank;
       } else {
         return true;
       }
     }();
+
+    print(isMainProfile);
     await GlobalController.instance.submitNewUser(
         this.regionCode,
         this.schoolCode,
+        this.schoolName,
         gradeSelected.value,
         classSelected.value,
         studentNumberInputController.text,

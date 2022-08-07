@@ -57,7 +57,8 @@ class InputSchoolInfo extends StatelessWidget {
                               Get.bottomSheet(
                                   InputUserInfo(
                                       state[index]["ATPT_OFCDC_SC_CODE"],
-                                      state[index]["SD_SCHUL_CODE"]),
+                                      state[index]["SD_SCHUL_CODE"],
+                                      state[index]["SCHUL_NM"]),
                                   enterBottomSheetDuration:
                                       Duration(milliseconds: 100),
                                   exitBottomSheetDuration:

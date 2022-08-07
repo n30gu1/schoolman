@@ -46,7 +46,8 @@ class MainPage extends StatelessWidget {
                   onTap: () {
                     Get.bottomSheet(SwitchUserPage(),
                         enterBottomSheetDuration: Duration(milliseconds: 100),
-                        exitBottomSheetDuration: Duration(milliseconds: 100));
+                        exitBottomSheetDuration: Duration(milliseconds: 100),
+                        persistent: false);
                   },
                   borderRadius: BorderRadius.circular(1000),
                   child: Icon(Icons.account_circle_sharp),

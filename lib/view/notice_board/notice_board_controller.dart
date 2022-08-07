@@ -42,7 +42,7 @@ class NoticeBoardController extends GetxController with StateMixin {
 
   void deleteNotice(Notice notice) async {
     try {
-      User user = GlobalController.instance.user!;
+      User user = GlobalController.instance.user.value!;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection(user.regionCode)
           .doc(user.schoolCode)

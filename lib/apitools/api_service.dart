@@ -145,7 +145,7 @@ class APIService {
 
   Future<List<TimeTable>> fetchTimeTableByDuration(DateTime date) async {
     School school = GlobalController.instance.school!;
-    User user = GlobalController.instance.user!;
+    User user = GlobalController.instance.user.value!;
     String? uriString;
     String? rootTitle;
 
