@@ -19,40 +19,39 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GlobalController.instance.obx((_) {
-      return c.obx((_) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomAppBar(
-                subView: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: Text("${DateFormat.yMd().format(DateTime.now())}"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: Text(
-                          "${GlobalController.instance.school?.schoolName}"),
-                    ),
-                  ],
+        body: Column(
+      children: [
+        CustomAppBar(
+            subView: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: Text("${DateFormat.yMd().format(DateTime.now())}"),
                 ),
-                title: "Summary",
-                trailing: CustomButton(
-                  width: 40,
-                  height: 40,
-                  onTap: () {
-                    Get.bottomSheet(SwitchUserPage(),
-                        enterBottomSheetDuration: Duration(milliseconds: 100),
-                        exitBottomSheetDuration: Duration(milliseconds: 100),
-                        persistent: false);
-                  },
-                  borderRadius: BorderRadius.circular(1000),
-                  child: Icon(Icons.account_circle_sharp),
-                )),
-            Expanded(
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child:
+                      Text("${GlobalController.instance.school?.schoolName}"),
+                ),
+              ],
+            ),
+            title: "Summary",
+            trailing: CustomButton(
+              width: 40,
+              height: 40,
+              onTap: () {
+                Get.bottomSheet(SwitchUserPage(),
+                    enterBottomSheetDuration: Duration(milliseconds: 100),
+                    exitBottomSheetDuration: Duration(milliseconds: 100),
+                    persistent: false);
+              },
+              borderRadius: BorderRadius.circular(1000),
+              child: Icon(Icons.account_circle_sharp),
+            )),
+        GlobalController.instance.obx((_) {
+          return c.obx((_) {
+            return Expanded(
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -167,16 +166,16 @@ class MainPage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
-          onLoading: Center(
-            child: LoadingIndicator(),
-          ));
-    },
+            );
+          },
+              onLoading: Center(
+                child: LoadingIndicator(),
+              ));
+        },
             onLoading: Center(
               child: LoadingIndicator(),
-            )));
+            )),
+      ],
+    ));
   }
 }

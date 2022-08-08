@@ -41,23 +41,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(
-          fontFamily: "Pretendard",
-          primaryColor: Colors.black,
-          focusColor: Colors.black),
-      home: () {
-        return c.obx((state) {
+        theme: ThemeData(
+            fontFamily: "Pretendard",
+            primaryColor: Colors.black,
+            focusColor: Colors.black),
+        home: Scaffold(
+            body: c.obx((state) {
           if (defaultTargetPlatform == TargetPlatform.macOS) {
-            return Scaffold(
-              body: TitleView(appWindow.titleBarHeight, child: state),
-            );
+            return TitleView(appWindow.titleBarHeight, child: state);
           }
-          return Scaffold(body: state);
+          return state;
         },
-            onLoading: Center(
-              child: LoadingIndicator(),
-            ));
-      }(),
-    );
+                onLoading: Center(
+                  child: LoadingIndicator(),
+                ))));
   }
 }

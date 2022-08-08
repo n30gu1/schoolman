@@ -110,7 +110,11 @@ class GlobalController extends GetxController with StateMixin {
       _auth.currentUser!.updateDisplayName(name);
     } else {
       final data = (await storage.doc(_auth.currentUser!.uid).get()).data();
-      (data!["additionalSchools"] as List).add(newUser.toMap());
+      if (data!["additionalSchools"] == null) {
+        data["additionalSchools"] = [newUser.toMap()];
+      } else {
+        (data["additionalSchools"] as List).add(newUser.toMap());
+      }
       storage.doc(_auth.currentUser!.uid).update(data);
     }
 

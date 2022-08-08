@@ -71,14 +71,14 @@ class InputUserInfoController extends GetxController with StateMixin {
   }
 
   void submitUserInfo() async {
-    bool isMainProfile = () {
-      var userDataIsBlank = FirebaseFirestore.instance
+    bool isMainProfile = await () async {
+      var userData = await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .isBlank;
+          .get();
 
-      if (userDataIsBlank != null) {
-        return userDataIsBlank;
+      if (userData.exists) {
+        return userData.isBlank!;
       } else {
         return true;
       }
