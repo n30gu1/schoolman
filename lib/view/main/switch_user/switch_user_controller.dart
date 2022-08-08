@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/user.dart' as LocalUser;
 
