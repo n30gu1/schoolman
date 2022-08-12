@@ -29,23 +29,23 @@ struct Meal: Codable {
         }()
         
         
-        let mealDate = {
+        let mealDate: Date = {
             let f = DateFormatter()
             f.dateFormat = "yyyyMMdd"
-            return f.date(from: (dict["MLSV_YMD"] as! String))
+            return f.date(from: (dict["MLSV_YMD"] as! String)) ?? Date()
         }()
         
         
         let mealType: MealType = {
             switch (dict["MMEAL_SC_CODE"] as! String) {
             case "1":
-                if Calendar.current.component(.day, from: Date()) != Calendar.current.component(.day, from: mealDate ?? Date()) {
+                if Calendar.current.component(.day, from: Date()) != Calendar.current.component(.day, from: mealDate) {
                     return MealType.nextDayBreakfast
                 } else {
                     return MealType.breakfast
                 }
             case "2":
-                if Calendar.current.component(.day, from: Date()) != Calendar.current.component(.day, from: mealDate ?? Date()) {
+                if Calendar.current.component(.day, from: Date()) != Calendar.current.component(.day, from: mealDate) {
                     return MealType.nextDatLunch
                 } else {
                     return MealType.lunch

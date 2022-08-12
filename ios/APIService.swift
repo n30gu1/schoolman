@@ -31,7 +31,7 @@ class APIService {
     func fetchMeal(date: Date, mealType: MealType) async throws -> Meal {
         guard let regionCode = self.regionCode else { throw NSError() }
         guard let schoolCode = self.schoolCode else { throw NSError() }
-        let dateFormatter = {
+        let dateFormatter: DateFormatter = {
             let f = DateFormatter()
             f.dateFormat = "yyyyMMdd"
             return f
@@ -64,7 +64,7 @@ class APIService {
         guard let grade = self.grade else { throw NSError() }
         guard let className = self.className else { throw NSError() }
         
-        let dateFormatter = {
+        let dateFormatter: DateFormatter = {
             let f = DateFormatter()
             f.dateFormat = "yyyyMMdd"
             return f
