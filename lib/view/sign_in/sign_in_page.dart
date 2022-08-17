@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/validator.dart';
 import 'sign_in_controller.dart';
 
@@ -9,7 +10,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.put(SignInController());
-    return Scaffold(
+    return CustomScaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

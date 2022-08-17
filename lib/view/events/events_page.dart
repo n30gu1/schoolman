@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/events/add_event/add_event_page.dart';
 import 'package:schoolman/view/events/events_controller.dart';
@@ -14,40 +15,39 @@ class EventsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
+      appBar: CustomAppBar(
+          subView: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 2.0),
+                child: Text("${DateFormat.yMd().format(DateTime.now())}"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 2.0),
+                child: Text("${GlobalController.instance.school?.schoolName}"),
+              ),
+            ],
+          ),
+          title: "Events",
+          trailing: () {
+            if (GlobalController.instance.user.value!.isAdmin) {
+              return CustomButton(
+                width: 40,
+                height: 40,
+                onTap: () {
+                  if (GlobalController.instance.user.value!.isAdmin) {
+                    Get.to(() => AddEventPage());
+                  }
+                },
+                borderRadius: BorderRadius.circular(1000),
+                child: Icon(Icons.add),
+              );
+            }
+          }()),
       body: Column(
         children: [
-          CustomAppBar(
-              subView: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2.0),
-                    child: Text("${DateFormat.yMd().format(DateTime.now())}"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2.0),
-                    child:
-                        Text("${GlobalController.instance.school?.schoolName}"),
-                  ),
-                ],
-              ),
-              title: "Events",
-              trailing: () {
-                if (GlobalController.instance.user.value!.isAdmin) {
-                  return CustomButton(
-                    width: 40,
-                    height: 40,
-                    onTap: () {
-                      if (GlobalController.instance.user.value!.isAdmin) {
-                        Get.to(() => AddEventPage());
-                      }
-                    },
-                    borderRadius: BorderRadius.circular(1000),
-                    child: Icon(Icons.add),
-                  );
-                }
-              }()),
           c.obx((state) {
             List result = state;
             return Expanded(

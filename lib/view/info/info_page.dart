@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/sign_in/sign_in_page.dart';
 
 class InfoPage extends StatelessWidget {
@@ -11,7 +12,7 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     School s = GlobalController.instance.school!;
-    return Scaffold(
+    return CustomScaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,

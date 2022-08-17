@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/meal/meal_page_controller.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
@@ -18,25 +19,25 @@ class MealPage extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       initialIndex: 1,
-      child: Scaffold(
+      child: CustomScaffold(
+        appBar: CustomAppBar(
+            title: "Meal",
+            subView: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child: Text("${DateFormat.yMd().format(DateTime.now())}"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 2.0),
+                  child:
+                      Text("${GlobalController.instance.school?.schoolName}"),
+                ),
+              ],
+            )),
         body: Column(
           children: [
-            CustomAppBar(
-                title: "Meal",
-                subView: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: Text("${DateFormat.yMd().format(DateTime.now())}"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: Text(
-                          "${GlobalController.instance.school?.schoolName}"),
-                    ),
-                  ],
-                )),
             Container(
               width: double.infinity,
               color: Colors.white,

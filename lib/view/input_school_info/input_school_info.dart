@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/input_school_info/input_school_info_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info.dart';
@@ -12,7 +13,7 @@ class InputSchoolInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
         body: SafeArea(
       child: Column(
         children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/user.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/info/info_page.dart';
 import 'package:schoolman/view/input_school_info/input_school_info.dart';
 import 'package:schoolman/view/main/switch_user/switch_user_controller.dart';
@@ -58,7 +59,7 @@ class SwitchUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(minHeight: 100),
-      child: Scaffold(
+      child: CustomScaffold(
         body: Column(children: [
           Text("Switch User"),
           SizedBox(

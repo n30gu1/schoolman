@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/notice_board/add_notice/add_notice_controller.dart';
 
@@ -9,7 +10,7 @@ class AddNoticePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,

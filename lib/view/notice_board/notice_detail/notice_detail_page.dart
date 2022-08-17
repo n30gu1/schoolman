@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/todoitem.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/notice_board/notice_detail/notice_detail_controller.dart';
 
@@ -13,7 +14,7 @@ class NoticeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NoticeDetailController c = Get.put(NoticeDetailController(notice));
-    return Scaffold(
+    return CustomScaffold(
       appBar: AppBar(
         shadowColor: Colors.transparent,
         backgroundColor: Colors.white,

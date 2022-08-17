@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
 
@@ -21,7 +22,7 @@ class InputUserInfo extends StatelessWidget {
 
     return SizedBox(
       height: 250,
-      child: Scaffold(
+      child: CustomScaffold(
         body: c.obx((state) {
           return Column(
             children: [

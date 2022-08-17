@@ -1,13 +1,10 @@
 import 'dart:io';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
-import 'package:schoolman/view/titleview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,15 +42,11 @@ class _MyAppState extends State<MyApp> {
             fontFamily: "Pretendard",
             primaryColor: Colors.black,
             focusColor: Colors.black),
-        home: Scaffold(
-            body: c.obx((state) {
-          if (defaultTargetPlatform == TargetPlatform.macOS) {
-            return TitleView(appWindow.titleBarHeight, child: state);
-          }
+        home: c.obx((state) {
           return state;
         },
-                onLoading: Center(
-                  child: LoadingIndicator(),
-                ))));
+            onLoading: Center(
+              child: LoadingIndicator(),
+            )));
   }
 }

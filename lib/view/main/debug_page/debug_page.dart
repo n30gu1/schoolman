@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/user.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/main/debug_page/debug_page_controller.dart';
 
 class DebugPage extends StatelessWidget {
@@ -10,7 +11,7 @@ class DebugPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
         appBar: AppBar(title: Text("Debug Page")),
         body: Column(
           children: [

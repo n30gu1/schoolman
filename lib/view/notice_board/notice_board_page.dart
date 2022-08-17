@@ -5,6 +5,7 @@ import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
+import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/notice_board/add_notice/add_notice_page.dart';
 import 'package:schoolman/view/notice_board/notice_board_controller.dart';
@@ -17,41 +18,40 @@ class NoticeBoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
+    return Obx(() => CustomScaffold(
+          appBar: CustomAppBar(
+              subView: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2.0),
+                    child: Text("${DateFormat.yMd().format(DateTime.now())}"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2.0),
+                    child:
+                        Text("${GlobalController.instance.school?.schoolName}"),
+                  ),
+                ],
+              ),
+              title: "Notice Board",
+              trailing: () {
+                if (GlobalController.instance.user.value!.isAdmin) {
+                  return CustomButton(
+                    width: 40,
+                    height: 40,
+                    onTap: () {
+                      if (GlobalController.instance.user.value!.isAdmin) {
+                        Get.to(() => AddNoticePage());
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(1000),
+                    child: Icon(Icons.add),
+                  );
+                }
+              }()),
           body: Column(
             children: [
-              CustomAppBar(
-                  subView: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child:
-                            Text("${DateFormat.yMd().format(DateTime.now())}"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child: Text(
-                            "${GlobalController.instance.school?.schoolName}"),
-                      ),
-                    ],
-                  ),
-                  title: "Notice Board",
-                  trailing: () {
-                    if (GlobalController.instance.user.value!.isAdmin) {
-                      return CustomButton(
-                        width: 40,
-                        height: 40,
-                        onTap: () {
-                          if (GlobalController.instance.user.value!.isAdmin) {
-                            Get.to(() => AddNoticePage());
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(1000),
-                        child: Icon(Icons.add),
-                      );
-                    }
-                  }()),
               c.obx((state) {
                 return Expanded(
                   child: ListView.builder(
