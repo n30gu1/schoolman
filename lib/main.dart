@@ -39,10 +39,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         theme: ThemeData(
+            useMaterial3: true,
             fontFamily: "Pretendard",
             primaryColor: Colors.white,
             focusColor: Colors.black),
         darkTheme: ThemeData(
+            useMaterial3: true,
             fontFamily: "Pretendard",
             primaryColor: Colors.black,
             focusColor: Colors.white),

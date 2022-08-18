@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget {
   final String title;
   final Widget? trailing;
-  final Widget subView;
+  final Widget? subView;
   const CustomAppBar({
     required this.title,
     this.trailing,
@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  subView,
+                  subView ?? Container(),
                   Text(
                     title,
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),

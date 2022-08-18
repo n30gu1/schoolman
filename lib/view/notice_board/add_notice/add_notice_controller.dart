@@ -124,8 +124,7 @@ class AddNoticeController extends GetxController with StateMixin {
       change(null, status: RxStatus.success());
       Get.back();
 
-      NoticeBoardController noticeBoardController = Get.find();
-      noticeBoardController.fetch();
+      Get.delete<NoticeBoardController>();
     }).onError((e, stackTrace) {
       change(null, status: RxStatus.error(e.toString()));
     });

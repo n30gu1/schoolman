@@ -11,6 +11,7 @@ import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/main/switch_user/switch_user_page.dart';
+import 'package:schoolman/view/studyplanner/studyplanner_page.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -167,7 +168,10 @@ class MainPage extends StatelessWidget {
                               )),
                           TextButton(
                               onPressed: () => Get.to(() => DebugPage()),
-                              child: Text("Go Debug!"))
+                              child: Text("Go Debug!")),
+                          ElevatedButton(
+                              onPressed: () => Get.to(() => StudyPlannerPage()),
+                              child: Text("DEBUG: Go to Study Planner!"))
                         ],
                       ),
                     ),

@@ -40,8 +40,7 @@ class AddEventController extends GetxController with StateMixin {
         change(null, status: RxStatus.loading());
         Get.back();
 
-        EventsController eventsController = Get.find();
-        eventsController.fetch();
+        Get.delete<EventsController>();
       });
     } catch (e) {
       change(null, status: RxStatus.error(e.toString()));
