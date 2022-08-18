@@ -40,8 +40,12 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
         theme: ThemeData(
             fontFamily: "Pretendard",
-            primaryColor: Colors.black,
+            primaryColor: Colors.white,
             focusColor: Colors.black),
+        darkTheme: ThemeData(
+            fontFamily: "Pretendard",
+            primaryColor: Colors.black,
+            focusColor: Colors.white),
         home: c.obx((state) {
           return state;
         },

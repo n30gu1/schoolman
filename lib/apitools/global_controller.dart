@@ -41,9 +41,9 @@ class GlobalController extends GetxController with StateMixin {
       final win = appWindow;
       const initialSize = Size(600, 450);
       win.minSize = initialSize;
-      win.size = initialSize;
-      win.alignment = Alignment.center;
-      win.title = "Custom window with Flutter";
+      // win.size = initialSize;
+      // win.alignment = Alignment.center;
+      // win.title = "Custom window with Flutter";
       win.show();
     });
   }
