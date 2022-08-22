@@ -21,6 +21,19 @@ class MealPage extends StatelessWidget {
       initialIndex: 1,
       child: CustomScaffold(
         appBar: CustomAppBar(
+            trailing: CustomButton(
+                onTap: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate: c.date,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime.now().add(Duration(days: 365)))
+                      .then((value) => c.setDate(value ?? DateTime.now()));
+                },
+                width: 45,
+                height: 45,
+                borderRadius: BorderRadius.circular(9999),
+                child: Icon(Icons.calendar_month)),
             title: "Meal",
             subView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
