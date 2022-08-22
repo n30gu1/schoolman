@@ -9,14 +9,17 @@ class StudyPlan {
 
   StudyPlan({required this.title, required this.author, required this.items});
 
-  static StudyPlan fromMap(Map map) {
+  static StudyPlan fromMap(Map<String, dynamic> map) {
     return StudyPlan(
-        title: map["title"],
-        author: map["author"],
-        items: map["items"].map((e) => StudyPlanItem.fromMap(e)));
+      title: map["title"] as String,
+      author: map["author"] as String,
+      items: (map["items"] as List<dynamic>)
+          .map((e) => StudyPlanItem.fromMap(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       "title": title,
       "author": author,
@@ -42,7 +45,7 @@ class StudyPlanItem {
     Timestamp startDate = map["startTime"];
     Timestamp endDate = map["endTime"];
     return StudyPlanItem(
-        subject: map["subject"],
+        subject: RxString(map["subject"]),
         startTime: TimeOfDay(
           hour: startDate.toDate().hour,
           minute: startDate.toDate().minute,
@@ -51,10 +54,10 @@ class StudyPlanItem {
           hour: endDate.toDate().hour,
           minute: endDate.toDate().minute,
         ).obs,
-        description: map["description"]);
+        description: RxString(map["description"]));
   }
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     DateTime today = DateTime.now();
     return {
       "subject": subject.value,

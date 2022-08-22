@@ -13,6 +13,7 @@ class StudyPlannerController extends GetxController with StateMixin {
     if (_isMainProfile == false) {
       change(null, status: RxStatus.error("ERROR_NOT_MAIN_PROFILE"));
     } else {
+      change(null, status: RxStatus.loading());
       fetchStudyPlanners();
     }
 
@@ -28,8 +29,9 @@ class StudyPlannerController extends GetxController with StateMixin {
           .collection("planners")
           .get();
 
-      List result =
+      List<StudyPlan> result =
           await snapshot.docs.map((e) => StudyPlan.fromMap(e.data())).toList();
+
       if (result.isEmpty) {
         change(null, status: RxStatus.empty());
       } else {

@@ -25,7 +25,6 @@ class CreateStudyPlanController extends GetxController with StateMixin {
         endTime: TimeOfDay.now().obs));
   }
 
-  // TODO: type '_InternalLinkedHashMap<dynamic, dynamic>' is not a subtype of type 'Map<String, dynamic>' in type cast
   void upload() {
     School school = GlobalController.instance.school!;
 
@@ -39,6 +38,6 @@ class CreateStudyPlanController extends GetxController with StateMixin {
         .collection(school.regionCode)
         .doc(school.schoolCode)
         .collection("planners")
-        .add(studyPlan.toMap() as Map<String, dynamic>);
+        .add(studyPlan.toMap());
   }
 }
