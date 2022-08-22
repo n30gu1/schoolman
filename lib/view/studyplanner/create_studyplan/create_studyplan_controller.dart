@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:get/get.dart";
+import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/model/school.dart';
+import 'package:schoolman/model/studyplan.dart';
 
 class CreateStudyPlanController extends GetxController with StateMixin {
   final title = TextEditingController();
@@ -19,18 +24,20 @@ class CreateStudyPlanController extends GetxController with StateMixin {
         startTime: TimeOfDay.now().obs,
         endTime: TimeOfDay.now().obs));
   }
-}
 
-class StudyPlanItem {
-  RxString subject;
-  Rx<TimeOfDay> startTime;
-  Rx<TimeOfDay> endTime;
-  RxString description;
+  void upload() {
+    School school = GlobalController.instance.school!;
 
-  StudyPlanItem({
-    required this.subject,
-    required this.startTime,
-    required this.endTime,
-    required this.description,
-  });
+    StudyPlan studyPlan = StudyPlan(
+      title: title.text,
+      author: FirebaseAuth.instance.currentUser!.uid,
+      items: items,
+    );
+
+    FirebaseFirestore.instance
+        .collection(school.regionCode)
+        .doc(school.schoolCode)
+        .collection("planners")
+        .add(studyPlan.toMap() as Map<String, dynamic>);
+  }
 }

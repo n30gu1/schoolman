@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/model/studyplan.dart';
 import 'package:schoolman/view/studyplanner/create_studyplan/create_studyplan_controller.dart';
 
 class CreateStudyPlanPage extends StatelessWidget {
@@ -15,14 +16,12 @@ class CreateStudyPlanPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              controller: c.title,
               decoration: InputDecoration(
                 labelText: "Subject",
               ),
               onChanged: ((value) => item.subject.value = value),
             ),
             TextField(
-              controller: c.description,
               decoration: InputDecoration(
                 labelText: "Description",
               ),
@@ -54,7 +53,12 @@ class CreateStudyPlanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Create Plan")),
+      appBar: AppBar(title: Text("Create Plan"), actions: [
+        c.obx((state) => IconButton(
+              icon: Icon(Icons.add),
+              onPressed: (() => c.upload()),
+            ))
+      ]),
       body: Column(children: [
         TextField(
           controller: c.title,
@@ -72,12 +76,6 @@ class CreateStudyPlanPage extends StatelessWidget {
                   c.createItem();
                 },
                 child: Text("Add Item")),
-            ElevatedButton(
-              child: Text("Create"),
-              onPressed: () {
-                // c.create();
-              },
-            ),
           ],
         ),
         Obx(
