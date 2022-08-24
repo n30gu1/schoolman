@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/view/studyplanner/create_studyplan/create_studyplan_controller.dart';
 import 'package:schoolman/view/studyplanner/create_studyplan/create_studyplan_page.dart';
 import 'package:schoolman/view/studyplanner/studyplanner_controller.dart';
 
