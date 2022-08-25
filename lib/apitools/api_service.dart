@@ -14,7 +14,7 @@ import '../model/event.dart';
 class APIService {
   static APIService instance = APIService();
 
-  static const _KEY = "0c78f44ac03648f49ce553a199fc0389";
+  final _KEY = "0c78f44ac03648f49ce553a199fc0389";
 
   Future<List<dynamic>> fetchSchoolList(String query) async {
     String uriString =
