@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/main/debug_page/debug_page.dart';
 import 'package:schoolman/view/main/main_page_controller.dart';
@@ -36,7 +37,7 @@ class MainPage extends StatelessWidget {
                 ),
               ],
             ),
-            title: "Summary",
+            title: S.of(context).SUMMARY_TITLE,
             trailing: CustomButton(
               width: 40,
               height: 40,
