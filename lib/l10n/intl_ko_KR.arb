@@ -1,4 +1,11 @@
 {
+  "welcome": "반가워요!",
+  "email": "이메일",
+  "signIn": "로그인",
+  "signUp": "회원가입",
+  "password": "비밀번호",
+  "forgotPassword": "비밀번호를 잊으셨나요?",
+  "socialSignIn": "소셜 로그인",
   "titleSummary": "요약",
   "titleTimeTable": "시간표",
   "titleMeal": "급식",

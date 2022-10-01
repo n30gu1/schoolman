@@ -1,4 +1,11 @@
 {
+  "welcome": "Welcome!",
+  "email": "Email",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "password": "Password",
+  "forgotPassword": "Forgot Password?",
+  "socialSignIn": "Sign In with Social Account",
   "titleSummary": "Summary",
   "titleTimeTable": "Time Table",
   "titleMeal": "Meal",

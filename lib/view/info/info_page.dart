@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
-import 'package:schoolman/view/sign_in/sign_in_page.dart';
 
 class InfoPage extends StatelessWidget {
   const InfoPage({Key? key}) : super(key: key);
@@ -40,7 +38,6 @@ class InfoPage extends StatelessWidget {
               CustomButton(
                 onTap: () {
                   GlobalController.instance.signOut();
-                  Get.offAll(() => SignInPage());
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),

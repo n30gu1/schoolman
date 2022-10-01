@@ -50,6 +50,76 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Welcome!`
+  String get welcome {
+    return Intl.message(
+      'Welcome!',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In`
+  String get signIn {
+    return Intl.message(
+      'Sign In',
+      name: 'signIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUp {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot Password?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In with Social Account`
+  String get socialSignIn {
+    return Intl.message(
+      'Sign In with Social Account',
+      name: 'socialSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Summary`
   String get titleSummary {
     return Intl.message(

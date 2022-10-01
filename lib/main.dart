@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
+import 'package:schoolman/uitools/themedatas.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,16 +48,8 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData(
-            useMaterial3: true,
-            fontFamily: "Pretendard",
-            primaryColor: Colors.white,
-            focusColor: Colors.black),
-        darkTheme: ThemeData(
-            useMaterial3: true,
-            fontFamily: "Pretendard",
-            primaryColor: Colors.black,
-            focusColor: Colors.white),
+        theme: LightTheme,
+        darkTheme: LightTheme, // TODO: Temporary, must be ditched to DarkTheme
         home: c.obx((state) {
           return state;
         },
