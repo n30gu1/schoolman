@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
                 ),
               ],
             ),
-            title: S.of(context).SUMMARY_TITLE,
+            title: S.of(context).titleSummary,
             trailing: CustomButton(
               width: 40,
               height: 40,
@@ -65,7 +65,7 @@ class MainPage extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: MainPageCard(
-                                  title: "Time Table",
+                                  title: S.of(context).titleTimeTable,
                                   height: 230,
                                   child: Padding(
                                     padding: const EdgeInsets.all(12.0),

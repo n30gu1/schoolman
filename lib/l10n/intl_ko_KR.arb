@@ -1,3 +1,8 @@
 {
-  "SUMMARY_TITLE": "요약"
+  "titleSummary": "요약",
+  "titleTimeTable": "시간표",
+  "titleMeal": "급식",
+  "titleNoticeBoard": "공지사항",
+  "titleEvents": "일정",
+  "titleTodoList": "할일"
 }

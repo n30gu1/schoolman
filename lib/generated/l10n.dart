@@ -51,10 +51,60 @@ class S {
   }
 
   /// `Summary`
-  String get SUMMARY_TITLE {
+  String get titleSummary {
     return Intl.message(
       'Summary',
-      name: 'SUMMARY_TITLE',
+      name: 'titleSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Table`
+  String get titleTimeTable {
+    return Intl.message(
+      'Time Table',
+      name: 'titleTimeTable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Meal`
+  String get titleMeal {
+    return Intl.message(
+      'Meal',
+      name: 'titleMeal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice Board`
+  String get titleNoticeBoard {
+    return Intl.message(
+      'Notice Board',
+      name: 'titleNoticeBoard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Events`
+  String get titleEvents {
+    return Intl.message(
+      'Events',
+      name: 'titleEvents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Todo List`
+  String get titleTodoList {
+    return Intl.message(
+      'Todo List',
+      name: 'titleTodoList',
       desc: '',
       args: [],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/view/events/events_page.dart';
 import 'package:schoolman/view/notice_board/notice_board_page.dart';
 import 'package:schoolman/view/tabview_controller.dart';
@@ -56,7 +57,7 @@ class TabView extends StatelessWidget {
                     tabs: [
                       Tab(
                         child: Text(
-                          "Summary",
+                          S.of(context).titleSummary,
                           style: TextStyle(
                               fontWeight: controller.index == 0
                                   ? FontWeight.bold
@@ -65,7 +66,7 @@ class TabView extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          "Time Table",
+                          S.of(context).titleTimeTable,
                           style: TextStyle(
                               fontWeight: controller.index == 1
                                   ? FontWeight.bold
@@ -74,7 +75,7 @@ class TabView extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          "Meal",
+                          S.of(context).titleMeal,
                           style: TextStyle(
                               fontWeight: controller.index == 2
                                   ? FontWeight.bold
@@ -83,7 +84,7 @@ class TabView extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          "Notice Board",
+                          S.of(context).titleNoticeBoard,
                           style: TextStyle(
                               fontWeight: controller.index == 3
                                   ? FontWeight.bold
@@ -92,7 +93,7 @@ class TabView extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          "Events",
+                          S.of(context).titleEvents,
                           style: TextStyle(
                               fontWeight: controller.index == 4
                                   ? FontWeight.bold
@@ -101,7 +102,7 @@ class TabView extends StatelessWidget {
                       ),
                       Tab(
                         child: Text(
-                          "Todo List",
+                          S.of(context).titleTodoList,
                           style: TextStyle(
                               fontWeight: controller.index == 5
                                   ? FontWeight.bold

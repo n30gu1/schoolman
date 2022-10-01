@@ -1,3 +1,8 @@
 {
-  "SUMMARY_TITLE": "Summary"
+  "titleSummary": "Summary",
+  "titleTimeTable": "Time Table",
+  "titleMeal": "Meal",
+  "titleNoticeBoard": "Notice Board",
+  "titleEvents": "Events",
+  "titleTodoList": "Todo List"
 }

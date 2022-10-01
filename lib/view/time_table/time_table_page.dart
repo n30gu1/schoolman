@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/time_table/time_table_controller.dart';
 import 'package:schoolman/date_converter.dart';
@@ -18,7 +19,7 @@ class TimeTablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
         appBar: CustomAppBar(
-            title: "Time Table",
+            title: S.of(context).titleTimeTable,
             subView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
