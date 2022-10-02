@@ -53,6 +53,7 @@ dependencies:
   uuid: ^3.0.6
   flutter_secure_storage: ^5.1.0
   flutter_calendar_week: ^2.1.1
+  flutter_platform_widgets: ^2.0.0
 
 dev_dependencies:
   flutter_test:

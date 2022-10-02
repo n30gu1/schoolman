@@ -64,7 +64,9 @@ class SignInPage extends StatelessWidget {
             LoginButton(
               label: S.of(context).signUp,
               onTap: () {},
-              color: Colors.black12,
+              color: Color.fromRGBO(200, 200, 200, 1),
+              textStyle:
+                  TextStyle(color: Colors.black),
             ),
             TextButton(
               child: Text(

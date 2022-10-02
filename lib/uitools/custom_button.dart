@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 // TODO: Add Button Clicking Animation
 class LoginButton extends StatelessWidget {
@@ -15,7 +17,7 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final mainWidget = Container(
       height: 46,
       decoration: BoxDecoration(
           color: color != null ? color : Theme.of(context).primaryColor,
@@ -27,6 +29,28 @@ class LoginButton extends StatelessWidget {
           label,
           style: textStyle,
         )),
+      ),
+    );
+
+    return PlatformWidget(
+      material: (_, __) => SizedBox(
+        height: 46,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color != null ? color : Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+            
+          ),
+          onPressed: onTap,
+          child: Center(child: Text(label, style: textStyle)),
+        ),
+      ),
+      cupertino: (_, __) => CupertinoButton.filled(
+        onPressed: onTap,
+        padding: EdgeInsets.zero,
+        child: mainWidget,
       ),
     );
   }
