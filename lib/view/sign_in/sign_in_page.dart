@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_button.dart';
@@ -13,15 +14,18 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Get.put(SignInController());
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //
+            // Logo And Welcome Message Area
+            //
             SizedBox.square(
-              dimension: 100,
-              child: Text('Logo'),
+              dimension: 150,
+              child: FittedBox(child: Image.asset("images/logo_green.png")),
             ),
             Text(
               S.of(context).welcome,
@@ -31,8 +35,11 @@ class SignInPage extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
-              height: 50,
+              height: 36,
             ),
+            //
+            // Text Field Area
+            //
             LoginTextField(
               type: LoginTextFieldType.email,
               labelText: S.of(context).email,
@@ -49,12 +56,27 @@ class SignInPage extends StatelessWidget {
               validator: (value) =>
                   Validator.validatePassword(password: value!),
             ),
-            SizedBox(
-              height: 20,
+            //
+            // Forgot Password Button Area
+            //
+            Row(
+              children: [
+                Spacer(),
+                PlatformTextButton(
+                  child: Text(
+                    S.of(context).forgotPassword,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  onPressed: () {},
+                ),
+              ],
             ),
+            //
+            // Sign In Button Area
+            //
             LoginButton(
               label: S.of(context).signIn,
-              onTap: () {},
+              onTap: () => c.signIn(),
               textStyle:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
@@ -64,20 +86,15 @@ class SignInPage extends StatelessWidget {
             LoginButton(
               label: S.of(context).signUp,
               onTap: () {},
-              color: Color.fromRGBO(200, 200, 200, 1),
-              textStyle:
-                  TextStyle(color: Colors.black),
-            ),
-            TextButton(
-              child: Text(
-                S.of(context).forgotPassword,
-                style: TextStyle(color: Colors.grey),
-              ),
-              onPressed: () {},
+              color: Color.fromRGBO(210, 210, 210, 1),
+              textStyle: TextStyle(color: Colors.black),
             ),
             SizedBox(
-              height: 12,
+              height: 24,
             ),
+            //
+            // Sign In With Social Account Area
+            //
             Row(
               children: [
                 Expanded(

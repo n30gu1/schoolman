@@ -13,8 +13,6 @@ class SignInController extends GetxController {
   final nameController = TextEditingController();
   final _auth = FirebaseAuth.FirebaseAuth.instance;
 
-  SignInController();
-
   @override
   void onInit() {
     super.onInit();

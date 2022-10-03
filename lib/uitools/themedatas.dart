@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 final LightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: "Pretendard",
+    backgroundColor: Colors.white,
     primaryColor: Colors.green,
     focusColor: Colors.green,
     hoverColor: Colors.green,
