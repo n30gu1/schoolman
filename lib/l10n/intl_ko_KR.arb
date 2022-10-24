@@ -11,5 +11,8 @@
   "titleMeal": "급식",
   "titleNoticeBoard": "공지사항",
   "titleEvents": "일정",
-  "titleTodoList": "할일"
+  "titleTodoList": "할일",
+  "authorizeSchool": "학교 인증",
+  "authorizeSchoolInputNewCode": "새 인증 코드를 입력해주세요",
+  "somethingWentWrong": "문제가 생겼어요: "
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/model/school.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
+import 'package:schoolman/view/auth_school/auth_school_page.dart';
 
 class InfoPage extends StatelessWidget {
   const InfoPage({Key? key}) : super(key: key);
@@ -35,6 +38,26 @@ class InfoPage extends StatelessWidget {
                 child: Text("n30GUI alpha - Under Construction"),
               ),
               Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: CustomButton(
+                  onTap: () {
+                    Get.to(() => AuthorizeSchoolPage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Container(
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          S.of(context).authorizeSchool,
+                        ),
+                      ),
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(1000),
+                ),
+              ),
               CustomButton(
                 onTap: () {
                   GlobalController.instance.signOut();

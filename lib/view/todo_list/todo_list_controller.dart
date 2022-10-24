@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/model/todoitem.dart';
 
 class TodoListController extends GetxController with StateMixin {
@@ -38,7 +40,7 @@ class TodoListController extends GetxController with StateMixin {
     }
   }
 
-  Future<void> markReminderAsDone(TodoItem item) async {
+  Future<void> markReminderAsDone(TodoItem item, BuildContext context) async {
     final user = await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid);
@@ -54,7 +56,7 @@ class TodoListController extends GetxController with StateMixin {
         user.update({"todoDone": todoDone});
       });
     } catch (e) {
-      Get.snackbar("An Error Occurred", e.toString());
+      Get.snackbar(S.of(context).somethingWentWrong, e.toString());
     }
   }
 }

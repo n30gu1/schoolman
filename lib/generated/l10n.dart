@@ -179,6 +179,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Authorize School`
+  String get authorizeSchool {
+    return Intl.message(
+      'Authorize School',
+      name: 'authorizeSchool',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Input New School Code`
+  String get authorizeSchoolInputNewCode {
+    return Intl.message(
+      'Input New School Code',
+      name: 'authorizeSchoolInputNewCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong: `
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong: ',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

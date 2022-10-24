@@ -11,5 +11,8 @@
   "titleMeal": "Meal",
   "titleNoticeBoard": "Notice Board",
   "titleEvents": "Events",
-  "titleTodoList": "Todo List"
+  "titleTodoList": "Todo List",
+  "authorizeSchool": "Authorize School",
+  "authorizeSchoolInputNewCode": "Input New School Code",
+  "somethingWentWrong": "Something went wrong: "
 }

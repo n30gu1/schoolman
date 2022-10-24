@@ -44,7 +44,7 @@ class TodoListPage extends StatelessWidget {
                                     ? Icons.check_circle_rounded
                                     : Icons.check_circle_outlined)),
                                 onPressed: () {
-                                  c.markReminderAsDone(state[index]);
+                                  c.markReminderAsDone(state[index], context);
                                 },
                               )),
                         ))),

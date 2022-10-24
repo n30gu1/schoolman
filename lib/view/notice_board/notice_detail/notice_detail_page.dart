@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/todoitem.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
@@ -46,7 +47,7 @@ class NoticeDetailPage extends StatelessWidget {
             );
           },
               onLoading: LoadingIndicator(),
-              onError: (e) => Text("An error occured: $e"),
+              onError: (e) => Text(S.of(context).somethingWentWrong + e.toString()),
               onEmpty: Text("No related todo"))
         ],
       ),

@@ -22,12 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "authorizeSchool": MessageLookupByLibrary.simpleMessage("학교 인증"),
+        "authorizeSchoolInputNewCode":
+            MessageLookupByLibrary.simpleMessage("새 인증 코드를 입력해주세요"),
         "email": MessageLookupByLibrary.simpleMessage("이메일"),
         "forgotPassword": MessageLookupByLibrary.simpleMessage("비밀번호를 잊으셨나요?"),
         "password": MessageLookupByLibrary.simpleMessage("비밀번호"),
         "signIn": MessageLookupByLibrary.simpleMessage("로그인"),
         "signUp": MessageLookupByLibrary.simpleMessage("회원가입"),
         "socialSignIn": MessageLookupByLibrary.simpleMessage("소셜 로그인"),
+        "somethingWentWrong":
+            MessageLookupByLibrary.simpleMessage("문제가 생겼어요: "),
         "titleEvents": MessageLookupByLibrary.simpleMessage("일정"),
         "titleMeal": MessageLookupByLibrary.simpleMessage("급식"),
         "titleNoticeBoard": MessageLookupByLibrary.simpleMessage("공지사항"),

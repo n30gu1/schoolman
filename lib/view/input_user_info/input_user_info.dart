@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
@@ -125,7 +126,7 @@ class InputUserInfo extends StatelessWidget {
         },
             onLoading: LoadingIndicator(),
             onError: (e) => Center(
-                  child: Text("Something went wrong: $e"),
+                  child: Text(S.of(context).somethingWentWrong + e.toString()),
                 )),
       ),
     );

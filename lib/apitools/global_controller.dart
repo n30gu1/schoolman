@@ -103,7 +103,8 @@ class GlobalController extends GetxController with StateMixin {
         studentNumber: studentNumber,
         todoDone: [],
         isAdmin: false,
-        isMainProfile: isMainProfile);
+        isMainProfile: isMainProfile,
+        authorized: false);
 
     if (isMainProfile) {
       storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
@@ -145,7 +146,9 @@ class GlobalController extends GetxController with StateMixin {
       _school.value =
           await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
     } catch (error) {
-      Get.snackbar("An Error Occurred", error.toString());
+      change(null, status: RxStatus.error(error.toString()));
+      // TODO: Show error message on view
+      // Get.snackbar(S.of(context).somethingWentWrong, error.toString());
     }
   }
 }

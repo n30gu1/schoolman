@@ -8,6 +8,7 @@ class User {
   List<dynamic> todoDone;
   bool isAdmin;
   bool? isMainProfile;
+  bool authorized;
 
   User(
       {required this.regionCode,
@@ -18,7 +19,8 @@ class User {
       required this.className,
       required this.todoDone,
       required this.isAdmin,
-      this.isMainProfile});
+      this.isMainProfile,
+      required this.authorized});
 
   Map<String, dynamic> toMap() {
     return {
@@ -29,6 +31,7 @@ class User {
       "studentNumber": studentNumber,
       "className": className,
       "isAdmin": isAdmin,
+      "authorized": authorized
     };
   }
 
@@ -42,6 +45,7 @@ class User {
         className: map["className"],
         todoDone: map["todoDone"] ?? [],
         isAdmin: map["isAdmin"] ?? false,
-        isMainProfile: map["isMainProfile"]);
+        isMainProfile: map["isMainProfile"],
+        authorized: map["authorized"] ?? false);
   }
 }
