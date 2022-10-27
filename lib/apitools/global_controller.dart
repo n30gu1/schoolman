@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/model/school.dart';
@@ -12,17 +9,15 @@ import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/view/sign_in/sign_in_page.dart';
 import 'package:schoolman/view/tabview.dart';
+import 'package:uuid/uuid.dart';
 
-class GlobalController extends GetxController with StateMixin {
-  static GlobalController instance = Get.find();
-  final storage = FirebaseFirestore.instance.collection("users");
+class GlobalController extends GetxController {
   final _localStorage = FlutterSecureStorage();
   final _auth = Firebase.FirebaseAuth.instance;
 
-  Rx<User?> user = Rx(null);
-  Rx<School?> _school = Rx(null);
-
-  School? get school => _school.value;
+  User? user = null;
+  UserProfile? userProfile = null;
+  School? school = null;
 
   @override
   onInit() {
@@ -31,102 +26,112 @@ class GlobalController extends GetxController with StateMixin {
       _setInitialScreen();
     });
 
-    if (defaultTargetPlatform == TargetPlatform.macOS) _configureWindow();
-
     super.onInit();
   }
 
-  _configureWindow() {
-    doWhenWindowReady(() {
-      final win = appWindow;
-      const initialSize = Size(600, 450);
-      win.minSize = initialSize;
-      // win.size = initialSize;
-      // win.alignment = Alignment.center;
-      // win.title = "Custom window with Flutter";
-      win.show();
-    });
-  }
-
   _setInitialScreen() async {
-    change(null, status: RxStatus.loading());
     if (_auth.currentUser != null) {
-      final currentUser = await _localStorage.read(key: "currentSchool") != null
-          ? jsonDecode((await _localStorage.read(key: "currentSchool"))!)
-          : null;
-      final userMap = (await storage.doc(_auth.currentUser!.uid).get()).data();
+      final currentProfile = await _localStorage.read(key: "currentProfile");
 
-      if (userMap != null &&
-          currentUser != null &&
-          userMap["schoolCode"] == currentUser["schoolCode"] &&
-          userMap["grade"] == currentUser["grade"] &&
-          userMap["className"] == currentUser["className"]) {
-        userMap["isMainProfile"] = true;
-        user = Rx<User?>(await User.parse(userMap));
+      final Map<String, dynamic>? userMap = await () async {
+        if (_auth.currentUser != null) {
+          if (_auth.currentUser!.isAnonymous) {
+            String? json = await _localStorage.read(key: "user");
+            return json != null ? jsonDecode(json) : null;
+          } else {
+            return (await FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(_auth.currentUser!.uid)
+                    .get())
+                .data();
+          }
+        } else {
+          return null;
+        }
+      }();
+
+      if (userMap != null && currentProfile != null) {
+        if (userMap["profiles"][currentProfile] == null)
+          _localStorage.write(
+              key: "currentProfile", value: userMap["mainProfile"]);
+
+        user = User.fromMap(userMap);
+        userProfile = user!.profiles[currentProfile];
         await fetchSchoolInfo();
-      } else if (currentUser != null) {
-        currentUser["isMainProfile"] = false;
-        user = Rx<User?>(await User.parse(currentUser));
+      } else if (currentProfile == null && userMap != null) {
+        _localStorage.write(
+            key: "currentProfile", value: userMap["mainProfile"]);
+
+        user = User.fromMap(userMap);
+        userProfile = user!.profiles[user!.mainProfile];
         await fetchSchoolInfo();
-      } else if (currentUser == null && userMap != null) {
-        _localStorage.write(key: "currentSchool", value: jsonEncode(userMap));
-        user = Rx<User?>(await User.parse(userMap));
       } else {
-        user = Rx<User?>(null);
+        user = null;
+        userProfile = null;
       }
     }
 
-    if (user.value != null && school != null && _auth.currentUser != null) {
+    if (user != null &&
+        userProfile != null &&
+        school != null &&
+        _auth.currentUser != null) {
       log("All infos are filled");
-      change(TabView(), status: RxStatus.success());
+      // change(TabView(), status: RxStatus.success());
+      Get.offAll(() => TabView());
     } else {
       log("Infos insufficient");
-      change(SignInPage(), status: RxStatus.success());
+      // change(SignInPage(), status: RxStatus.success());
+      Get.offAll(() => SignInPage());
     }
   }
 
-  submitNewUser(
-      String regionCode,
-      String schoolCode,
-      String schoolName,
-      String grade,
-      String classNum,
-      String studentNumber,
-      String name,
-      bool isMainProfile) async {
-    User newUser = User(
+  submitNewUser(String regionCode, String schoolCode, String schoolName,
+      int grade, String className, int studentNumber, String name) async {
+    String uuid = () {
+      Uuid uuid = Uuid();
+      return uuid.v4();
+    }();
+    UserProfile profile = UserProfile(
         regionCode: regionCode,
         schoolCode: schoolCode,
-        schoolName: schoolName,
         grade: grade,
-        className: classNum,
+        className: className,
         studentNumber: studentNumber,
-        todoDone: [],
-        isAdmin: false,
-        isMainProfile: isMainProfile,
-        authorized: false);
+        authorized: false,
+        id: uuid);
+    User newUser =
+        User(profiles: {uuid: profile}, mainProfile: uuid, todoDone: []);
 
-    if (isMainProfile) {
-      storage.doc(_auth.currentUser!.uid).set(newUser.toMap());
-      _auth.currentUser!.updateDisplayName(name);
-    } else {
-      final data = (await storage.doc(_auth.currentUser!.uid).get()).data();
-      if (data!["additionalSchools"] == null) {
-        data["additionalSchools"] = [newUser.toMap()];
+    if (_auth.currentUser!.isAnonymous) {
+      final doc = await _localStorage.read(key: "user");
+      if (doc != null) {
+        final docMap = jsonDecode(doc);
+        docMap["profiles"][uuid] = profile.toMap();
+        _localStorage.write(key: "user", value: jsonEncode(docMap));
       } else {
-        (data["additionalSchools"] as List).add(newUser.toMap());
+        _localStorage.write(key: "user", value: jsonEncode(newUser.toMap()));
       }
-      storage.doc(_auth.currentUser!.uid).update(data);
+    } else {
+      final doc = FirebaseFirestore.instance
+          .collection("users")
+          .doc(_auth.currentUser!.uid);
+      if (doc.isBlank != null) {
+        if (doc.isBlank!) {
+          doc.set(newUser.toMap());
+          _auth.currentUser!.updateDisplayName(name);
+        } else {
+          final data = (await doc.get()).data()!;
+          data["profiles"][uuid] = profile.toMap();
+          doc.update(data);
+        }
+      }
     }
 
-    switchUser(newUser);
+    switchUser(uuid);
   }
 
-  switchUser(User user) {
-    final json = jsonEncode(user.toMap());
-    _localStorage.write(key: "currentSchool", value: json);
-
-    this.user.value = user;
+  switchUser(String profileID) {
+    _localStorage.write(key: "currentProfile", value: profileID);
 
     Get.deleteAll();
     _setInitialScreen();
@@ -134,21 +139,43 @@ class GlobalController extends GetxController with StateMixin {
 
   signOut() {
     _auth.signOut();
-    user.value = null;
-    _setInitialScreen();
+    user = null;
+    userProfile = null;
+    school = null;
+    _localStorage.delete(key: "currentProfile");
   }
 
   fetchSchoolInfo() async {
-    String schoolCode = user.value!.schoolCode;
-    String regionCode = user.value!.regionCode;
+    String schoolCode = userProfile!.schoolCode;
+    String regionCode = userProfile!.regionCode;
 
     try {
-      _school.value =
+      school =
           await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
     } catch (error) {
-      change(null, status: RxStatus.error(error.toString()));
+      throw error;
       // TODO: Show error message on view
       // Get.snackbar(S.of(context).somethingWentWrong, error.toString());
+    }
+  }
+
+  Future<bool> validateAdmin() async {
+    final currentProfile = await _localStorage.read(key: "currentProfile");
+    String schoolCode = user!.profiles[currentProfile]!.schoolCode;
+    String regionCode = user!.profiles[currentProfile]!.regionCode;
+    final adminList = (await FirebaseFirestore.instance
+            .collection(regionCode)
+            .doc(schoolCode)
+            .get())
+        .data();
+    if (adminList != null) {
+      if (adminList["admins"].contains(_auth.currentUser!.uid)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

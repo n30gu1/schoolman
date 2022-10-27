@@ -26,7 +26,7 @@ class CreateStudyPlanController extends GetxController with StateMixin {
   }
 
   void upload() {
-    School school = GlobalController.instance.school!;
+    School school = Get.find<GlobalController>().school!;
 
     StudyPlan studyPlan = StudyPlan(
       title: title.text,

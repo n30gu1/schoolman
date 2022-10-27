@@ -13,6 +13,7 @@ import 'package:schoolman/view/notice_board/notice_detail/notice_detail_page.dar
 
 class NoticeBoardPage extends StatelessWidget {
   final c = Get.put(NoticeBoardController());
+  final globalC = Get.find<GlobalController>();
 
   NoticeBoardPage({Key? key}) : super(key: key);
 
@@ -30,26 +31,30 @@ class NoticeBoardPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 2.0),
                     child:
-                        Text("${GlobalController.instance.school?.schoolName}"),
+                        Text("${globalC.school?.schoolName}"),
                   ),
                 ],
               ),
               title: "Notice Board",
-              trailing: () {
-                if (GlobalController.instance.user.value!.isAdmin) {
-                  return CustomButton(
-                    width: 40,
-                    height: 40,
-                    onTap: () {
-                      if (GlobalController.instance.user.value!.isAdmin) {
-                        Get.to(() => AddNoticePage());
-                      }
-                    },
-                    borderRadius: BorderRadius.circular(1000),
-                    child: Icon(Icons.add),
-                  );
-                }
-              }()),
+              trailing: FutureBuilder(
+                future: globalC.validateAdmin(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data! as bool)
+                      return CustomButton(
+                        width: 40,
+                        height: 40,
+                        onTap: () {
+                          Get.to(() => AddNoticePage());
+                        },
+                        borderRadius: BorderRadius.circular(1000),
+                        child: Icon(Icons.add),
+                      );
+                  }
+                  return Container();
+                },
+              ),
+          ),
           body: Column(
             children: [
               c.obx((state) {
@@ -59,7 +64,7 @@ class NoticeBoardPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Notice? result = state[index];
                       if (result != null) {
-                        return _NoticeListCell(c: c, result: result);
+                        return _NoticeListCell(result: result);
                       } else {
                         return Text("Null Detected");
                       }
@@ -74,13 +79,13 @@ class NoticeBoardPage extends StatelessWidget {
 }
 
 class _NoticeListCell extends StatelessWidget {
-  const _NoticeListCell({
+  _NoticeListCell({
     Key? key,
-    required this.c,
     required this.result,
   }) : super(key: key);
 
-  final NoticeBoardController c;
+  final NoticeBoardController c = Get.find<NoticeBoardController>();
+  final globalC = Get.find<GlobalController>();
   final Notice result;
 
   @override
@@ -103,15 +108,22 @@ class _NoticeListCell extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              if (GlobalController.instance.user.value!.isAdmin) ...[
-                IconButton(
-                  onPressed: () => c.deleteNotice(result),
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                )
-              ]
+              FutureBuilder(
+                future: globalC.validateAdmin(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data! as bool)
+                      return IconButton(
+                        onPressed: () => c.deleteNotice(result),
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      );
+                  }
+                  return Container();
+                },
+              ),
             ],
           ),
         ),

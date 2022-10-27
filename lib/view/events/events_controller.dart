@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/event.dart';
-import 'package:schoolman/model/user.dart';
+import 'package:schoolman/model/school.dart';
 
 class EventsController extends GetxController with StateMixin {
   @override
@@ -15,11 +15,11 @@ class EventsController extends GetxController with StateMixin {
   void fetch() async {
     change(null, status: RxStatus.loading());
     try {
-      User user = GlobalController.instance.user.value!;
+      School school = Get.find<GlobalController>().school!;
       List<Event> result = await APIService.instance.fetchEvents(200);
       QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection(user.regionCode)
-          .doc(user.schoolCode)
+          .collection(school.regionCode)
+          .doc(school.schoolCode)
           .collection("events")
           .get();
       snapshot.docs.forEach((element) {
@@ -34,10 +34,10 @@ class EventsController extends GetxController with StateMixin {
 
   void deleteEvent(Event event) async {
     try {
-      User user = GlobalController.instance.user.value!;
+      School school = Get.find<GlobalController>().school!;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection(user.regionCode)
-          .doc(user.schoolCode)
+          .collection(school.regionCode)
+          .doc(school.schoolCode)
           .collection("events")
           .get();
 

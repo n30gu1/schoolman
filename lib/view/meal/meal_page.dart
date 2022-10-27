@@ -45,7 +45,7 @@ class MealPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 2.0),
                   child:
-                      Text("${GlobalController.instance.school?.schoolName}"),
+                      Text("${Get.find<GlobalController>().school?.schoolName}"),
                 ),
               ],
             )),

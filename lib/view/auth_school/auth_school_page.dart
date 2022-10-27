@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/view/auth_school/auth_school_controller.dart';
 
@@ -53,9 +52,16 @@ class AuthorizeSchoolPage extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              if (GlobalController.instance.user.value!.isAdmin)...[
-                _adminView(context)
-              ]
+              FutureBuilder(builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data! as bool)
+                    return _adminView(context);
+                  else
+                    return Container();
+                } else {
+                  return Container();
+                }
+              })
             ],
           ),
           onLoading: Center(

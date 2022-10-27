@@ -90,6 +90,36 @@ class S {
     );
   }
 
+  /// `Sign in with Apple`
+  String get signInWithApple {
+    return Intl.message(
+      'Sign in with Apple',
+      name: 'signInWithApple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google`
+  String get signInWithGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'signInWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in Anonymously`
+  String get signInAnonymously {
+    return Intl.message(
+      'Sign in Anonymously',
+      name: 'signInAnonymously',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Password`
   String get password {
     return Intl.message(
@@ -110,11 +140,61 @@ class S {
     );
   }
 
-  /// `Sign In with Social Account`
-  String get socialSignIn {
+  /// `or`
+  String get or {
     return Intl.message(
-      'Sign In with Social Account',
-      name: 'socialSignIn',
+      'or',
+      name: 'or',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grade`
+  String get grade {
+    return Intl.message(
+      'Grade',
+      name: 'grade',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Class`
+  String get className {
+    return Intl.message(
+      'Class',
+      name: 'className',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School Name`
+  String get schoolName {
+    return Intl.message(
+      'School Name',
+      name: 'schoolName',
       desc: '',
       args: [],
     );

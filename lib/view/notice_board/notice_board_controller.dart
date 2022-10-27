@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/model/school.dart';
-import 'package:schoolman/model/user.dart';
 
 class NoticeBoardController extends GetxController with StateMixin {
   DateFormat format = DateFormat("yyyy/M/d HH:mm:ss");
@@ -18,7 +17,7 @@ class NoticeBoardController extends GetxController with StateMixin {
   void fetch() async {
     change(null, status: RxStatus.loading());
     try {
-      School school = GlobalController.instance.school!;
+      School school = Get.find<GlobalController>().school!;
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance
           .collection(school.regionCode)
@@ -42,10 +41,10 @@ class NoticeBoardController extends GetxController with StateMixin {
 
   void deleteNotice(Notice notice) async {
     try {
-      User user = GlobalController.instance.user.value!;
+      School school = Get.find<GlobalController>().school!;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection(user.regionCode)
-          .doc(user.schoolCode)
+          .collection(school.regionCode)
+          .doc(school.schoolCode)
           .collection("notices")
           .get();
 

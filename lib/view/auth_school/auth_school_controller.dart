@@ -19,8 +19,9 @@ class AuthorizeSchoolController extends GetxController with StateMixin {
   void authorizeSchool() async {
     change(null, status: RxStatus.loading());
     try {
-      final regionCode = GlobalController.instance.school!.regionCode;
-      final schoolCode = GlobalController.instance.school!.schoolCode;
+      final globalC = Get.find<GlobalController>();
+      final regionCode = globalC.school!.regionCode;
+      final schoolCode = globalC.school!.schoolCode;
       final authCode = sha256
           .convert(utf8.encode(schoolCodeEditingController.text))
           .toString();
@@ -45,11 +46,12 @@ class AuthorizeSchoolController extends GetxController with StateMixin {
   }
 
   void updateAuthCode() async {
-    if (GlobalController.instance.user.value!.isAdmin) {
+    final globalC = Get.find<GlobalController>();
+    if (await globalC.validateAdmin()) {
       change(null, status: RxStatus.loading());
       try {
-        final regionCode = GlobalController.instance.school!.regionCode;
-        final schoolCode = GlobalController.instance.school!.schoolCode;
+        final regionCode = globalC.school!.regionCode;
+        final schoolCode = globalC.school!.schoolCode;
         final authCode = sha256
             .convert(utf8.encode(adminSchoolCodeEditingController.text))
             .toString();

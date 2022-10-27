@@ -79,6 +79,8 @@ flutter:
   assets:
     - images/logo_green.png
     - images/logo_white.png
+    - images/apple_logo.png
+    - images/g_logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

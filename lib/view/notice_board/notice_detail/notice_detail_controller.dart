@@ -20,8 +20,9 @@ class NoticeDetailController extends GetxController with StateMixin {
       if (notice.todoItemId == null) {
         throw "There is no todo item assigned to notice";
       }
-      String regionCode = GlobalController.instance.school!.regionCode;
-      String schoolCode = GlobalController.instance.school!.schoolCode;
+      final globalC = Get.find<GlobalController>();
+      String regionCode = globalC.school!.regionCode;
+      String schoolCode = globalC.school!.schoolCode;
 
       DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance

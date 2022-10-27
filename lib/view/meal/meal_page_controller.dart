@@ -30,7 +30,7 @@ class MealPageController extends GetxController with StateMixin {
     _timer = Timer(Duration(milliseconds: 500), () async {
       List<Meal> meals = [];
       for (DateTime d in date.listByWeekdayWithAutoListing()) {
-        School school = GlobalController.instance.school!;
+        School school = Get.find<GlobalController>().school!;
         await APIService.instance
             .fetchMeal(school.regionCode, school.schoolCode, mealType, d)
             .then((value) {

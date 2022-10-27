@@ -5,12 +5,10 @@ import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/studyplan.dart';
 
 class StudyPlannerController extends GetxController with StateMixin {
-  bool _isMainProfile =
-      GlobalController.instance.user.value!.isMainProfile ?? false;
-
   @override
   void onInit() {
-    if (_isMainProfile == false) {
+    GlobalController gc = Get.find<GlobalController>();
+    if (gc.userProfile!.id == gc.user!.mainProfile) {
       change(null, status: RxStatus.error("ERROR_NOT_MAIN_PROFILE"));
     } else {
       change(null, status: RxStatus.loading());
@@ -21,7 +19,7 @@ class StudyPlannerController extends GetxController with StateMixin {
   }
 
   void fetchStudyPlanners() async {
-    School school = GlobalController.instance.school!;
+    School school = Get.find<GlobalController>().school!;
     try {
       var snapshot = await FirebaseFirestore.instance
           .collection(school.regionCode)

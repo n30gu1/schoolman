@@ -12,7 +12,7 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    School s = GlobalController.instance.school!;
+    School s = Get.find<GlobalController>().school!;
     return CustomScaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -60,7 +60,7 @@ class InfoPage extends StatelessWidget {
               ),
               CustomButton(
                 onTap: () {
-                  GlobalController.instance.signOut();
+                  Get.find<GlobalController>().signOut();
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),

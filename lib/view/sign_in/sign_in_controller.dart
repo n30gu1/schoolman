@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:schoolman/apitools/global_controller.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:schoolman/nonce_generator.dart';
 import 'package:schoolman/view/input_school_info/input_school_info.dart';
@@ -37,6 +37,11 @@ class SignInController extends GetxController {
     } catch (e) {}
   }
 
+  void signInAnonymously() async {
+    await _auth.signInAnonymously();
+    Get.offAll(() => InputSchoolInfo());
+  }
+
   Future<FirebaseAuth.UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -56,7 +61,7 @@ class SignInController extends GetxController {
         .FirebaseAuth.instance
         .signInWithCredential(credential);
 
-    var snapshot = await GlobalController.instance.storage
+    var snapshot = await FirebaseFirestore.instance.collection("users")
         .doc(signedInUserCredential.user?.uid)
         .get();
     if (!snapshot.exists) {
@@ -100,7 +105,7 @@ class SignInController extends GetxController {
     signedInUserCredential.user!.updateDisplayName(
         (appleCredential.familyName ?? "") + (appleCredential.givenName ?? ""));
 
-    var snapshot = await GlobalController.instance.storage
+    var snapshot = await FirebaseFirestore.instance.collection("users")
         .doc(signedInUserCredential.user?.uid)
         .get();
     if (!snapshot.exists) {

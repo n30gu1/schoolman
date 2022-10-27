@@ -1,51 +1,75 @@
 class User {
+  Map<String, UserProfile> profiles;
+  String mainProfile;
+  List<dynamic> todoDone;
+
+  User({required this.profiles, required this.mainProfile, required this.todoDone});
+
+  static User fromMap(Map<String, dynamic> map) {
+    Map<String, UserProfile> profiles = {};
+    map["profiles"].forEach((key, value) {
+      profiles[key] = UserProfile.fromMap(value);
+    });
+    return User(
+      profiles: profiles,
+      mainProfile: map["mainProfile"],
+      todoDone: map["todoDone"],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> profiles = {};
+    this.profiles.forEach((key, value) {
+      profiles[key] = value.toMap();
+    });
+    return {
+      "profiles": profiles,
+      "mainProfile": mainProfile,
+      "todoDone": todoDone,
+    };
+  }
+}
+
+class UserProfile {
   String regionCode;
   String schoolCode;
-  String schoolName;
-  String grade;
-  String? studentNumber;
+  int grade;
   String className;
-  List<dynamic> todoDone;
-  bool isAdmin;
-  bool? isMainProfile;
+  int studentNumber;
+
   bool authorized;
 
-  User(
+  String id;
+
+  UserProfile(
       {required this.regionCode,
       required this.schoolCode,
-      required this.schoolName,
       required this.grade,
-      this.studentNumber,
       required this.className,
-      required this.todoDone,
-      required this.isAdmin,
-      this.isMainProfile,
-      required this.authorized});
+      required this.studentNumber,
+      required this.authorized,
+      required this.id});
+
+  static UserProfile fromMap(Map map) {
+    return UserProfile(
+        regionCode: map["regionCode"],
+        schoolCode: map["schoolCode"],
+        grade: map["grade"],
+        className: map["className"],
+        studentNumber: map["studentNumber"],
+        authorized: map["authorized"],
+        id: map["id"]);
+  }
 
   Map<String, dynamic> toMap() {
     return {
       "regionCode": regionCode,
       "schoolCode": schoolCode,
-      "schoolName": schoolName,
       "grade": grade,
-      "studentNumber": studentNumber,
       "className": className,
-      "isAdmin": isAdmin,
-      "authorized": authorized
+      "studentNumber": studentNumber,
+      "authorized": authorized,
+      "id": id
     };
-  }
-
-  static User parse(Map map) {
-    return User(
-        regionCode: map["regionCode"],
-        schoolCode: map["schoolCode"],
-        schoolName: map["schoolName"],
-        grade: map["grade"],
-        studentNumber: map["studentNumber"],
-        className: map["className"],
-        todoDone: map["todoDone"] ?? [],
-        isAdmin: map["isAdmin"] ?? false,
-        isMainProfile: map["isMainProfile"],
-        authorized: map["authorized"] ?? false);
   }
 }

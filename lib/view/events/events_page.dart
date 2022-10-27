@@ -26,26 +26,48 @@ class EventsPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 2.0),
-                child: Text("${GlobalController.instance.school?.schoolName}"),
+                child: Text("${Get.find<GlobalController>().school?.schoolName}"),
               ),
             ],
           ),
           title: "Events",
-          trailing: () {
-            if (GlobalController.instance.user.value!.isAdmin) {
-              return CustomButton(
-                width: 40,
-                height: 40,
-                onTap: () {
-                  if (GlobalController.instance.user.value!.isAdmin) {
-                    Get.to(() => AddEventPage());
-                  }
-                },
-                borderRadius: BorderRadius.circular(1000),
-                child: Icon(Icons.add),
-              );
-            }
-          }()),
+          // trailing: () {
+          //   if (Get.find<GlobalController>().user.value!.isAdmin) {
+          //     return CustomButton(
+          //       width: 40,
+          //       height: 40,
+          //       onTap: () {
+          //         if (Get.find<GlobalController>().user.value!.isAdmin) {
+          //           Get.to(() => AddEventPage());
+          //         }
+          //       },
+          //       borderRadius: BorderRadius.circular(1000),
+          //       child: Icon(Icons.add),
+          //     );
+          //   }
+          // }()
+          trailing: FutureBuilder(
+            future: Get.find<GlobalController>().validateAdmin(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data! as bool)
+                  return CustomButton(
+                    width: 40,
+                    height: 40,
+                    onTap: () {
+                      Get.to(() => AddEventPage());
+                    },
+                    borderRadius: BorderRadius.circular(1000),
+                    child: Icon(Icons.add),
+                  );
+                else
+                  return Container();
+              } else {
+                return Container();
+              }
+            },
+          ),
+      ),
       body: Column(
         children: [
           c.obx((state) {

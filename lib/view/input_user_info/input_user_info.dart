@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/generated/l10n.dart';
-import 'package:schoolman/uitools/custom_scaffold.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/input_user_info/input_user_info_controller.dart';
 
 class InputUserInfo extends StatelessWidget {
@@ -14,8 +13,6 @@ class InputUserInfo extends StatelessWidget {
   final String schoolCode;
   final String schoolName;
 
-  final TextStyle textStyle = TextStyle(fontFamily: "Pretendard");
-
   @override
   Widget build(BuildContext context) {
     InputUserInfoController c =
@@ -23,27 +20,31 @@ class InputUserInfo extends StatelessWidget {
 
     return SizedBox(
       height: 250,
-      child: CustomScaffold(
+      child: Scaffold(
         body: c.obx((state) {
           return Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CupertinoButton(
+                  PlatformTextButton(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
                       child: Text(
-                        "Cancel",
-                        style: textStyle,
+                        S.of(context).cancel,
+                        style: Theme.of(context).textTheme.button?.copyWith(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w400),
                       ),
                       onPressed: () {
                         Get.back();
                       }),
-                  CupertinoButton(
+                  PlatformTextButton(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
                       child: Text(
-                        "Done",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Pretendard"),
+                        S.of(context).done,
+                        style: Theme.of(context).textTheme.button?.copyWith(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         c.submitUserInfo();
@@ -57,14 +58,14 @@ class InputUserInfo extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          "학년",
-                          style: textStyle,
+                          S.of(context).grade,
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
                       SizedBox(
                         height: 100,
                         child: CupertinoPicker(
-                            itemExtent: 29,
+                            itemExtent: 30,
                             scrollController:
                                 FixedExtentScrollController(initialItem: 0),
                             onSelectedItemChanged: (item) {
@@ -72,9 +73,12 @@ class InputUserInfo extends StatelessWidget {
                                   c.gradeMap["grades"].toList()[item];
                             },
                             children: c.gradeMap["grades"].map<Widget>((item) {
-                              return Text(
-                                item.toString(),
-                                style: textStyle,
+                              return Align(
+                                widthFactor: 0,
+                                child: Text(
+                                  item.toString(),
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                               );
                             }).toList()),
                       ),
@@ -82,8 +86,12 @@ class InputUserInfo extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text("-", textScaleFactor: 3),
+                  padding: const EdgeInsets.only(top: 22.0),
+                  child: Text(
+                    "-",
+                    textScaleFactor: 3,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -91,14 +99,14 @@ class InputUserInfo extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          "반",
-                          style: textStyle,
+                          S.of(context).className,
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
                       SizedBox(
                         height: 100,
                         child: CupertinoPicker(
-                            itemExtent: 29,
+                            itemExtent: 30,
                             scrollController:
                                 FixedExtentScrollController(initialItem: 0),
                             onSelectedItemChanged: (item) {
@@ -108,9 +116,12 @@ class InputUserInfo extends StatelessWidget {
                             children: c.gradeMap["classes"]
                                     [c.gradeSelected.value]
                                 .map<Widget>((item) {
-                              return Text(
-                                item,
-                                style: textStyle,
+                              return Align(
+                                widthFactor: 0,
+                                child: Text(
+                                  item,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
                               );
                             }).toList()),
                       ),
@@ -124,7 +135,7 @@ class InputUserInfo extends StatelessWidget {
             ],
           );
         },
-            onLoading: LoadingIndicator(),
+            onLoading: Center(child: PlatformCircularProgressIndicator()),
             onError: (e) => Center(
                   child: Text(S.of(context).somethingWentWrong + e.toString()),
                 )),

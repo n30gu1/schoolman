@@ -50,41 +50,43 @@ class MainPageController extends GetxController with StateMixin {
     }
   }
 
-  void writeSchoolDataToUserDefault() {
+  void writeSchoolDataToUserDefault() async {
     try {
+      GlobalController c = Get.find<GlobalController>();
       WidgetKit.setItem(
           "regionCode",
-          GlobalController.instance.school?.regionCode,
+          c.school?.regionCode,
           "group.com.n30gu1.schoolman");
       WidgetKit.setItem(
           "schoolCode",
-          GlobalController.instance.user.value?.schoolCode,
+          c.school?.schoolCode,
           "group.com.n30gu1.schoolman");
       WidgetKit.setItem(
           "schoolType",
-          GlobalController.instance.school?.schoolType.code.toString(),
+          c.school?.schoolType.code.toString(),
           "group.com.n30gu1.schoolman");
-      WidgetKit.setItem("grade", GlobalController.instance.user.value?.grade,
+      WidgetKit.setItem("grade", c.userProfile?.grade,
           "group.com.n30gu1.schoolman");
       WidgetKit.setItem(
           "class",
-          GlobalController.instance.user.value?.className,
+          c.userProfile?.className,
           "group.com.n30gu1.schoolman");
     } catch (e) {
       print("Error occured while writing data to UserDefault $e");
     }
   }
 
-  void sendSchoolDataViaWC() {
+  void sendSchoolDataViaWC() async {
     try {
       WatchConnectivity wc = WatchConnectivity();
+      GlobalController c = Get.find<GlobalController>();
       wc.sendMessage({
-        "regionCode": GlobalController.instance.school?.regionCode,
-        "schoolCode": GlobalController.instance.user.value?.schoolCode,
+        "regionCode": c.school?.regionCode,
+        "schoolCode": c.school?.schoolCode,
         "schoolType":
-            GlobalController.instance.school?.schoolType.code.toString(),
-        "grade": GlobalController.instance.user.value?.grade,
-        "class": GlobalController.instance.user.value?.className
+            c.school?.schoolType.code.toString(),
+        "grade": c.userProfile?.grade,
+        "class": c.userProfile?.className
       });
     } catch (e) {
       print("Error occured while sending via WatchConnectivity $e");
@@ -93,13 +95,13 @@ class MainPageController extends GetxController with StateMixin {
 
   Future<void> fetchTimeTable() async {
     try {
-      School school = GlobalController.instance.school!;
-      User user = GlobalController.instance.user.value!;
+      School school = Get.find<GlobalController>().school!;
+      UserProfile user = Get.find<GlobalController>().userProfile!;
       _timeTable.value = await APIService.instance.fetchTimeTable(
           school.schoolType,
           school.regionCode,
           school.schoolCode,
-          user.grade,
+          user.grade.toString(),
           user.className);
     } catch (error) {
       print(error);
@@ -108,10 +110,10 @@ class MainPageController extends GetxController with StateMixin {
 
   Future<void> fetchMeal() async {
     try {
-      School school = GlobalController.instance.school!;
+      School school = Get.find<GlobalController>().school!;
       int now = DateTime.now().hour;
       MealType? _mealType;
-      if (GlobalController.instance.school!.schoolType == SchoolType.high) {
+      if (Get.find<GlobalController>().school!.schoolType == SchoolType.high) {
         if (now < 8) {
           _mealType = MealType.breakfast;
         } else if (now >= 8 && now < 13) {
@@ -148,7 +150,7 @@ class MainPageController extends GetxController with StateMixin {
 
   Future<void> fetchNotice() async {
     try {
-      School currentSchool = GlobalController.instance.school!;
+      School currentSchool = Get.find<GlobalController>().school!;
       QuerySnapshot noticesCollection = await FirebaseFirestore.instance
           .collection("${currentSchool.regionCode}")
           .doc("${currentSchool.schoolCode}")

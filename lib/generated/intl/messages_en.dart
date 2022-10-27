@@ -26,14 +26,24 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Authorize School"),
         "authorizeSchoolInputNewCode":
             MessageLookupByLibrary.simpleMessage("Input New School Code"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "className": MessageLookupByLibrary.simpleMessage("Class"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
+        "grade": MessageLookupByLibrary.simpleMessage("Grade"),
+        "or": MessageLookupByLibrary.simpleMessage("or"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "schoolName": MessageLookupByLibrary.simpleMessage("School Name"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
+        "signInAnonymously":
+            MessageLookupByLibrary.simpleMessage("Sign in Anonymously"),
+        "signInWithApple":
+            MessageLookupByLibrary.simpleMessage("Sign in with Apple"),
+        "signInWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Sign in with Google"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
-        "socialSignIn":
-            MessageLookupByLibrary.simpleMessage("Sign In with Social Account"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong: "),
         "titleEvents": MessageLookupByLibrary.simpleMessage("Events"),

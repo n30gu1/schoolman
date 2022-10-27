@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/api_service.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'dart:developer';
-import 'package:schoolman/view/tabview.dart';
 
 class InputUserInfoController extends GetxController with StateMixin {
   late String schoolCode;
@@ -71,29 +69,27 @@ class InputUserInfoController extends GetxController with StateMixin {
   }
 
   void submitUserInfo() async {
-    bool isMainProfile = await () async {
-      var userData = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-
-      if (userData.exists) {
-        return userData.isBlank!;
-      } else {
-        return true;
-      }
-    }();
-
-    print(isMainProfile);
-    await GlobalController.instance.submitNewUser(
-        this.regionCode,
-        this.schoolCode,
-        this.schoolName,
-        gradeSelected.value,
-        classSelected.value,
-        studentNumberInputController.text,
-        FirebaseAuth.instance.currentUser!.displayName!,
-        isMainProfile);
-    Get.offAll(() => TabView());
+    if (FirebaseAuth.instance.currentUser!.isAnonymous) {
+      // Offline Mode (Anonymous)
+      await Get.find<GlobalController>().submitNewUser(
+          this.regionCode,
+          this.schoolCode,
+          this.schoolName,
+          int.parse(gradeSelected.value),
+          classSelected.value,
+          int.parse(studentNumberInputController.text),
+          "");
+    } else {
+      // Online Mode
+      await Get.find<GlobalController>().submitNewUser(
+          this.regionCode,
+          this.schoolCode,
+          this.schoolName,
+          int.parse(gradeSelected.value),
+          classSelected.value,
+          int.parse(studentNumberInputController.text),
+          FirebaseAuth.instance.currentUser!.displayName!,
+      );
+    }
   }
 }

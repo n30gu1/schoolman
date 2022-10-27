@@ -23,7 +23,7 @@ class AddEventController extends GetxController with StateMixin {
   }
 
   void upload() {
-    School school = GlobalController.instance.school!;
+    School school = Get.find<GlobalController>().school!;
     change(null, status: RxStatus.loading());
     try {
       FirebaseFirestore.instance

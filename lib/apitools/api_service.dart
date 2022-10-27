@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
@@ -144,8 +145,9 @@ class APIService {
   }
 
   Future<List<TimeTable>> fetchTimeTableByDuration(DateTime date) async {
-    School school = GlobalController.instance.school!;
-    User user = GlobalController.instance.user.value!;
+    final globalC = Get.find<GlobalController>();
+    School school = globalC.school!;
+    User user = globalC.user!;
     String? uriString;
     String? rootTitle;
 
@@ -156,17 +158,17 @@ class APIService {
       switch (school.schoolType) {
         case SchoolType.high:
           uriString =
-              "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/hisTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.profiles[user.mainProfile]!.grade}&CLASS_NM=${user.profiles[user.mainProfile]!.className}";
           rootTitle = "hisTimetable";
           break;
         case SchoolType.middle:
           uriString =
-              "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/misTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.profiles[user.mainProfile]!.grade}&CLASS_NM=${user.profiles[user.mainProfile]!.className}";
           rootTitle = "misTimetable";
           break;
         case SchoolType.elementary:
           uriString =
-              "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.grade}&CLASS_NM=${user.className}";
+              "https://open.neis.go.kr/hub/elsTimetable?KEY=$_KEY&Type=json&ATPT_OFCDC_SC_CODE=${school.regionCode}&SD_SCHUL_CODE=${school.schoolCode}&ALL_TI_YMD=$day&GRADE=${user.profiles[user.mainProfile]!.grade}&CLASS_NM=${user.profiles[user.mainProfile]!.className}";
           rootTitle = "elsTimetable";
           break;
         case SchoolType.other:
@@ -216,7 +218,8 @@ class APIService {
 
   Future<List<Event>> fetchEvents(int itemCount,
       {DateTime? from, DateTime? to}) async {
-    School school = GlobalController.instance.school!;
+    final globalC = Get.find<GlobalController>();
+    School school = globalC.school!;
     String startDate = DateFormat("yyyyMMdd").format(from ?? DateTime.now());
     String endDate = DateFormat("yyyyMMdd")
         .format(to ?? DateTime.now().add(Duration(days: itemCount)));

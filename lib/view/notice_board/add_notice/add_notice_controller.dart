@@ -22,6 +22,8 @@ class AddNoticeController extends GetxController with StateMixin {
   DateTime _dueDate = DateTime.now();
   RxBool isAssignedToAllClasses = false.obs;
   RxMap<String, dynamic> classSelected = Map<String, dynamic>().obs;
+  
+  final globalC = Get.find<GlobalController>();
 
   late Map gradeMap;
 
@@ -42,7 +44,7 @@ class AddNoticeController extends GetxController with StateMixin {
 
   void fetchClassInfo() async {
     change(null, status: RxStatus.loading());
-    School school = GlobalController.instance.school!;
+    School school = globalC.school!;
     try {
       gradeMap = await createMap(await APIService.instance
           .fetchClassInfo(school.regionCode, school.schoolCode));
@@ -83,7 +85,7 @@ class AddNoticeController extends GetxController with StateMixin {
   }
 
   void upload() {
-    School school = GlobalController.instance.school!;
+    School school = globalC.school!;
     String? uuid;
 
     change(null, status: RxStatus.loading());

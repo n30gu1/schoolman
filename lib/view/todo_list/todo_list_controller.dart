@@ -9,7 +9,7 @@ import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/model/todoitem.dart';
 
 class TodoListController extends GetxController with StateMixin {
-  RxList todoDone = (GlobalController.instance.user.value!.todoDone).obs;
+  RxList todoDone = (Get.find<GlobalController>().user!.todoDone).obs;
 
   @override
   void onInit() {
@@ -20,10 +20,11 @@ class TodoListController extends GetxController with StateMixin {
   Future<void> fetchTodo() async {
     change(null, status: RxStatus.loading());
     try {
-      String regionCode = GlobalController.instance.school!.regionCode;
-      String schoolCode = GlobalController.instance.school!.schoolCode;
-      String grade = GlobalController.instance.user.value!.grade;
-      String className = GlobalController.instance.user.value!.className;
+      final globalController = Get.find<GlobalController>();
+      String regionCode = globalController.school!.regionCode;
+      String schoolCode = globalController.school!.schoolCode;
+      int grade = globalController.userProfile!.grade;
+      String className = globalController.userProfile!.className;
       QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
           .instance
           .collection(regionCode)

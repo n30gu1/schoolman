@@ -10,18 +10,18 @@ class SwitchUserPage extends StatelessWidget {
   SwitchUserPage({Key? key}) : super(key: key);
 
   final c = Get.put(SwitchUserController());
+  final gc = Get.find<GlobalController>();
 
-  Widget cell(User item) {
+  Widget cell(UserProfile item) {
     bool isCurrentProfile = () {
-      var gc = GlobalController.instance;
-      return item.schoolCode == gc.user.value!.schoolCode &&
-          item.grade == gc.user.value!.grade &&
-          item.className == gc.user.value!.className;
+      var gc = Get.find<GlobalController>();
+      return item.id == gc.userProfile!.id;
     }();
+
     return GestureDetector(
       onTap: () {
-        GlobalController.instance.switchUser(item);
-        c.fetchSchools();
+        Get.find<GlobalController>().switchUser(item.id);
+        c.userProfile.value = item;
       },
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -38,9 +38,11 @@ class SwitchUserPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text(item.schoolName),
+                  // TODO: Add School Name
+                  // Text(item.schoolName),
+                  Text(item.schoolCode),
                   Spacer(),
-                  if (item.isMainProfile == true) ...[
+                  if (item.id == gc.user!.mainProfile) ...[
                     Text(
                       "main ",
                       style: TextStyle(color: Colors.grey),
@@ -64,25 +66,23 @@ class SwitchUserPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          c.obx(
-            (state) => ListView.builder(
+          Obx(() => ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              itemCount: state.length,
+              itemCount: c.profiles.length,
               shrinkWrap: true,
               itemBuilder: ((context, index) => Dismissible(
-                  direction: state[index].isMainProfile
+                  direction: gc.user!.profiles[index]!.id == gc.userProfile!.id
                       ? DismissDirection.none
                       : DismissDirection.endToStart,
                   onDismissed: ((direction) {
-                    c.removeProfile(state[index]);
+                    c.removeProfile(c.profiles[index]);
                   }),
-                  key: Key(state[index].toString()),
+                  key: Key(c.profiles[index].id),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child: cell(state[index]),
+                    child: cell(c.profiles[index]),
                   ))),
-            ),
-          ),
+            )),
           TextButton(
               onPressed: () {
                 Get.to(() => InputSchoolInfo());

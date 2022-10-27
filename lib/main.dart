@@ -31,8 +31,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final c = Get.put(GlobalController());
-
   @override
   void initState() {
     super.initState();
@@ -48,29 +46,41 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: LightTheme,
-        darkTheme: LightTheme, // TODO: Temporary, must be ditched to DarkTheme
-        home: c.obx((state) {
-          return state;
-        },
-            onLoading: Center(
-              child: Scaffold(
-                  body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Seenac",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 2,
-                    ),
-                    Container(
-                      height: 16,
-                    ),
-                    LoadingIndicator()
-                  ],
-                ),
-              )),
-            )));
+        theme: Platform.isIOS ? LightThemeIOS : LightTheme,
+        darkTheme: Platform.isIOS ? DarkThemeIOS : DarkTheme, // TODO: Temporary, must be ditched to DarkTheme
+        // home: GetBuilder<GlobalController>(
+        //     init: GlobalController(),
+        //     builder: (c) {
+        //       return Splash();
+        //     })
+      home: Splash(),
+    );
   }
 }
+
+class Splash extends StatelessWidget {
+  const Splash({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(GlobalController());
+    return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Seenac",
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
+                textScaleFactor: 2,
+              ),
+              Container(
+                height: 16,
+              ),
+              LoadingIndicator()
+            ],
+          ),
+        ));
+  }
+}
+
