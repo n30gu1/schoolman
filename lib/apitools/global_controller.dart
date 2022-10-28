@@ -7,6 +7,7 @@ import 'package:schoolman/model/school.dart';
 import 'package:schoolman/model/user.dart';
 import 'dart:developer';
 import 'package:schoolman/apitools/api_service.dart';
+import 'package:schoolman/view/input_school_info/input_school_info.dart';
 import 'package:schoolman/view/sign_in/sign_in_page.dart';
 import 'package:schoolman/view/tabview.dart';
 import 'package:uuid/uuid.dart';
@@ -78,6 +79,8 @@ class GlobalController extends GetxController {
       log("All infos are filled");
       // change(TabView(), status: RxStatus.success());
       Get.offAll(() => TabView());
+    } else if (_auth.currentUser != null) {
+      Get.offAll(() => InputSchoolInfo());
     } else {
       log("Infos insufficient");
       // change(SignInPage(), status: RxStatus.success());
@@ -115,15 +118,14 @@ class GlobalController extends GetxController {
       final doc = FirebaseFirestore.instance
           .collection("users")
           .doc(_auth.currentUser!.uid);
-      if (doc.isBlank != null) {
-        if (doc.isBlank!) {
-          doc.set(newUser.toMap());
-          _auth.currentUser!.updateDisplayName(name);
-        } else {
+      final data = await doc.get();
+      if (data.exists) {
           final data = (await doc.get()).data()!;
           data["profiles"][uuid] = profile.toMap();
           doc.update(data);
-        }
+      } else {
+        doc.set(newUser.toMap());
+        _auth.currentUser!.updateDisplayName(name);
       }
     }
 

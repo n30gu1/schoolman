@@ -63,7 +63,7 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(GlobalController());
+    Get.put(GlobalController(), permanent: true);
     return Scaffold(
         body: Center(
           child: Column(

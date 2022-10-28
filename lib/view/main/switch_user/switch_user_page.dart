@@ -70,18 +70,20 @@ class SwitchUserPage extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: c.profiles.length,
               shrinkWrap: true,
-              itemBuilder: ((context, index) => Dismissible(
-                  direction: gc.user!.profiles[index]!.id == gc.userProfile!.id
+              itemBuilder: ((context, index) {
+                final key = gc.user!.profiles.keys.toList()[index];
+                return Dismissible(
+                  direction: key == gc.userProfile!.id
                       ? DismissDirection.none
                       : DismissDirection.endToStart,
                   onDismissed: ((direction) {
                     c.removeProfile(c.profiles[index]);
                   }),
-                  key: Key(c.profiles[index].id),
+                  key: Key(key),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child: cell(c.profiles[index]),
-                  ))),
+                    child: cell(gc.user!.profiles[key]!),
+                  ));}),
             )),
           TextButton(
               onPressed: () {

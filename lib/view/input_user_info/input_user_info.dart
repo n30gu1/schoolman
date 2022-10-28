@@ -131,6 +131,7 @@ class InputUserInfo extends StatelessWidget {
               ]),
               TextField(
                 controller: c.studentNumberInputController,
+                keyboardType: TextInputType.number,
               )
             ],
           );

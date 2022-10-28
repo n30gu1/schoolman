@@ -64,11 +64,11 @@ class SignInController extends GetxController {
     var snapshot = await FirebaseFirestore.instance.collection("users")
         .doc(signedInUserCredential.user?.uid)
         .get();
-    if (!snapshot.exists) {
-      Get.offAll(() => InputSchoolInfo());
-    } else {
-      Get.back();
-    }
+    // if (!snapshot.exists) {
+    //   Get.offAll(() => InputSchoolInfo());
+    // } else {
+    //   Get.back();
+    // }
     return signedInUserCredential;
   }
 
@@ -105,14 +105,14 @@ class SignInController extends GetxController {
     signedInUserCredential.user!.updateDisplayName(
         (appleCredential.familyName ?? "") + (appleCredential.givenName ?? ""));
 
-    var snapshot = await FirebaseFirestore.instance.collection("users")
-        .doc(signedInUserCredential.user?.uid)
-        .get();
-    if (!snapshot.exists) {
-      Get.offAll(() => InputSchoolInfo());
-    } else {
-      Get.back();
-    }
+    // var snapshot = await FirebaseFirestore.instance.collection("users")
+    //     .doc(signedInUserCredential.user?.uid)
+    //     .get();
+    // if (!snapshot.exists) {
+    //   Get.offAll(() => InputSchoolInfo());
+    // } else {
+    //   Get.back();
+    // }
 
     return signedInUserCredential;
   }
