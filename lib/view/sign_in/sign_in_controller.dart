@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,10 +59,6 @@ class SignInController extends GetxController {
     FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
         .FirebaseAuth.instance
         .signInWithCredential(credential);
-
-    var snapshot = await FirebaseFirestore.instance.collection("users")
-        .doc(signedInUserCredential.user?.uid)
-        .get();
     // if (!snapshot.exists) {
     //   Get.offAll(() => InputSchoolInfo());
     // } else {
