@@ -23,10 +23,10 @@ final LightTheme = ThemeData(
         subtitle1: TextStyle(color: Colors.black),
         subtitle2: TextStyle(color: Colors.black),
         bodyText1: TextStyle(color: Colors.black),
-        bodyText2: TextStyle(color: Colors.white),
+        bodyText2: TextStyle(color: Colors.black),
         caption: TextStyle(color: Colors.black),
         button: TextStyle(color: Colors.black),
-        overline: TextStyle(color: Colors.white)),
+        overline: TextStyle(color: Colors.black)),
     textSelectionTheme: TextSelectionThemeData(
         cursorColor: Colors.green,
         selectionColor: Colors.green,

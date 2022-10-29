@@ -49,7 +49,7 @@ class TimeTablePage extends StatelessWidget {
                         onTap: () {
                           c.setDate(c.date.add(Duration(days: -7)));
                         },
-                        borderRadius: BorderRadius.circular(1000),
+                        borderRadius: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(Icons.chevron_left),
@@ -59,7 +59,7 @@ class TimeTablePage extends StatelessWidget {
                         onTap: () {
                           c.setDate(c.date.add(Duration(days: 7)));
                         },
-                        borderRadius: BorderRadius.circular(1000),
+                        borderRadius: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(Icons.chevron_right),

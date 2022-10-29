@@ -31,8 +31,6 @@ class SignInController extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-
-      Get.back();
     } catch (e) {}
   }
 

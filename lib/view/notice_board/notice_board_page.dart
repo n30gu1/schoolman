@@ -41,14 +41,16 @@ class NoticeBoardPage extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data! as bool)
-                      return CustomButton(
+                      return SizedBox(
                         width: 40,
                         height: 40,
-                        onTap: () {
-                          Get.to(() => AddNoticePage());
-                        },
-                        borderRadius: BorderRadius.circular(1000),
-                        child: Icon(Icons.add),
+                        child: CustomButton(
+                          onTap: () {
+                            Get.to(() => AddNoticePage());
+                          },
+                          borderRadius: double.infinity,
+                          child: Icon(Icons.add),
+                        ),
                       );
                   }
                   return Container();

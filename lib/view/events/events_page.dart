@@ -51,14 +51,16 @@ class EventsPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data! as bool)
-                  return CustomButton(
+                  return SizedBox(
                     width: 40,
                     height: 40,
-                    onTap: () {
-                      Get.to(() => AddEventPage());
-                    },
-                    borderRadius: BorderRadius.circular(1000),
-                    child: Icon(Icons.add),
+                    child: CustomButton(
+                      onTap: () {
+                        Get.to(() => AddEventPage());
+                      },
+                      borderRadius: double.infinity,
+                      child: Icon(Icons.add),
+                    ),
                   );
                 else
                   return Container();

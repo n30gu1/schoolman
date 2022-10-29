@@ -55,7 +55,6 @@ class InfoPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  borderRadius: BorderRadius.circular(1000),
                 ),
               ),
               CustomButton(
@@ -74,7 +73,6 @@ class InfoPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                borderRadius: BorderRadius.circular(1000),
               ),
             ],
           ),

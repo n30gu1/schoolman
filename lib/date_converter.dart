@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +14,7 @@ extension DateTimeConverter on String {
 
 extension Extensions on DateTime {
   List<DateTime> listByWeekday() {
-    DateFormat f = DateFormat('EEEE');
+    DateFormat f = DateFormat('EEEE', 'en_US');
     List<DateTime> addToList(int start, int end) {
       List<DateTime> list = [];
       for (int i = start; i <= end; i++) list.add(this.add(Duration(days: i)));
@@ -41,7 +43,7 @@ extension Extensions on DateTime {
 
 
   List<DateTime> listByWeekdayWithAutoListing() {
-    DateFormat f = DateFormat('EEEE');
+    DateFormat f = DateFormat('EEEE', 'en_US');
     List<DateTime> addToList(int start, int end) {
       List<DateTime> list = [];
       for (int i = start; i <= end; i++) list.add(this.add(Duration(days: i)));

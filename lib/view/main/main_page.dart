@@ -37,17 +37,19 @@ class MainPage extends StatelessWidget {
               ],
             ),
             title: S.of(context).titleSummary,
-            trailing: CustomButton(
+            trailing: SizedBox(
               width: 40,
               height: 40,
-              onTap: () {
-                Get.bottomSheet(SwitchUserPage(),
-                    enterBottomSheetDuration: Duration(milliseconds: 100),
-                    exitBottomSheetDuration: Duration(milliseconds: 100),
-                    persistent: false);
-              },
-              borderRadius: BorderRadius.circular(1000),
-              child: Icon(Icons.account_circle_sharp),
+              child: CustomButton(
+                onTap: () {
+                  Get.bottomSheet(SwitchUserPage(),
+                      enterBottomSheetDuration: Duration(milliseconds: 100),
+                      exitBottomSheetDuration: Duration(milliseconds: 100),
+                      persistent: false);
+                },
+                borderRadius: double.infinity,
+                child: Icon(Icons.account_circle_sharp),
+              ),
             )),
         body: Column(children: [
           c.obx((_) {
