@@ -84,15 +84,19 @@ class InputSchoolInfo extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () {
-                                        Get.bottomSheet(
-                                            InputUserInfo(
-                                                i["ATPT_OFCDC_SC_CODE"],
-                                                i["SD_SCHUL_CODE"],
-                                                i["SCHUL_NM"]),
-                                            enterBottomSheetDuration:
-                                                Duration(milliseconds: 100),
-                                            exitBottomSheetDuration:
-                                                Duration(milliseconds: 100));
+                                        // Get.bottomSheet(
+                                        //     InputUserInfo(
+                                        //         i["ATPT_OFCDC_SC_CODE"],
+                                        //         i["SD_SCHUL_CODE"],
+                                        //         i["SCHUL_NM"]),
+                                        //     enterBottomSheetDuration:
+                                        //         Duration(milliseconds: 100),
+                                        //     exitBottomSheetDuration:
+                                        //         Duration(milliseconds: 100));
+                                        Get.to(() => InputUserInfo(
+                                            i["ATPT_OFCDC_SC_CODE"],
+                                            i["SD_SCHUL_CODE"],
+                                            i["SCHUL_NM"]));
                                       },
                                     ),
                                     material: (_, __) => ListTile(
@@ -110,15 +114,10 @@ class InputSchoolInfo extends StatelessWidget {
                                         ],
                                       ),
                                       onTap: () {
-                                        Get.bottomSheet(
-                                            InputUserInfo(
-                                                i["ATPT_OFCDC_SC_CODE"],
-                                                i["SD_SCHUL_CODE"],
-                                                i["SCHUL_NM"]),
-                                            enterBottomSheetDuration:
-                                                Duration(milliseconds: 100),
-                                            exitBottomSheetDuration:
-                                                Duration(milliseconds: 100));
+                                        Get.to(() => InputUserInfo(
+                                            i["ATPT_OFCDC_SC_CODE"],
+                                            i["SD_SCHUL_CODE"],
+                                            i["SCHUL_NM"]));
                                       },
                                     ),
                                   ),

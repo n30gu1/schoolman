@@ -19,7 +19,7 @@ class NoticeBoardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => CustomScaffold(
+    return CustomScaffold(
           appBar: CustomAppBar(
               subView: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class NoticeBoardPage extends StatelessWidget {
               }, onLoading: LoadingIndicator())
             ],
           ),
-        ));
+        );
   }
 }
 

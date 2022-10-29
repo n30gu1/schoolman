@@ -18,12 +18,14 @@ class InputUserInfo extends StatelessWidget {
     InputUserInfoController c =
         Get.put(InputUserInfoController(regionCode, schoolCode, schoolName));
 
-    return SizedBox(
-      height: 250,
-      child: Scaffold(
-        body: c.obx((state) {
-          return Column(
+    return Scaffold(
+      body: c.obx((state) {
+        return SafeArea(
+          child: Column(
             children: [
+              Container(
+                height: 200,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -134,13 +136,13 @@ class InputUserInfo extends StatelessWidget {
                 keyboardType: TextInputType.number,
               )
             ],
-          );
-        },
-            onLoading: Center(child: PlatformCircularProgressIndicator()),
-            onError: (e) => Center(
-                  child: Text(S.of(context).somethingWentWrong + e.toString()),
-                )),
-      ),
+          ),
+        );
+      },
+          onLoading: Center(child: PlatformCircularProgressIndicator()),
+          onError: (e) => Center(
+                child: Text(S.of(context).somethingWentWrong + e.toString()),
+              )),
     );
   }
 }

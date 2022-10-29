@@ -165,30 +165,51 @@ class SignInWithGoogleButton extends StatelessWidget {
 }
 
 class CustomButton extends StatelessWidget {
-  final double? width;
-  final double? height;
   final Function() onTap;
-  final BorderRadius? borderRadius;
   final Widget child;
+  double borderRadius;
+  final Color? color;
 
   CustomButton(
-      {Key? key,
-      this.width,
-      this.height,
-      required this.onTap,
-      this.borderRadius,
-      required this.child})
-      : super(key: key);
+      {required this.onTap,
+        required this.child,
+        this.borderRadius = 6.0,
+        this.color,
+        super.key});
 
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: this.onTap,
-      child: Container(
-        width: this.width,
-        height: this.height,
-        decoration:
-            BoxDecoration(color: Colors.black12, borderRadius: borderRadius),
-        child: this.child,
+    final mainWidget = Container(
+      height: 54,
+      decoration: BoxDecoration(
+          color: color != null ? color : Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(borderRadius)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Center(
+            child: child),
+      ),
+    );
+
+    return PlatformWidget(
+      material: (_, __) => SizedBox(
+        height: 50,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+            color != null ? color : Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+          onPressed: onTap,
+          child: Center(child: child),
+        ),
+      ),
+      cupertino: (_, __) => CupertinoButton.filled(
+        onPressed: onTap,
+        padding: EdgeInsets.zero,
+        child: mainWidget,
       ),
     );
   }
