@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
@@ -8,7 +9,6 @@ import 'package:schoolman/view/time_table/time_table_controller.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 
 class TimeTablePage extends StatelessWidget {
   TimeTablePage({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class TimeTablePage extends StatelessWidget {
               );
             },
                 onLoading: Center(
-                  child: LoadingIndicator(),
+                  child: PlatformCircularProgressIndicator(),
                 ),
                 onError: (error) => Center(
                       child: Text("Couldn't load: ${error}"),

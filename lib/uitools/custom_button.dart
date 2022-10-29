@@ -167,7 +167,7 @@ class SignInWithGoogleButton extends StatelessWidget {
 class CustomButton extends StatelessWidget {
   final Function() onTap;
   final Widget child;
-  double borderRadius;
+  final double borderRadius;
   final Color? color;
 
   CustomButton(

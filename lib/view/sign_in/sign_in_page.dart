@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
@@ -123,7 +123,7 @@ class SignInPage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 24),
-                if (Platform.isIOS) ...[
+                if (defaultTargetPlatform == TargetPlatform.iOS) ...[
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: SignInWithAppleButton(),

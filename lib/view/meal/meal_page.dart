@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
@@ -7,7 +8,6 @@ import 'package:schoolman/view/meal/meal_page_controller.dart';
 import 'package:schoolman/date_converter.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 
 class MealPage extends StatelessWidget {
   final c = Get.put(MealPageController());
@@ -141,7 +141,7 @@ class MealPage extends StatelessWidget {
                           ),
                         );
                       }));
-            }, onLoading: LoadingIndicator())
+            }, onLoading: PlatformCircularProgressIndicator())
           ],
         ),
       ),

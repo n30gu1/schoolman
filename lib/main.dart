@@ -1,19 +1,22 @@
-import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/generated/l10n.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/themedatas.dart';
+import 'package:schoolman/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  if (Platform.isAndroid) {
+  if (defaultTargetPlatform == TargetPlatform.android) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.transparent,
         statusBarColor: Colors.transparent));
@@ -46,8 +49,8 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: S.delegate.supportedLocales,
-        theme: Platform.isIOS ? LightThemeIOS : LightTheme,
-        darkTheme: Platform.isIOS ? DarkThemeIOS : DarkTheme, // TODO: Temporary, must be ditched to DarkTheme
+        theme: defaultTargetPlatform == TargetPlatform.iOS ? LightThemeIOS : LightTheme,
+        darkTheme: defaultTargetPlatform == TargetPlatform.iOS ? DarkThemeIOS : DarkTheme, // TODO: Temporary, must be ditched to DarkTheme
         // home: GetBuilder<GlobalController>(
         //     init: GlobalController(),
         //     builder: (c) {
@@ -77,7 +80,7 @@ class Splash extends StatelessWidget {
               Container(
                 height: 16,
               ),
-              LoadingIndicator()
+              PlatformCircularProgressIndicator()
             ],
           ),
         ));

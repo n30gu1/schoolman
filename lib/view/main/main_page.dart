@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
@@ -8,7 +9,6 @@ import 'package:schoolman/view/main/main_page_controller.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/main/switch_user/switch_user_page.dart';
 import 'package:schoolman/view/studyplanner/studyplanner_page.dart';
@@ -171,7 +171,7 @@ class MainPage extends StatelessWidget {
             );
           },
               onLoading: Center(
-                child: LoadingIndicator(),
+                child: PlatformCircularProgressIndicator(),
               ))
         ]));
   }

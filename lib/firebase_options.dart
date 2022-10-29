@@ -25,11 +25,20 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
-        return linux;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -39,12 +48,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
-    appId: '1:891812150665:web:fa696e1aa88d253fb7f558',
+    appId: '1:891812150665:web:2c941c2cad8a31e6b7f558',
     messagingSenderId: '891812150665',
     projectId: 'schoolman-proj',
     authDomain: 'schoolman-proj.firebaseapp.com',
+    databaseURL: 'https://schoolman-proj-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'schoolman-proj.appspot.com',
-    measurementId: 'G-XBX45G93BX',
+    measurementId: 'G-9Z53VG9FS9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -52,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:891812150665:android:ddbd3d0151537109b7f558',
     messagingSenderId: '891812150665',
     projectId: 'schoolman-proj',
+    databaseURL: 'https://schoolman-proj-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'schoolman-proj.appspot.com',
   );
 
@@ -60,38 +71,10 @@ class DefaultFirebaseOptions {
     appId: '1:891812150665:ios:e528ad0f71015f93b7f558',
     messagingSenderId: '891812150665',
     projectId: 'schoolman-proj',
+    databaseURL: 'https://schoolman-proj-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'schoolman-proj.appspot.com',
+    androidClientId: '891812150665-fa3os39nbcmecdi1dj1b4qfco5m73vf4.apps.googleusercontent.com',
     iosClientId: '891812150665-3o4tlf7565fh0klfhjbq9suqqe59rt7c.apps.googleusercontent.com',
     iosBundleId: 'com.n30gu1.SchoolMan',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBFxN8gxjD87W0LkW1rbGDdZo4XRXzCYkA',
-    appId: '1:891812150665:ios:e528ad0f71015f93b7f558',
-    messagingSenderId: '891812150665',
-    projectId: 'schoolman-proj',
-    storageBucket: 'schoolman-proj.appspot.com',
-    iosClientId: '891812150665-3o4tlf7565fh0klfhjbq9suqqe59rt7c.apps.googleusercontent.com',
-    iosBundleId: 'com.n30gu1.SchoolMan',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
-    appId: '1:891812150665:web:28c56ed995a29abbb7f558',
-    messagingSenderId: '891812150665',
-    projectId: 'schoolman-proj',
-    authDomain: 'schoolman-proj.firebaseapp.com',
-    storageBucket: 'schoolman-proj.appspot.com',
-    measurementId: 'G-EEWNNPVRB6',
-  );
-
-  static const FirebaseOptions linux = FirebaseOptions(
-    apiKey: 'AIzaSyA1kwjrUSXDQgP_DA6fPjTYpEJYqehYdiM',
-    appId: '1:891812150665:web:443ecabf87709bdeb7f558',
-    messagingSenderId: '891812150665',
-    projectId: 'schoolman-proj',
-    authDomain: 'schoolman-proj.firebaseapp.com',
-    storageBucket: 'schoolman-proj.appspot.com',
-    measurementId: 'G-39GHTBM1HW',
   );
 }

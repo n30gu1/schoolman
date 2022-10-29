@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/events/add_event/add_event_controller.dart';
 
 class AddEventPage extends StatelessWidget {
@@ -22,7 +22,7 @@ class AddEventPage extends StatelessWidget {
                     c.upload();
                   },
                   icon: Icon(Icons.add)),
-              onLoading: LoadingIndicator())
+              onLoading: PlatformCircularProgressIndicator())
         ],
       ),
       body: Column(children: [

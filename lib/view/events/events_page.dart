@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/events/add_event/add_event_page.dart';
 import 'package:schoolman/view/events/events_controller.dart';
 
@@ -98,7 +98,7 @@ class EventsPage extends StatelessWidget {
                 );
               },
             ));
-          }, onLoading: LoadingIndicator())
+          }, onLoading: PlatformCircularProgressIndicator())
         ],
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
-import 'package:schoolman/uitools/loading_indicator.dart';
 import 'package:schoolman/view/todo_list/todo_list_controller.dart';
 
 class TodoListPage extends StatelessWidget {
@@ -51,7 +51,7 @@ class TodoListPage extends StatelessWidget {
               );
             },
                 onLoading: Center(
-                  child: LoadingIndicator(),
+                  child: PlatformCircularProgressIndicator(),
                 )),
           ],
         ));
