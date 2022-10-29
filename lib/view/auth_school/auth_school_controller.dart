@@ -32,10 +32,13 @@ class AuthorizeSchoolController extends GetxController with StateMixin {
           .then((value) => value.data()?["authCode"]);
 
       if (schoolHash == authCode) {
+        globalC.userProfile!.authorized = true;
         await FirebaseFirestore.instance
             .collection("users")
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({"authorized": true});
+            .update({
+          "profiles": {globalC.userProfile!.id: globalC.userProfile!.toMap()}
+        });
         change(null, status: RxStatus.success());
       } else {
         change(null, status: RxStatus.error("Invalid code"));

@@ -109,8 +109,10 @@ final DarkTheme = ThemeData(
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.green));
 
 final LightThemeIOS = LightTheme.copyWith(
-    textTheme: LightTheme.textTheme
-        .copyWith(button: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Pretendard")));
+    textTheme: LightTheme.textTheme.copyWith(
+        button: TextStyle(
+            color: Colors.black, fontSize: 16, fontFamily: "Pretendard")));
 final DarkThemeIOS = DarkTheme.copyWith(
-    textTheme: DarkTheme.textTheme
-        .copyWith(button: TextStyle(color: Colors.black, fontSize: 16, fontFamily: "Pretendard")));
+    textTheme: DarkTheme.textTheme.copyWith(
+        button: TextStyle(
+            color: Colors.black, fontSize: 16, fontFamily: "Pretendard")));

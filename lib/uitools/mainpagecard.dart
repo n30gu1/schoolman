@@ -20,7 +20,7 @@ class MainPageCard extends StatelessWidget {
           height: height,
           width: double.infinity,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12), color: Colors.white),
+              borderRadius: BorderRadius.circular(12), color: Theme.of(context).dialogBackgroundColor),
           child: child,
         )
       ],

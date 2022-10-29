@@ -42,20 +42,24 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        localizationsDelegates: [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        theme: defaultTargetPlatform == TargetPlatform.iOS ? LightThemeIOS : LightTheme,
-        darkTheme: defaultTargetPlatform == TargetPlatform.iOS ? DarkThemeIOS : DarkTheme, // TODO: Temporary, must be ditched to DarkTheme
-        // home: GetBuilder<GlobalController>(
-        //     init: GlobalController(),
-        //     builder: (c) {
-        //       return Splash();
-        //     })
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      theme: defaultTargetPlatform == TargetPlatform.iOS
+          ? LightThemeIOS
+          : LightTheme,
+      // darkTheme: defaultTargetPlatform == TargetPlatform.iOS
+      //     ? DarkThemeIOS
+      //     : DarkTheme, // TODO: Temporary, must be ditched to DarkTheme
+      // home: GetBuilder<GlobalController>(
+      //     init: GlobalController(),
+      //     builder: (c) {
+      //       return Splash();
+      //     })
       home: Splash(),
     );
   }
@@ -69,21 +73,23 @@ class Splash extends StatelessWidget {
     Get.put(GlobalController(), permanent: true);
     return Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Seenac",
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
-                textScaleFactor: 2,
-              ),
-              Container(
-                height: 16,
-              ),
-              PlatformCircularProgressIndicator()
-            ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Seenac",
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                ?.copyWith(fontWeight: FontWeight.bold),
+            textScaleFactor: 2,
           ),
-        ));
+          Container(
+            height: 16,
+          ),
+          PlatformCircularProgressIndicator()
+        ],
+      ),
+    ));
   }
 }
-
