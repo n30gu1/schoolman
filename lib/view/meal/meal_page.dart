@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/meal/meal_page_controller.dart';
 import 'package:schoolman/date_converter.dart';
@@ -36,7 +37,7 @@ class MealPage extends StatelessWidget {
                   borderRadius: double.infinity,
                   child: Icon(Icons.calendar_month)),
             ),
-            title: "Meal",
+            title: S.of(context).titleMeal,
             subView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,8 +47,8 @@ class MealPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 2.0),
-                  child:
-                      Text("${Get.find<GlobalController>().school?.schoolName}"),
+                  child: Text(
+                      "${Get.find<GlobalController>().school?.schoolName}"),
                 ),
               ],
             )),

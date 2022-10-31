@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
+import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_textfield.dart';
 import 'package:schoolman/view/input_school_info/input_school_info_controller.dart';
@@ -32,6 +33,19 @@ class InputSchoolInfo extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                          onPressed: () {
+                            Get.find<GlobalController>().signOut();
+                          },
+                          icon: Icon(Icons.power_settings_new)),
+                    ),
+                  ],
+                ),
                 Container(
                   height: 200,
                 ),
@@ -56,7 +70,8 @@ class InputSchoolInfo extends StatelessWidget {
                                 for (var i in state) ...[
                                   PlatformWidget(
                                     cupertino: (_, __) => CupertinoButton(
-                                      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 14, vertical: 8),
                                       borderRadius: BorderRadius.zero,
                                       child: SizedBox(
                                         width: double.infinity,
@@ -121,7 +136,10 @@ class InputSchoolInfo extends StatelessWidget {
                                       },
                                     ),
                                   ),
-                                  if (i != state.last) const Divider(height: 0,)
+                                  if (i != state.last)
+                                    const Divider(
+                                      height: 0,
+                                    )
                                 ]
                               ],
                             ),

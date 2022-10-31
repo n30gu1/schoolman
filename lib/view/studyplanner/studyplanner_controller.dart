@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:schoolman/apitools/global_controller.dart';
 import 'package:schoolman/model/school.dart';
@@ -8,7 +9,9 @@ class StudyPlannerController extends GetxController with StateMixin {
   @override
   void onInit() {
     GlobalController gc = Get.find<GlobalController>();
-    if (gc.userProfile!.id == gc.user!.mainProfile) {
+    if (FirebaseAuth.instance.currentUser!.isAnonymous) {
+      change(null, status: RxStatus.error("ERROR_IS_ANONYMOUS"));
+    } else if (gc.userProfile!.id == gc.user!.mainProfile) {
       change(null, status: RxStatus.error("ERROR_NOT_MAIN_PROFILE"));
     } else {
       change(null, status: RxStatus.loading());

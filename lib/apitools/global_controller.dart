@@ -23,7 +23,6 @@ class GlobalController extends GetxController {
   @override
   onInit() {
     _auth.userChanges().listen((event) {
-      print("listen");
       _setInitialScreen();
     });
 
@@ -78,13 +77,16 @@ class GlobalController extends GetxController {
         _auth.currentUser != null) {
       log("All infos are filled");
       // change(TabView(), status: RxStatus.success());
-      Get.offAll(() => TabView());
+      Get.offAll(() => TabView(),
+          popGesture: false, transition: Transition.fadeIn);
     } else if (_auth.currentUser != null) {
-      Get.offAll(() => InputSchoolInfo());
+      Get.offAll(() => InputSchoolInfo(),
+          popGesture: false, transition: Transition.fadeIn);
     } else {
       log("Infos insufficient");
       // change(SignInPage(), status: RxStatus.success());
-      Get.offAll(() => SignInPage());
+      Get.offAll(() => SignInPage(),
+          popGesture: false, transition: Transition.fadeIn);
     }
   }
 
@@ -120,9 +122,9 @@ class GlobalController extends GetxController {
           .doc(_auth.currentUser!.uid);
       final data = await doc.get();
       if (data.exists) {
-          final data = (await doc.get()).data()!;
-          data["profiles"][uuid] = profile.toMap();
-          doc.update(data);
+        final data = (await doc.get()).data()!;
+        data["profiles"][uuid] = profile.toMap();
+        doc.update(data);
       } else {
         doc.set(newUser.toMap());
         _auth.currentUser!.updateDisplayName(name);

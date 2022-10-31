@@ -9,7 +9,6 @@ import 'package:schoolman/view/main/main_page_controller.dart';
 import 'package:schoolman/model/meal.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
-import 'package:schoolman/uitools/mainpagecard.dart';
 import 'package:schoolman/view/main/switch_user/switch_user_page.dart';
 import 'package:schoolman/view/studyplanner/studyplanner_page.dart';
 
@@ -17,6 +16,29 @@ class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
 
   final c = Get.put(MainPageController());
+
+  Widget titleBox(BuildContext context,
+      {required String title, required Widget child}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+          child: Text(
+            "$title",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).dialogBackgroundColor),
+          child: child,
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +82,12 @@ class MainPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: MainPageCard(
+                      IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            titleBox(
+                              context,
                               title: S.of(context).titleTimeTable,
-                              height: 230,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
@@ -77,12 +99,11 @@ class MainPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: MainPageCard(
+                            Container(
+                              width: 16,
+                            ),
+                            titleBox(
+                              context,
                               title: () {
                                 try {
                                   switch (c.meal!.mealType) {
@@ -101,7 +122,6 @@ class MainPage extends StatelessWidget {
                                   return "Meal";
                                 }
                               }(),
-                              height: 230,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
@@ -114,35 +134,33 @@ class MainPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      MainPageCard(
-                          title: "Upcoming Schedule",
-                          child: () {
-                            DateFormat format = DateFormat("M. d.");
-                            if (c.event != null) {
-                              return Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      format.format(c.event!.date),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    Spacer(),
-                                    Text(c.event!.title,
-                                        style: TextStyle(fontSize: 20)),
-                                  ],
+                      titleBox(context, title: "Upcoming Schedule", child: () {
+                        DateFormat format = DateFormat("M. d.");
+                        if (c.event != null) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  format.format(c.event!.date),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
-                              );
-                            } else {
-                              return Center(child: Text("No upcoming event."));
-                            }
-                          }()),
-                      MainPageCard(
+                                Spacer(),
+                                Text(c.event!.title,
+                                    style: TextStyle(fontSize: 20)),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Center(child: Text("No upcoming event."));
+                        }
+                      }()),
+                      titleBox(context,
                           title: "Recent Notice",
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
