@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:schoolman/nonce_generator.dart';
 import 'package:schoolman/view/input_school_info/input_school_info.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/foundation.dart';
 
 class SignInController extends GetxController {
   final emailController = TextEditingController();
@@ -40,73 +41,87 @@ class SignInController extends GetxController {
   }
 
   Future<FirebaseAuth.UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (kIsWeb) {
+      // Create a new provider
+      FirebaseAuth.GoogleAuthProvider googleProvider =
+          FirebaseAuth.GoogleAuthProvider();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/contacts.readonly')
+        ..addScope('https://www.googleapis.com/auth/userinfo.email')
+        ..addScope('https://www.googleapis.com/auth/userinfo.profile');
+      googleProvider.setCustomParameters({});
 
-    // Create a new credential
-    final credential = FirebaseAuth.GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.FirebaseAuth.instance
+          .signInWithPopup(googleProvider);
+    } else {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Once signed in, return the UserCredential
-    FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
-        .FirebaseAuth.instance
-        .signInWithCredential(credential);
-    // if (!snapshot.exists) {
-    //   Get.offAll(() => InputSchoolInfo());
-    // } else {
-    //   Get.back();
-    // }
-    return signedInUserCredential;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = FirebaseAuth.GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
+          .FirebaseAuth.instance
+          .signInWithCredential(credential);
+      return signedInUserCredential;
+    }
   }
 
   Future<FirebaseAuth.UserCredential> signInWithApple() async {
-    // To prevent replay attacks with the credential returned from Apple, we
-    // include a nonce in the credential request. When signing in with
-    // Firebase, the nonce in the id token returned by Apple, is expected to
-    // match the sha256 hash of `rawNonce`.
-    print(await SignInWithApple.isAvailable());
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
+    if (kIsWeb) {
+      // Create and configure an OAuthProvider for Sign In with Apple.
+      final provider = FirebaseAuth.OAuthProvider("apple.com")
+        ..addScope('email')
+        ..addScope('name');
 
-    // Request credential for the currently signed in Apple account.
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: nonce,
-    );
+      // Sign in the user with Firebase.
+      return await FirebaseAuth.FirebaseAuth.instance.signInWithPopup(provider);
+    } else {
+      // To prevent replay attacks with the credential returned from Apple, we
+      // include a nonce in the credential request. When signing in with
+      // Firebase, the nonce in the id token returned by Apple, is expected to
+      // match the sha256 hash of `rawNonce`.
+      print(await SignInWithApple.isAvailable());
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
 
-    // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential = FirebaseAuth.OAuthProvider("apple.com").credential(
-      idToken: appleCredential.identityToken,
-      rawNonce: rawNonce,
-    );
+      // Request credential for the currently signed in Apple account.
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
 
-    // Sign in the user with Firebase. If the nonce we generated earlier does
-    // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-    FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
-        .FirebaseAuth.instance
-        .signInWithCredential(oauthCredential);
+      // Create an `OAuthCredential` from the credential returned by Apple.
+      final oauthCredential =
+          FirebaseAuth.OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
 
-    signedInUserCredential.user!.updateDisplayName(
-        (appleCredential.familyName ?? "") + (appleCredential.givenName ?? ""));
+      // Sign in the user with Firebase. If the nonce we generated earlier does
+      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+      FirebaseAuth.UserCredential signedInUserCredential = await FirebaseAuth
+          .FirebaseAuth.instance
+          .signInWithCredential(oauthCredential);
 
-    // var snapshot = await FirebaseFirestore.instance.collection("users")
-    //     .doc(signedInUserCredential.user?.uid)
-    //     .get();
-    // if (!snapshot.exists) {
-    //   Get.offAll(() => InputSchoolInfo());
-    // } else {
-    //   Get.back();
-    // }
+      signedInUserCredential.user!.updateDisplayName(
+          (appleCredential.familyName ?? "") +
+              (appleCredential.givenName ?? ""));
 
-    return signedInUserCredential;
+      return signedInUserCredential;
+    }
   }
 }

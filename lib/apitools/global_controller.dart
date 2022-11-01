@@ -164,16 +164,16 @@ class GlobalController extends GetxController {
   }
 
   Future<bool> validateAdmin() async {
-    final currentProfile = await _localStorage.read(key: "currentProfile");
-    String schoolCode = user!.profiles[currentProfile]!.schoolCode;
-    String regionCode = user!.profiles[currentProfile]!.regionCode;
-    final adminList = (await FirebaseFirestore.instance
+    String schoolCode = userProfile!.schoolCode;
+    String regionCode = userProfile!.regionCode;
+    final schoolData = (await FirebaseFirestore.instance
             .collection(regionCode)
             .doc(schoolCode)
             .get())
         .data();
-    if (adminList != null) {
-      if (adminList["admins"].contains(_auth.currentUser!.uid)) {
+    print(schoolData);
+    if (schoolData != null) {
+      if (schoolData["admins"].contains(_auth.currentUser!.uid)) {
         return true;
       } else {
         return false;
