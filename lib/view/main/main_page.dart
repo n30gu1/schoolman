@@ -17,26 +17,13 @@ class MainPage extends StatelessWidget {
 
   final c = Get.put(MainPageController());
 
-  Widget titleBox(BuildContext context,
-      {required String title, required Widget child}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
-          child: Text(
-            "$title",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Theme.of(context).dialogBackgroundColor),
-          child: child,
-        )
-      ],
+  Widget titleBox(BuildContext context, {required Widget child}) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).dialogBackgroundColor),
+      child: child,
     );
   }
 
@@ -73,6 +60,8 @@ class MainPage extends StatelessWidget {
                 child: Icon(Icons.account_circle_sharp),
               ),
             )),
+
+        // Body
         body: Column(children: [
           c.obx((_) {
             return Expanded(
@@ -82,12 +71,50 @@ class MainPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 4),
+                              child: Text(
+                                S.of(context).titleTimeTable,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 4),
+                              child: Text(
+                                () {
+                                  try {
+                                    switch (c.meal!.mealType) {
+                                      case MealType.breakfast:
+                                        return "Breakfast";
+                                      case MealType.lunch:
+                                        return "Lunch";
+                                      case MealType.dinner:
+                                        return "Dinner";
+                                      case MealType.nextDayBreakfast:
+                                        return "Breakfast (+1)";
+                                      case MealType.nextDayLunch:
+                                        return "Lunch (+1)";
+                                    }
+                                  } catch (e) {
+                                    return "Meal";
+                                  }
+                                }(),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ]),
                       IntrinsicHeight(
                         child: Row(
                           children: [
                             titleBox(
                               context,
-                              title: S.of(context).titleTimeTable,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
@@ -104,24 +131,6 @@ class MainPage extends StatelessWidget {
                             ),
                             titleBox(
                               context,
-                              title: () {
-                                try {
-                                  switch (c.meal!.mealType) {
-                                    case MealType.breakfast:
-                                      return "Breakfast";
-                                    case MealType.lunch:
-                                      return "Lunch";
-                                    case MealType.dinner:
-                                      return "Dinner";
-                                    case MealType.nextDayBreakfast:
-                                      return "Breakfast (+1)";
-                                    case MealType.nextDayLunch:
-                                      return "Lunch (+1)";
-                                  }
-                                } catch (e) {
-                                  return "Meal";
-                                }
-                              }(),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
@@ -137,7 +146,16 @@ class MainPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      titleBox(context, title: "Upcoming Schedule", child: () {
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 4),
+                        child: Text(
+                          "Upcoming Schedule",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      titleBox(context, child: () {
                         DateFormat format = DateFormat("M. d.");
                         if (c.event != null) {
                           return Padding(
@@ -160,8 +178,16 @@ class MainPage extends StatelessWidget {
                           return Center(child: Text("No upcoming event."));
                         }
                       }()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 4),
+                        child: Text(
+                          "Recent Notice",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       titleBox(context,
-                          title: "Recent Notice",
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
