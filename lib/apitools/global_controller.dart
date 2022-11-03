@@ -121,6 +121,7 @@ class GlobalController extends GetxController {
           .collection("users")
           .doc(_auth.currentUser!.uid);
       final data = await doc.get();
+      print(data.exists);
       if (data.exists) {
         final data = (await doc.get()).data()!;
         data["profiles"][uuid] = profile.toMap();
@@ -158,7 +159,7 @@ class GlobalController extends GetxController {
           await APIService.instance.fetchSchoolInfo(regionCode, schoolCode);
     } catch (error) {
       throw error;
-      // TODO: Show error message on view
+      // TODO: Display error message on view
       // Get.snackbar(S.of(context).somethingWentWrong, error.toString());
     }
   }
