@@ -64,6 +64,9 @@ class EventsPage extends StatelessWidget {
               firstDay: DateTime.now().subtract(Duration(days: 1000)),
               focusedDay: c.dateSelected.value,
               lastDay: DateTime.now().add(Duration(days: 1000)),
+              onDaySelected: (selectedDay, focusedDay) {
+                c.dateSelected.value = selectedDay;
+              },
             ),
           ),
           c.obx((state) {
