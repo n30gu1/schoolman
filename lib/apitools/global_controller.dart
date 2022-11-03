@@ -121,7 +121,7 @@ class GlobalController extends GetxController {
           .collection("users")
           .doc(_auth.currentUser!.uid);
       final data = await doc.get();
-      print(data.exists);
+      log("User data is exist: ${data.exists}");
       if (data.exists) {
         final data = (await doc.get()).data()!;
         data["profiles"][uuid] = profile.toMap();
