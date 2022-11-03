@@ -6,6 +6,7 @@ import 'package:schoolman/model/event.dart';
 import 'package:schoolman/model/school.dart';
 
 class EventsController extends GetxController with StateMixin {
+  Rx<DateTime> dateSelected = DateTime.now().obs;
   @override
   void onInit() {
     fetch();

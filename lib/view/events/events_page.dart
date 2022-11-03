@@ -3,11 +3,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/events/add_event/add_event_page.dart';
 import 'package:schoolman/view/events/events_controller.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class EventsPage extends StatelessWidget {
   final c = Get.put(EventsController());
@@ -17,61 +19,53 @@ class EventsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBar: CustomAppBar(
-          subView: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: Text("${DateFormat.yMd().format(DateTime.now())}"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 2.0),
-                child: Text("${Get.find<GlobalController>().school?.schoolName}"),
-              ),
-            ],
-          ),
-          title: "Events",
-          // trailing: () {
-          //   if (Get.find<GlobalController>().user.value!.isAdmin) {
-          //     return CustomButton(
-          //       width: 40,
-          //       height: 40,
-          //       onTap: () {
-          //         if (Get.find<GlobalController>().user.value!.isAdmin) {
-          //           Get.to(() => AddEventPage());
-          //         }
-          //       },
-          //       borderRadius: BorderRadius.circular(1000),
-          //       child: Icon(Icons.add),
-          //     );
-          //   }
-          // }()
-          trailing: FutureBuilder(
-            future: Get.find<GlobalController>().validateAdmin(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data! as bool)
-                  return SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: CustomButton(
-                      onTap: () {
-                        Get.to(() => AddEventPage());
-                      },
-                      borderRadius: double.infinity,
-                      child: Icon(Icons.add),
-                    ),
-                  );
-                else
-                  return Container();
-              } else {
+        subView: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0),
+              child: Text("${DateFormat.yMd().format(DateTime.now())}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0),
+              child: Text("${Get.find<GlobalController>().school?.schoolName}"),
+            ),
+          ],
+        ),
+        title: S.of(context).titleEvents,
+        trailing: FutureBuilder(
+          future: Get.find<GlobalController>().validateAdmin(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data! as bool)
+                return SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CustomButton(
+                    onTap: () {
+                      Get.to(() => AddEventPage());
+                    },
+                    borderRadius: double.infinity,
+                    child: Icon(Icons.add),
+                  ),
+                );
+              else
                 return Container();
-              }
-            },
-          ),
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
       body: Column(
         children: [
+          Obx(
+            () => TableCalendar(
+              firstDay: DateTime.now().subtract(Duration(days: 1000)),
+              focusedDay: c.dateSelected.value,
+              lastDay: DateTime.now().add(Duration(days: 1000)),
+            ),
+          ),
           c.obx((state) {
             List result = state;
             return Expanded(

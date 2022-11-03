@@ -54,6 +54,7 @@ dependencies:
   flutter_calendar_week: ^3.0.0
   flutter_platform_widgets: ^2.0.0
   cloud_firestore_web: ^3.0.3
+  table_calendar: ^3.0.8
 
 dev_dependencies:
   flutter_test:

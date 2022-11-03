@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/model/notice.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_button.dart';
@@ -35,7 +36,7 @@ class NoticeBoardPage extends StatelessWidget {
                   ),
                 ],
               ),
-              title: "Notice Board",
+              title: S.of(context).titleNoticeBoard,
               trailing: FutureBuilder(
                 future: globalC.validateAdmin(),
                 builder: (context, snapshot) {

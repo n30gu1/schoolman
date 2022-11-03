@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:schoolman/apitools/global_controller.dart';
+import 'package:schoolman/generated/l10n.dart';
 import 'package:schoolman/uitools/custom_appbar.dart';
 import 'package:schoolman/uitools/custom_scaffold.dart';
 import 'package:schoolman/view/todo_list/todo_list_controller.dart';
@@ -17,7 +18,7 @@ class TodoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffold(
         appBar: CustomAppBar(
-            title: "Todo List",
+            title: S.of(context).titleTodoList,
             subView: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
